@@ -1,0 +1,33 @@
+{
+    "invoice": [
+        {
+            "id":                   "1",
+            "fecha":                "02/2014",
+            "fecha_view":           "FEB-14",
+            "monto_total":          "$542.10",
+            "rentabilidad_total":   "$410.10",
+            "list": [
+                {
+                    "id": "1",
+                    "fecha": "05/02/14",
+                    "numero": "001574584",
+                    "form": "Factura A",
+                    "cliente": "Bayer Argentina S.A",
+                    "monto": "$120.11",
+                    "rentabilidad": "$100.11",
+                    "responsable": "German Glock"
+                },
+                {
+                    "id": "2",
+                    "fecha": "07/02/14",
+                    "numero": "001572584",
+                    "form": "Factura A",
+                    "cliente": "Bayer Argentina S.A",
+                    "monto": "$120.11",
+                    "rentabilidad": "$100.11",
+                    "responsable": "Alejandro D"
+                }
+            ]
+        }      
+    ]
+}
