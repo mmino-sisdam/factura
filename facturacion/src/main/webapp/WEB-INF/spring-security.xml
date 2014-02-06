@@ -20,14 +20,13 @@
 			<jdbc-user-service data-source-ref="dataSource"
 				users-by-username-query="
          SELECT USERNAME, PASSWORD, CASE ACCESS_ENABLED WHEN 1 THEN 'true' ELSE 'false' END 'ENABLED' 
-         FROM PERSONAS 
+         FROM personas 
          WHERE USERNAME=?;"
 
 				authorities-by-username-query="
-        SELECT u.USERNAME, r.AUTHORITY 
-        FROM PERSONAS u, AUTHORITIES r
-        WHERE u.PERSONA_ID = r.PERSONA_ID
-        AND u.USERNAME=?;" />
+        select p.username, r.role
+        from personas p, roles r
+        where p.role_id = r.role_id and p.username = ? ;" />
 		</authentication-provider>
 	</authentication-manager>
 </b:beans>

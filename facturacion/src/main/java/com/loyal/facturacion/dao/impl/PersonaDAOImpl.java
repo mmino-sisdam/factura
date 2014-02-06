@@ -19,7 +19,7 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 	@Override
 	@Transactional
 	public void insert(Persona persona) {
-		String sql = "INSERT INTO PERSONAS "
+		String sql = "INSERT INTO personas "
 				+ "(NOMBRE, APELLIDO, USERNAME, MAIL, TELEFONO, PASSWORD, ACCESS_ENABLED) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		getJdbcTemplate().update(
 				sql,
@@ -31,7 +31,7 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 
 	@Override
 	public Persona findById(Integer id) {
-		String sql = "SELECT * FROM PERSONAS WHERE PERSONA_ID = ?";
+		String sql = "SELECT * FROM personas WHERE PERSONA_ID = ?";
 		Persona persona = (Persona) getJdbcTemplate().queryForObject(
 				sql, new Object[] { id }, new PersonaRowMapper());
 		return persona;
@@ -40,7 +40,7 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 	@Override
 	public List<Persona> getAll() {
 
-		String sql = "SELECT PERSONA_ID, NOMBRE, APELLIDO, USERNAME, TELEFONO, ACCESS_ENABLED FROM PERSONAS";
+		String sql = "SELECT PERSONA_ID, NOMBRE, APELLIDO, USERNAME, TELEFONO, ACCESS_ENABLED FROM personas";
 
 		List<Persona> lista = new ArrayList<Persona>();
 
@@ -61,7 +61,7 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 
 	@Override
 	public void update(Persona persona) {
-		String sql = "UPDATE PERSONAS "
+		String sql = "UPDATE personas "
 				+ "SET NOMBRE = ?, APELLIDO = ?,  MAIL = ?, TELEFONO = ?, ACCESS_ENABLED = ? "
 				+ "WHERE PERSONA_ID = ?";
 		getJdbcTemplate().update(

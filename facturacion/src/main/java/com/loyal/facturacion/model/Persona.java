@@ -1,7 +1,5 @@
 package com.loyal.facturacion.model;
 
-import java.util.Collection;
-
 
 //@JsonIgnoreProperties({"password"})
 public class Persona {
@@ -12,7 +10,7 @@ public class Persona {
 	private String apellido;
 	private String mail;
 	private String telefono;
-	private Collection<Rol> roles;
+	private Rol rol;
 	private boolean enabled;
 
 	public Integer getId() {
@@ -79,12 +77,11 @@ public class Persona {
 		this.telefono = telefono;
 	}
 
-	public Collection<Rol> getRoles() {
-		return roles;
+	public Rol getRol() {
+		return rol;
 	}
 
-	public void setRoles(Collection<Rol> roles) {
-		this.roles = roles;
+	public void setRol(Rol rol) {
+		this.rol = rol;
 	}
-
 }

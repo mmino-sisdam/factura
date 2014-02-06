@@ -23,7 +23,7 @@ public class PersonaController {
 	@Autowired
 	PersonaDAO personaDAO;
 	
-	@RequestMapping(value="/insert",method=RequestMethod.POST)
+	@RequestMapping(value="/add",method=RequestMethod.POST)
 	public void insert(@RequestBody Persona persona){
 		personaDAO.insert(persona);
 	}
@@ -38,5 +38,10 @@ public class PersonaController {
 	@RequestMapping(value="/get",method=RequestMethod.GET)
 	public @ResponseBody Persona get(@RequestParam Integer id){
 		return personaDAO.findById(id);
+	}
+	
+	@RequestMapping(value="/update",method=RequestMethod.POST)
+	public void update(@RequestBody Persona persona){
+		personaDAO.update(persona);
 	}
 }
