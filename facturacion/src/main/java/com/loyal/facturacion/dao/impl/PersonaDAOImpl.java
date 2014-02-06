@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.loyal.facturacion.dao.PersonaDAO;
 import com.loyal.facturacion.model.Persona;
+import com.loyal.facturacion.model.Rol;
 
 public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 
@@ -40,7 +41,9 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 	@Override
 	public List<Persona> getAll() {
 
-		String sql = "SELECT PERSONA_ID, NOMBRE, APELLIDO, USERNAME, TELEFONO, ACCESS_ENABLED FROM personas";
+		String sql = "SELECT PERSONA_ID, NOMBRE, APELLIDO, USERNAME, TELEFONO, ACCESS_ENABLED, p.ROLE_ID, ROLE, DESCRIP "
+				+ "FROM personas p, roles r "
+				+ "WHERE p.ROLE_ID = r.ROLE_ID;";
 
 		List<Persona> lista = new ArrayList<Persona>();
 
@@ -53,6 +56,11 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 			persona.setUsername((String)row.get("USERNAME"));
 			persona.setTelefono((String)row.get("TELEFONO"));
 			persona.setEnabled((Boolean)row.get("ACCESS_ENABLED")) ;
+			Rol rol = new Rol();
+			rol.setId(Integer.parseInt(String.valueOf(row.get("ROLE_ID"))));
+			rol.setDescripcion((String)row.get("DESCRIP"));
+			rol.setRole((String)row.get("ROLE"));
+			persona.setRol(rol);
 			lista.add(persona);
 		}
 
@@ -84,6 +92,11 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 			persona.setUsername(rs.getString("USERNAME"));
 			persona.setTelefono(rs.getString("TELEFONO"));
 			persona.setEnabled(rs.getBoolean("ACCESS_ENABLED")) ;
+			Rol rol = new Rol();
+			rol.setId(rs.getInt("ROLE_ID"));
+			rol.setDescripcion(rs.getString("DESCRIP"));
+			rol.setRole(rs.getString("ROLE"));
+			persona.setRol(rol);
 			return persona;
 		}
 	}
