@@ -82,8 +82,6 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 				new Object[] { persona.getNombre(), persona.getApellido(),
 						persona.getMail(), persona.getTelefono(), 
 						persona.isEnabled(),persona.getRol().getId(), persona.getId() });
-
-
 	}
 
 	public class PersonaRowMapper implements RowMapper<Object> {
@@ -105,5 +103,13 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 			persona.setRol(rol);
 			return persona;
 		}
+	}
+	
+	@Override
+	public void deleteById(Integer id) {
+		String sql = "DELETE FROM personas WHERE PERSONA_ID = ?";
+		getJdbcTemplate().update(
+				sql,
+				new Object[] { id });
 	}
 }

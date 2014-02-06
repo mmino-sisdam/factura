@@ -14,4 +14,6 @@ public interface PersonaDAO {
 
 	public List<Persona> getAll();
 
+	public void deleteById(Integer id);
+
 }
