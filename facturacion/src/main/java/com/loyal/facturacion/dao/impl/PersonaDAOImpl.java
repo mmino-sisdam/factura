@@ -34,7 +34,9 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 
 	@Override
 	public Persona findById(Integer id) {
-		String sql = "SELECT * FROM personas WHERE PERSONA_ID = ?";
+		String sql = "SELECT PERSONA_ID, MAIL, NOMBRE, APELLIDO, USERNAME, TELEFONO, ACCESS_ENABLED, p.ROLE_ID, ROLE, DESCRIP "
+				+ "FROM personas p, roles r "
+				+ "WHERE p.ROLE_ID = r.ROLE_ID AND p.PERSONA_ID = ?";
 		Persona persona = (Persona) getJdbcTemplate().queryForObject(
 				sql, new Object[] { id }, new PersonaRowMapper());
 		return persona;
@@ -43,7 +45,7 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 	@Override
 	public List<Persona> getAll() {
 
-		String sql = "SELECT PERSONA_ID, NOMBRE, APELLIDO, USERNAME, TELEFONO, ACCESS_ENABLED, p.ROLE_ID, ROLE, DESCRIP "
+		String sql = "SELECT PERSONA_ID, MAIL, NOMBRE, APELLIDO, USERNAME, TELEFONO, ACCESS_ENABLED, p.ROLE_ID, ROLE, DESCRIP "
 				+ "FROM personas p, roles r "
 				+ "WHERE p.ROLE_ID = r.ROLE_ID;";
 
@@ -54,6 +56,7 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 			Persona persona= new Persona();
 			persona.setId(Integer.parseInt(String.valueOf(row.get("PERSONA_ID"))));
 			persona.setNombre((String)row.get("NOMBRE"));
+			persona.setMail((String)row.get("MAIL"));
 			persona.setApellido((String)row.get("APELLIDO"));
 			persona.setUsername((String)row.get("USERNAME"));
 			persona.setTelefono((String)row.get("TELEFONO"));
@@ -72,13 +75,13 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 	@Override
 	public void update(Persona persona) {
 		String sql = "UPDATE personas "
-				+ "SET NOMBRE = ?, APELLIDO = ?,  MAIL = ?, TELEFONO = ?, ACCESS_ENABLED = ? "
+				+ "SET NOMBRE = ?, APELLIDO = ?,  MAIL = ?, TELEFONO = ?, ACCESS_ENABLED = ?, ROLE_ID = ? "
 				+ "WHERE PERSONA_ID = ?";
 		getJdbcTemplate().update(
 				sql,
 				new Object[] { persona.getNombre(), persona.getApellido(),
 						persona.getMail(), persona.getTelefono(), 
-						persona.isEnabled(),persona.getId() });
+						persona.isEnabled(),persona.getRol().getId(), persona.getId() });
 
 
 	}
@@ -90,6 +93,7 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 			Persona persona= new Persona();
 			persona.setId(rs.getInt("PERSONA_ID"));
 			persona.setNombre(rs.getString("NOMBRE"));
+			persona.setMail(rs.getString("MAIL"));
 			persona.setApellido(rs.getString("APELLIDO"));
 			persona.setUsername(rs.getString("USERNAME"));
 			persona.setTelefono(rs.getString("TELEFONO"));
