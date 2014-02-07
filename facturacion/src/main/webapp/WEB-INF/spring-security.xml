@@ -5,14 +5,16 @@
 	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
     http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
-
 	<http auto-config="true">
+		<intercept-url pattern="/resources/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<intercept-url pattern="/auth/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<intercept-url pattern="/**" access="ROLE_ADMIN" />
 		<form-login login-page="/auth/login.jsp"
 			authentication-failure-url="/auth/login.jsp?login_error=1" />
 		<logout logout-success-url="/auth/login.jsp" />
+		
 	</http>
+
 
 	<authentication-manager>
 		<authentication-provider>
