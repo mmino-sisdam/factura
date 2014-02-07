@@ -8,24 +8,17 @@
 		    ""								: "dashboard",
 		    "facturas"						: "invoice",
 		    "factura/nueva/tipo-:tipo"		: "new_invoice",
-		    "factura/:id"					: "invoice_id",
+		    "factura/editar/:id"			: "invoice_edit",
+		    "factura/info/:id"				: "invoice_info",
 		    "usuarios"						: "users",
 		    "usuario/nuevo"					: "new_user",
 		  },
 
 		  // Seccion Dashboard
 		  dashboard: function() {
-
-		  	template.render({
-		  		html: 'resources/includes/dashboard/inc.layout.html',
-		  		callback: function(data){
-					
-					utils.active({item: '.btn-dashboard'});
-					
-					layout.html( data );	
-
-		  		}
-		  	});
+			  
+			// Initialize the View, 
+		  	var view = new DashboardView();
 
 		  },
 
@@ -46,27 +39,32 @@
 		  // Seccion nueva factura
 		  new_invoice: function(tipo){
 
-		  	// invoice.js
+		  	if(tipo == 'A'){
 
-		  	
+		  		var view = new NewInvoiceView_A();
 
+		  	}
+
+		  },
+
+		  invoice_info: function(id){
+
+		  	console.log(id);
 
 		  },
 
 		  // Seccion vista de factura por ID
-		  invoice_id: function(id){
+		  invoice_edit: function(id){
 		  	
+		  	console.log(id);
 
 		  },
 
 		  // Seccion usuarios
 		  users: function(){
-		  	
-		  	// user.js
-
+			
 		  	// Initialize the Model
-			var get = new UsersModel();
-
+			var get = new UserCollection();
 			// Initialize the View, 
 			// passing it the model instance
 			var view = new UsersView({ model: get });
@@ -80,15 +78,20 @@
 
 		  	// Initialize the View, 
 		  	var view = new NewUsuerView();
+		  	
+		  	//var userList = new UserCollection();
 
 		  }
-
+		  
 		});
 
-		var appRouter = new Router();
+		var app = new Router();
 
 		Backbone.history.start();
 
 	});
+
+
+
 
 

@@ -1,120 +1,77 @@
 // Template Settings for Underscore
 // Change <% %> for <@ @>
 
-_.templateSettings = {
-  evaluate    : /<@([\s\S]+?)@>/g,
-  interpolate : /<@=([\s\S]+?)@>/g,
-  escape      : /<@-([\s\S]+?)@>/g
-};
-
+  _.templateSettings = {
+    evaluate    : /<@([\s\S]+?)@>/g,
+    interpolate : /<@=([\s\S]+?)@>/g,
+    escape      : /<@-([\s\S]+?)@>/g
+  };
 
 // Variables globales
 /* ------------------------------ */
 
 PATH_LAYOUT = $('#layout');
 
-/*
-var utils = {
+tpl = {
 
-  active: function(options){
+    // Hash of preloaded templates for the app
+    templates: {},
 
-    var configuracion = {
-      item: ''
-    };
+    // Recursively pre-load all the templates for the app.
+    // This implementation should be changed in a production environment. All the template files should be
+    // concatenated in a single file.
+    loadTemplates: function(names, callback) {
 
-    var opts = $.extend({}, configuracion, options);  
+        var that = this;
 
-    // remove actives
-    $('.btn-menu').removeClass('active');
+        var loadTemplate = function(index) {
+            var name = names[index];
+            console.log('Loading template: ' + name);
+            $.get('resurces/includes/' + name + '.html', function(data) {
+                that.templates[name] = data;
+                index++;
+                if (index < names.length) {
+                    loadTemplate(index);
+                } else {
+                    callback();
+                }
+            });
+        }
 
-    // add active
-    $(opts.item).addClass('active');
+        loadTemplate(0);
+    },
 
-  }
-
-};
-
-var template = {
-
-  render: function(options){
-
-    var configuracion = {
-      html: '',
-      response: '',
-      callback: function() {}
-    };
-
-    var opts = $.extend({}, configuracion, options);  
-
-    $.get(opts.html, function( data ) {
-        
-      PATH_LAYOUT.html(  _.template( data, opts.response ) );  
-      
-      opts.callback(data);
-
-    });
-
-  } 
+    // Get template by name from hash of preloaded templates
+    get: function(name) {
+        return this.templates[name];
+    }
 
 };
 
 
-var template = {
+(function($){
+	$.fn.serializeObject = function () {
+		"use strict";
 
-  render: function(options){
+		var result = {};
+		var extend = function (i, element) {
+			var node = result[element.name];
 
-    var configuracion = {
-      html: '',
-      callback: function() {}
-    };
+	// If node with same name exists already, need to convert it to an array as it
+	// is a multi-value field (i.e., checkboxes)
 
-    var opts = $.extend({}, configuracion, options);  
+			if ('undefined' !== typeof node && node !== null) {
+				if ($.isArray(node)) {
+					node.push(element.value);
+				} else {
+					result[element.name] = [node, element.value];
+				}
+			} else {
+				result[element.name] = element.value;
+			}
+		};
 
-    $.get(opts.html, function( data ) {
-        
-      opts.callback(data);
-
-    });
-
-  } 
-
-};
-
-var service = {
-
-  get: function(options){
-
-    var configuracion = {
-      url: '',
-      type: 'GET',
-      data: '',
-      callback: function(){}
-    };
-
-    var opts = $.extend({}, configuracion, options); 
-
-    $.ajax({
-      type: opts.type,
-      dataType:"json",
-      data: opts.data,
-      url: opts.url,
-      async: true,
-      success: function (response){
-        opts.callback(response);
-      },
-      cache:false,
-      error: function (request, status, error){
-
-      },
-      beforeSend: function(){
-
-      },
-      complete: function(){
-        
-      }
-    });
-
-  }
-
-};
-*/
+		$.each(this.serializeArray(), extend);
+		return result;
+	};
+})(jQuery);

@@ -11,7 +11,7 @@ var InvoiceView = Backbone.View.extend({
 	template: _.template( $('#tmpl-list-invoice').html() ),
 
 	events: {
-		'click .btn-danger': 'user_delete'
+		//'click .btn-danger': 'user_delete'
 	},
 
 	initialize: function () {
@@ -27,5 +27,32 @@ var InvoiceView = Backbone.View.extend({
 	    return this;
 
 	}
-	   
+
+});
+
+
+// Vista de una nueva factura tipo A
+var NewInvoiceView_A = Backbone.View.extend({
+
+	el: PATH_LAYOUT,
+
+    events: {
+       // 'click .btn-aceptar': 'accept'
+    },
+
+	template: _.template( $('#tmpl-fc-a-invoice').html() ),
+
+	initialize: function () {
+
+		this.render();
+
+	}, 
+
+	render: function () {
+
+	    $(this.el).html(this.template);
+	    return this;
+
+	}
+
 });
