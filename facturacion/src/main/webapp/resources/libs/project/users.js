@@ -129,7 +129,7 @@ var NewUsuerView = Backbone.View.extend({
 	    	    "rol"			: {
 	    	    	"id"		: $("select[name='rol'] option:selected").val()
 	    	    },
-	    	    "enabled"		: $("select[name='enabled'] option:selected").val()
+	    	    "enabled"		: parseInt( $("select[name='enabled'] option:selected").val() ,10)
 	    	}, {
 				success: function() {
 					console.log('ok');
