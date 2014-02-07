@@ -432,14 +432,13 @@
                           <a class="btn btn-xs btn-primary" href="#/usuario/editar/<@= u.id @>">
                             <i class="glyphicon glyphicon-pencil"></i>
                           </a>
-                          <a class="btn btn-xs btn-danger"
-                             href="javascript:void(0);" 
+                          <button class="btn btn-xs btn-danger"
                              data="<@= u.id @>" 
                              data-usuario="<@= u.nombre @> <@= u.apellido @>" 
                              data-toggle="modal" 
                              data-target="#myModal">
                              <i class="glyphicon glyphicon-remove"></i>
-                          </a>
+                          </button>
                         </td>
                       </tr>
 

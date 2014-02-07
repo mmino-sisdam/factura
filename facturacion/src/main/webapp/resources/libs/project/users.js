@@ -61,7 +61,11 @@ var UsersView = Backbone.View.extend({
 		var id = $(ev.currentTarget).attr('data');
 		var usuario = $(ev.currentTarget).attr('data-usuario');
 
-		var msg = ModelDelete.set({'title': 'Eliminar Usuario', 'body': 'Â¿Confirma la eliminacion del usuario '+ usuario +'?'});
+		var msg = ModelDelete.set({
+			'title'	: 'Eliminar Usuario', 
+			'body'  : '¿Confirma la eliminacion del usuario '+ usuario +'?',
+			'id'	: id
+		});
 
 		var view = new ModalView({ model: msg });
 		view.show();
@@ -177,7 +181,19 @@ var ModalView = Backbone.View.extend({
     },
 
     accept: function() {
-        console.log('aceptado...');
+    	
+    	console.log(this.model.attributes.id);
+    	
+    	var a = new UserCollection();
+    	
+    	a.destroy({
+    		"id": this.model.attributes.id
+    	}, {
+			success: function() {
+				console.log('ok');
+			}
+		});
+    	
     }
        
 });

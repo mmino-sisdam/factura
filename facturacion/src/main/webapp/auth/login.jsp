@@ -8,8 +8,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<!-- Bootstrap -->
-		<link rel="stylesheet/less" type="text/css" href="css/styles.less" />
-		<link rel="stylesheet" href="libs/bootstrap/css/bootstrap.css" />
+		<link rel="stylesheet/less" type="text/css" href="../resources/css/styles.less" />
+		<link rel="stylesheet" href="../resources/libs//bootstrap/css/bootstrap.css" />
 		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 		<!--[if lt IE 9]>
@@ -26,8 +26,8 @@
 
 					<fieldset>
 
-						<div class="col-md-12 clearfix">
-						logo loyal
+						<div class="col-md-12 clearfix col-top">
+						<img src="../resources/images/logo.jpg"/>
 						</div>
 						<c:if test="${not empty param.login_error}">
 							<div class="col-md-12 clearfix">
@@ -91,8 +91,8 @@
 			</div>
 		</div>
 
-	    <script type="text/javascript" src="libs/jquery-1.11.0.min.js"></script>
-	    <script type="text/javascript" src="libs/less/less-1.6.1.min.js"></script>
+	    <script type="text/javascript" src="../resources/libs/jquery-1.11.0.min.js"></script>
+	    <script type="text/javascript" src="../resources/libs/less/less-1.6.1.min.js"></script>
 
 	</body>
 </html>

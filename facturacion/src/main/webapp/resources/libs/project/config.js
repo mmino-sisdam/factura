@@ -64,14 +64,14 @@
 		  users: function(){
 			
 		  	// Initialize the Model
-			var get = new UserCollection();
+			var get = new UsersModel();
 			// Initialize the View, 
 			// passing it the model instance
 			var view = new UsersView({ model: get });
 
 		  },
 
-		  // Seccion nuevo usuario
+		  // Seccion nuevo usuario	
 		  new_user: function(){
 
 		  	// user.js 
