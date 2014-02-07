@@ -12,6 +12,7 @@
 		    "factura/info/:id"				: "invoice_info",
 		    "usuarios"						: "users",
 		    "usuario/nuevo"					: "new_user",
+		    "usuario/editar/:id"			: "edit_user"
 		  },
 
 		  // Seccion Dashboard
@@ -64,7 +65,7 @@
 		  users: function(){
 			
 		  	// Initialize the Model
-			var get = new UsersModel();
+			var get = new User();
 			// Initialize the View, 
 			// passing it the model instance
 			var view = new UsersView({ model: get });
@@ -73,14 +74,20 @@
 
 		  // Seccion nuevo usuario	
 		  new_user: function(){
-
-		  	// user.js 
-
+			
+			var get = new User();
+			
 		  	// Initialize the View, 
-		  	var view = new NewUsuerView();
+		  	var view = new NewUsuerView({ model: get });
 		  	
-		  	//var userList = new UserCollection();
-
+		  },
+		  
+		  edit_user: function(id){
+			  
+			 var get = new User({"id": id});
+			 
+			 var view = new EditUserView({ model: get });
+			  
 		  }
 		  
 		});

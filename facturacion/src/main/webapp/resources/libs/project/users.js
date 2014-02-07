@@ -6,18 +6,20 @@ window.User = Backbone.Model.extend({
 	urlRoot: "personas",
 	defaults: {
 		"id"		: null,
-	    "nombre"	: "pepe",
-	    "apellido"	: "1",
-	    "mail"		: "1",
-	    "telefono"	: "1",
-	    "username"	: "1",
-	    "password"	: "1",
+	    "nombre"	: "",
+	    "apellido"	: "",
+	    "mail"		: "",
+	    "telefono"	: "",
+	    "username"	: "",
+	    "password"	: "",
 	    "rol"		: {
-	    	"id"	: "1"
+	    	"id"	: ""
 	    },
-	    "enabled"	: "1"
+	    "enabled"	: ""
 	  }
 });
+
+//window.UserCollection = Backbone.Model.extend({});
 
 window.UserCollection = Backbone.Collection.extend({
 	model: User,
@@ -25,10 +27,11 @@ window.UserCollection = Backbone.Collection.extend({
 });
 
 
-
+/*
 var UsersModel = Backbone.Model.extend({ 
 	url: 'personas'
 });
+*/
 
 // Vista del listado de usuarios totales
 
@@ -92,7 +95,7 @@ var NewUsuerView = Backbone.View.extend({
 
 	render: function () {
 
-	    $(this.el).html(this.template);
+	    $(this.el).html(this.template(this.model.toJSON()));
 	    return this;
 
 	},
@@ -101,8 +104,8 @@ var NewUsuerView = Backbone.View.extend({
     accept: function() {
     	
     	var u = new UserCollection();
-    	/*
-    	u.set({
+	    		
+    	u.create({
     		"id"			: null,
     	    "nombre"		: $("input[name='nombre']").val(),
     	    "apellido"		: $("input[name='apellido']").val(),
@@ -113,42 +116,72 @@ var NewUsuerView = Backbone.View.extend({
     	    "rol"			: {
     	    	"id"		: $("select[name='rol'] option:selected").val()
     	    },
-    	    "enabled"		: $("select[name='activo'] option:selected").val()
-    	});
-    	*/
-    	
-    	//console.log(u);
-    	
-    	
-    	//if ( this.model.isNew() ){
-    		
-	    	u.create({
-	    		"id"			: null,
-	    	    "nombre"		: $("input[name='nombre']").val(),
-	    	    "apellido"		: $("input[name='apellido']").val(),
-	    	    "mail"			: $("input[name='mail']").val(),
-	    	    "telefono"		: $("input[name='telefono']").val(),
-	    	    "username"		: $("input[name='username']").val(),
-	    	    "password"		: $("input[name='password']").val(),
-	    	    "rol"			: {
-	    	    	"id"		: $("select[name='rol'] option:selected").val()
-	    	    },
-	    	    "enabled"		: parseInt( $("select[name='enabled'] option:selected").val() ,10)
-	    	}, {
-				success: function() {
-					console.log('ok');
-				}
-			});
-    	
-    	//}
-  	 	
+    	    "enabled"		: parseInt( $("select[name='enabled'] option:selected").val(), 10 )
+    	} , {
+			success: function() {
+				console.log('ok');
+			}
+		}); 	
     	
     }	
 
 });
 
 
+// Editar
 
+var EditUserView = Backbone.View.extend({
+
+	el: PATH_LAYOUT,
+
+	template: _.template( $('#tmpl-new-user').html() ),
+
+	events: {
+		'click .btn-accept': 'accept'
+	},
+
+	initialize: function () {
+
+		this.model.fetch();
+		this.model.bind('change', this.render, this); 
+
+	}, 
+
+	render: function () {
+
+	    $(this.el).html(this.template(this.model.toJSON()));
+	    return this;
+
+	},
+
+	// Btn click Aceptar / Save usuario
+    accept: function() {
+    	
+    	var u = new UserCollection();
+	    		
+    	u.create({
+    		"id"			: $("input[name='id']").val(),
+    	    "nombre"		: $("input[name='nombre']").val(),
+    	    "apellido"		: $("input[name='apellido']").val(),
+    	    "mail"			: $("input[name='mail']").val(),
+    	    "telefono"		: $("input[name='telefono']").val(),
+    	    "username"		: $("input[name='username']").val(),
+    	    "password"		: $("input[name='password']").val(),
+    	    "rol"			: {
+    	    	"id"		: $("select[name='rol'] option:selected").val()
+    	    },
+    	    "enabled"		: parseInt( $("select[name='enabled'] option:selected").val(), 10 )
+    	} , {
+			success: function() {
+				
+				//app.navigate('usuarios');
+				
+			}
+		}); 	
+    	
+    }		
+	
+});
 
 // Modelo Modal
 
@@ -184,7 +217,7 @@ var ModalView = Backbone.View.extend({
     	
     	console.log(this.model.attributes.id);
     	
-    	var a = new UserCollection();
+    	var a = new UserCollections();
     	
     	a.destroy({
     		"id": this.model.attributes.id

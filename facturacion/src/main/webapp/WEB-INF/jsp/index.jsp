@@ -409,7 +409,7 @@
                       <th>Apellido</th>
                       <th>Email</th>
                       <th>Tel&eacute;fono</th>
-                      <th>Area</th>
+                      <th>Perfil</th>
                       <th>Acciones</th>
                     </tr>
                   </thead>
@@ -427,7 +427,7 @@
                         <td><@= u.apellido @></td>
                         <td><@= u.mail @></td>
                         <td><@= u.telefono @></td>
-                        <td><@= u.area @></td>
+                        <td><@= u.rol.descripcion @></td>
                         <td>
                           <a class="btn btn-xs btn-primary" href="#/usuario/editar/<@= u.id @>">
                             <i class="glyphicon glyphicon-pencil"></i>
@@ -491,24 +491,27 @@
                 <form role="form" id="frm-new-user">
                   <fieldset>
                     <div class="row">
+					  
+					  <@ if(id){ print('<input type="hidden" name="id" value="'+ id +'"/>') } @>
 
+	
                       <!-- columna 1 -->
                       <div class="col-md-4 clearfix">
                         <div class="form-group">
                           <label for="">Nombre</label>
-                          <input type="text" name="nombre" class="form-control" placeholder="Ingesar nombre">
+                          <input type="text" name="nombre" class="form-control" placeholder="Ingesar nombre" value="<@= username @>"/>
                         </div>
                         <div class="form-group">
                           <label for="">Apellido</label>
-                          <input type="text" name="apellido" class="form-control" placeholder="Ingesar apellido">
+                          <input type="text" name="apellido" class="form-control" placeholder="Ingesar apellido" value="<@= apellido @>" />
                         </div>
                         <div class="form-group">
                           <label for="">Email</label>
-                          <input type="text" name="mail" class="form-control" placeholder="Ingesar email">
+                          <input type="text" name="mail" class="form-control" placeholder="Ingesar email" value="<@= mail @>" />
                         </div>
                         <div class="form-group">
                           <label for="">Tel&eacute;fono</label>
-                          <input type="text" name="telefono" class="form-control" placeholder="Ingesar tel&eacute;fono">
+                          <input type="text" name="telefono" class="form-control" placeholder="Ingesar tel&eacute;fono" value="<@= telefono @>" />
                         </div>
                       </div>
 
@@ -516,15 +519,15 @@
                       <div class="col-md-4 clearfix">
                         <div class="form-group">
                           <label for="">Usuario</label>
-                          <input type="text" name="username" class="form-control" placeholder="Ingesar usuario">
+                          <input type="text" name="username" class="form-control" placeholder="Ingesar usuario" value="<@= username @>" />
                         </div>
                         <div class="form-group">
                           <label for="">Contrase&ntilde;a</label>
-                          <input type="password" name="password" class="form-control" placeholder="Ingesar contrase&ntilde;a">
+                          <input type="password" name="password" class="form-control" placeholder="Ingesar contrase&ntilde;a" />
                         </div>
                         <div class="form-group">
                           <label for="">Repetir contrase&ntilde;a</label>
-                          <input type="password" class="form-control" placeholder="Repetir contrase&ntilde;a">
+                          <input type="password" class="form-control" placeholder="Repetir contrase&ntilde;a" >
                         </div>
                       </div>
 
@@ -533,15 +536,15 @@
                         <div class="form-group">
                           <label for="">Perfil</label>
                           <select class="form-control" name="rol">
-                            <option value="1">Administrador</option>
-                            <option value="2">Responsable</option>
+                            <option value="1" <@ if(rol.id == 1) { print('selected'); } @> >Usuario</option>
+                            <option value="2" <@ if(rol.id == 2) { print('selected'); } @> >Administrador</option>
                           </select>
                         </div>
                         <div class="form-group">
                           <label for="">Activo</label>
                           <select class="form-control" name="enabled">
-                            <option value="1">Si</option>
-                            <option value="0">No</option>
+                            <option value="1" <@ if(enabled) { print('selected'); } @> >Si</option>
+                            <option value="0" <@ if(!enabled) { print('selected'); } @> >No</option>
                           </select>
                         </div>
                       </div>
