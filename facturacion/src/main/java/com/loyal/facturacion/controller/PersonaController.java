@@ -6,11 +6,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.loyal.facturacion.dao.PersonaDAO;
@@ -24,11 +23,11 @@ public class PersonaController {
 	@Autowired
 	PersonaDAO personaDAO;
 
-	@RequestMapping(value="/add",method=RequestMethod.POST)
+	/*@RequestMapping(value="/add",method=RequestMethod.POST)
 	public void insert(@ModelAttribute Persona persona){
 		
 		personaDAO.insert(persona);
-	}
+	}*/
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public @ResponseBody Map<String, Collection<Persona>> list(){
@@ -37,7 +36,7 @@ public class PersonaController {
 		return results;
 	}
 	
-	@RequestMapping(value="/get",method=RequestMethod.GET)
+	/*@RequestMapping(value="/get",method=RequestMethod.GET)
 	public @ResponseBody Persona get(@RequestParam Integer id){
 		return personaDAO.findById(id);
 	}
@@ -50,12 +49,12 @@ public class PersonaController {
 	@RequestMapping(value="/delete",method=RequestMethod.POST)
 	public void delete(@RequestParam Integer id){
 		personaDAO.deleteById(id);
-	}
+	}*/
 	
 	// REST
 
 	@RequestMapping(method=RequestMethod.POST)
-	public void create(@ModelAttribute Persona persona){
+	public void create(@RequestBody Persona persona){
 		
 		personaDAO.insert(persona);
 	}
@@ -66,7 +65,7 @@ public class PersonaController {
 	}
 	
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
-	public void updateR(@ModelAttribute Persona persona){
+	public void updateR(@RequestBody Persona persona){
 		personaDAO.update(persona);
 	}
 	
