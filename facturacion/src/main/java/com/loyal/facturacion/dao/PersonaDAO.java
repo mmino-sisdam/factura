@@ -6,14 +6,14 @@ import com.loyal.facturacion.model.Persona;
 
 public interface PersonaDAO {
 	
-	public void insert(Persona persona);
+	public int insert(Persona persona);
 	
-	public void update(Persona persona);
+	public int update(Persona persona);
 	
 	public Persona findById(Integer id);
 
 	public List<Persona> getAll();
 
-	public void deleteById(Integer id);
+	public int deleteById(Integer id);
 
 }

@@ -1,15 +1,24 @@
 package com.loyal.facturacion.model;
 
+import javax.validation.constraints.Min;
+import javax.xml.bind.annotation.XmlRootElement;
 
-//@JsonIgnoreProperties({"password"})
+import org.hibernate.validator.constraints.NotEmpty;
+
+
+@XmlRootElement
 public class Persona {
 	private Integer id;
+	@Min(10)
 	private String username;
 	private String password;
+	@NotEmpty
 	private String nombre;
+	@NotEmpty
 	private String apellido;
 	private String mail;
 	private String telefono;
+	@NotEmpty
 	private Rol rol;
 	private boolean enabled;
 

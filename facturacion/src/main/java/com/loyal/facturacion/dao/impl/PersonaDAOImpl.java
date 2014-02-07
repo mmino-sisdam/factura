@@ -20,11 +20,11 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 
 	@Override
 	@Transactional
-	public void insert(Persona persona) {
+	public int insert(Persona persona) {
 		MessageDigestPasswordEncoder m = new MessageDigestPasswordEncoder("MD5");
 		String sql = "INSERT INTO personas "
 				+ "(NOMBRE, APELLIDO, USERNAME, MAIL, TELEFONO, PASSWORD, ACCESS_ENABLED, ROLE_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-		getJdbcTemplate().update(
+		return getJdbcTemplate().update(
 				sql,
 				new Object[] { persona.getNombre(), persona.getApellido(),
 						persona.getUsername(), persona.getMail(),
@@ -73,11 +73,11 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 	}
 
 	@Override
-	public void update(Persona persona) {
+	public int update(Persona persona) {
 		String sql = "UPDATE personas "
 				+ "SET NOMBRE = ?, APELLIDO = ?,  MAIL = ?, TELEFONO = ?, ACCESS_ENABLED = ?, ROLE_ID = ? "
 				+ "WHERE PERSONA_ID = ?";
-		getJdbcTemplate().update(
+		return getJdbcTemplate().update(
 				sql,
 				new Object[] { persona.getNombre(), persona.getApellido(),
 						persona.getMail(), persona.getTelefono(), 
@@ -106,9 +106,9 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 	}
 	
 	@Override
-	public void deleteById(Integer id) {
+	public int deleteById(Integer id) {
 		String sql = "DELETE FROM personas WHERE PERSONA_ID = ?";
-		getJdbcTemplate().update(
+		return getJdbcTemplate().update(
 				sql,
 				new Object[] { id });
 	}
