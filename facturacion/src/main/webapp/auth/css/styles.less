@@ -1,0 +1,248 @@
+
+// Colors
+@blue-primary: #303641;
+@blue-secondary: #1b1f26;
+@w: #fff;
+@primary: #2c67ab;
+
+// Set
+@margin-bottom: 15px;
+
+hr {
+	margin-top: 17px;
+	margin-bottom: 17px;
+	border: 0;
+	border-top: 1px solid #ccc;	
+}
+
+.margin-bottom {
+	margin-bottom: @margin-bottom;
+}
+
+.main-panel {
+	//display: none;
+}
+
+.page-containter {
+	position: relative;
+	padding-left: 280px;
+}
+
+.main-content {
+	position: relative;
+	float: left;
+	width: 100%;
+	padding: 20px;
+	z-index: 2;
+	background: #fff;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.main-login {
+	width: 320px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -160px;	
+	margin-top: -160px;	
+
+	.form-login {
+		background: #fff;
+		border-radius: 4px;
+		padding: 35px;
+	}
+}
+
+.sidebar-menu {
+
+	width: 280px;
+	min-height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: @blue-primary;
+	color: @w;
+
+	header {
+		width: 100%;
+		padding: 25px;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;	
+
+		.logo {
+			a {
+				width: 122px;
+				display: block;
+				margin: 0 auto;
+			}
+		}	
+	}
+
+	.search {
+		position: relative;
+
+		input {
+			background: @blue-secondary;
+			padding: 0;
+			margin: 0;
+			border: 0;
+			outline: 0;
+			padding: 15px 20px;
+			padding-right: 45px;
+			width: 100%;
+			color: #aaabae;
+			/*
+			-webkit-transition: 350ms opacity ease-in-out;
+			-moz-transition: 350ms opacity ease-in-out;
+			-o-transition: 350ms opacity ease-in-out;
+			transition: 350ms opacity ease-in-out;
+			*/
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;	
+			border-bottom: 1px solid #454a54;	
+		}
+
+		button {
+			position: absolute;
+			right: 0;
+			top: 0;
+			background: 0;
+			padding: 0;
+			margin: 0;
+			border: 0;
+			outline: 0;
+			color: #aaabae;
+			padding: 15px 20px;
+			padding-top: 13px;
+			font-size: 16px;		
+		}
+
+	}
+
+	.main-menu {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		margin-bottom: 20px;
+
+		li {
+			position: relative;
+			margin: 0;
+			font-size: 12px;
+			border-bottom: 1px solid @blue-secondary;	
+			-webkit-box-shadow: 0px 1px 1px #485161;
+			-moz-box-shadow: 0px 1px 1px #485161;
+			box-shadow: 0px 1px 1px #485161;
+			a {
+				position: relative;
+				display: block;
+				padding: 10px 20px;
+				color: #aaabae;
+				z-index: 2;
+				-webkit-transition: color 250ms ease-in-out,background-color 250ms ease-in-out;
+				-moz-transition: color 250ms ease-in-out,background-color 250ms ease-in-out;
+				-o-transition: color 250ms ease-in-out,background-color 250ms ease-in-out;
+				transition: color 250ms ease-in-out,background-color 250ms ease-in-out;	
+				&:hover, &.active {
+					color: @w;
+					background: @primary;
+				}	
+			}		
+		}
+	}
+}
+
+.boxed {
+	width: 100%;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	border-radius: 4px;
+	color: @w;
+	.boxed-heading {
+		padding: 6px;
+		border-radius: 4px 4px 0 0;
+	}
+	.boxed-body {
+
+		height: 100px;
+		padding: 6px;
+		display: table;
+		width: 100%;
+
+		.boxed-title {
+			display: table-cell;
+			vertical-align: middle;
+			font-size: 36px;
+			text-align: center;
+			.boxed-append {
+				font-size: 12px;
+				display: block;
+				font-style: normal;
+			}
+		}
+	}
+	.boxed-footer {
+		padding: 2px 6px;
+		.boxed-title {
+			display: block;
+			text-align: center;
+		}		
+	}	
+	&.boxed-warning {
+		background: #eeac56;
+		.boxed-heading {
+			background: #eb9b37;
+		}		
+	}
+	&.boxed-success {
+		background: #00a651;
+		.boxed-heading {
+			background: #01813f;
+		}		
+	}
+	&.boxed-info {
+		background: #5fc0dc;
+		.boxed-heading {
+			background: #41b4d5;
+		}		
+	}
+	&.boxed-primary {
+		background: #468cc8;
+		.boxed-heading {
+			background: #3577af;
+		}		
+	}			
+}
+
+
+// Bootstrap adding
+
+.panel {
+	.panel-heading {
+		.panel-right {
+			float: right;
+		}
+	}	
+}
+
+.panel-data-table {
+	font-size: 11px;
+	margin: 0;
+	&.left {
+		float: left;
+	}
+	&.right {
+		float: right;
+	}
+	.pagination {
+		margin: 0;
+	}
+}
+
+.panel-data-table-text {
+	margin: 6px 0 0 0 !important;
+}
