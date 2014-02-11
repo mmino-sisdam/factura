@@ -9,7 +9,9 @@
 
     <!-- Bootstrap -->
     <link rel="stylesheet/less" type="text/css" href="resources/css/styles.less" />
-    <link href="resources/libs/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="resources/libs/bootstrap/css/bootstrap.css" />
+    <link rel="stylesheet" href="resources/libs/bootstrap/datepicker/css/datepicker3.css" />
+   
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -61,7 +63,7 @@
         <hr>
 
         <div id="layout"></div>  
-        <div id="modal"></div>  
+        <div id="layout-modal"></div>  
 
       </div>
 
@@ -423,7 +425,7 @@
 
                       <@ count++ @>
 
-                      <tr>
+                      <tr id="user-<@= u.id @>">
                         <td><@= u.username @></td>
                         <td><@= u.nombre @></td>
                         <td><@= u.apellido @></td>
@@ -438,7 +440,7 @@
                              data="<@= u.id @>" 
                              data-usuario="<@= u.nombre @> <@= u.apellido @>" 
                              data-toggle="modal" 
-                             data-target="#myModal">
+                             data-target="#modal">
                              <i class="glyphicon glyphicon-remove"></i>
                           </button>
                         </td>
@@ -454,7 +456,7 @@
                 <div class="panel-data-table left">
                   <p class="panel-data-table-text">Mostrando <@= count @> de <@= usuarios.length @>  entradas</p>                      
                 </div>
-                <div class="panel-data-table right">
+                <!--div class="panel-data-table right">
                   <ul class="pagination pagination-sm">
                     <li><a href="#">&laquo;</a></li>
                     <li><a href="#">1</a></li>
@@ -464,7 +466,7 @@
                     <li><a href="#">5</a></li>
                     <li><a href="#">&raquo;</a></li>
                   </ul>  
-                </div>                  
+                </div-->                  
               </div>
             </div>            
         </section>
@@ -639,8 +641,8 @@
 
                     <@ _.each(invoice, function(i) { @>
 
-                      <tr class="active">
-                        <td><span class="caret"></span></td>
+                      <tr class="active btn-month" data="<@= i.id @>">
+                        <td><span class="glyphicon glyphicon-chevron-down"></span></td>
                         <td><@= i.fecha_view @></td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
@@ -655,7 +657,7 @@
 
                       <@ _.each(i.list, function(l) { @>
 
-                        <tr>
+                        <tr class="day month-id-<@= i.id @>">
                           <td><input type="checkbox" /></td>
                           <td><@= l.fecha @></td>
                           <td><@= l.numero @></td>
@@ -701,9 +703,414 @@
       </div>
     </script>
 
+	<script id="tmpl-fc-a-invoice" type="text/template">
+		<div id="factura-nueva" class="main-panel">
+		
+		  <ol class="breadcrumb">
+		    <li><a href="#"><span class="glyphicon glyphicon-home"></span> Dashboard</a></li>
+		    <li><a href="#facturas">Facturas</a></li>
+		    <li class="active">Nueva</li>
+		  </ol>
+		
+		  <section class="row">
+		   <div class="col-md-12 clearfix">
+		      <div class="panel panel-default">
+		        <div class="panel-heading">
+		          Creaci&oacute;n de factura tipo A
+		        </div>
+		        <div class="panel-body">
+		          <form role="form">
+		            <fieldset>
+		
+		              <div class="row">
+		
+		                <!-- columna nro. 1 -->
+		                <div class="col-md-4 clearfix">
+		                  <div class="form-group">
+		                    <label for="">Cliente</label>
+		                    <input type="text" class="form-control" placeholder="Buscar cliente...">
+		                  </div>
+		                  <div class="form-group">
+		                    <label for="">Localizaci&oacute;n / Sucursal</label>
+		                    <input type="text" class="form-control" placeholder="Ingresar sucursal">
+		                  </div>
+		                  <div class="form-group">
+		                    <label for="">Contacto</label>
+		                    <input type="text" class="form-control" placeholder="Ingresar contacto">
+		                  </div>
+		                  <div class="form-group">
+		                    <label for="">Situaci&oacute;n ante el IVA</label>
+		                    <select class="form-control">
+		                      <option>Responsable inscripto</option>
+		                      <option>No inscripto</option>
+		                      <option>Excento</option>
+		                      <option>Consumidor final</option>
+		                    </select>
+		                  </div>
+		                  <div class="form-group">
+		                    <label for="">CUIT</label>
+		                    <input type="text" class="form-control" placeholder="Ingresar CUIT">
+		                  </div>
+		                  <div class="form-group">
+		                    <label for="">Retenci&oacute;n</label>
+		                    <select class="form-control">
+		                      <option>Sin retenci&oacute;n</option>
+		                      <option>50%</option>
+		                      <option>80%</option>
+		                    </select>
+		                  </div>
+		                </div>
+		
+		                <!-- columna nro. 2 -->
+		                <div class="col-md-4 clearfix">
+		                  <div class="form-group">
+		                    <label for="">Fecha</label>
+		                    <div class="input-group">
+		                      <input type="text" class="form-control form-datepicker">
+		                      <span class="input-group-addon">
+		                        <span class="glyphicon glyphicon-calendar"></span>
+		                      </span>
+		                    </div>
+		                  </div>
+		                  <div class="form-group">
+		                    <label for="">Fecha vencimiento</label>
+		                    <div class="input-group">
+		                      <input type="text" class="form-control form-datepicker">
+		                      <span class="input-group-addon">
+		                        <span class="glyphicon glyphicon-calendar"></span>
+		                      </span>
+		                    </div>
+		                  </div>
+		                  <div class="form-group">
+		                    <label for="">Fecha probable de cobro</label>
+		                    <div class="input-group">
+		                      <input type="text" class="form-control form-datepicker">
+		                      <span class="input-group-addon">
+		                        <span class="glyphicon glyphicon-calendar"></span>
+		                      </span>
+		                    </div>
+		                  </div>
+		                  <div class="form-group">
+		                    <label for="">Fecha cobro</label>
+		                    <div class="input-group">
+		                      <input type="text" class="form-control form-datepicker">
+		                      <span class="input-group-addon">
+		                        <span class="glyphicon glyphicon-calendar"></span>
+		                      </span>
+		                    </div>
+		                  </div>
+		                </div>
+		
+		                <!-- columna nro. 3 -->
+		                <div class="col-md-4 clearfix">
+		                   <div class="form-group">
+		                      <label for="">Status</label>
+		                      <select class="form-control">
+		                        <option>A cobrar</option>
+		                        <option>Cobrada</option>
+		                        <option>A facturar</option>
+		                        <option>Dar de baja</option>
+		                        <option>Anulada</option>
+		                      </select>
+		                    </div>  
+		                    <div class="form-group">
+		                      <label for="">Sub Total</label>
+		                      <input type="text" class="form-control" placeholder="Ingresar sub total">
+		                    </div> 
+		                    <div class="form-group">
+		                      <label for="">IVA</label>
+		                      <input type="text" class="form-control" placeholder="Ingresar IVA">
+		                    </div>  
+		                    <div class="form-group">
+		                        <label for="">Total</label>
+		                        <div class="input-group">
+		                          <input type="text" class="form-control">
+		                          <span class="input-group-addon">
+		                            %
+		                          </span>
+		                        </div>                                                     
+		                    </div>                                                     
+		                </div>
+		
+		                <div class="col-md-12 clearfix">
+		                  <hr>
+		                </div>
+		
+		                <!-- labels -->
+		                <div class="col-md-4 clearfix">
+		                  <p>
+		                    <label>Status Cobro:</label> 
+		                    <span class="label label-success label-xs">A cobrar</span>
+		                  </p>
+		                </div>
+		
+		                <div class="col-md-4 clearfix">
+		                  <p>
+		                    <label>Fecha Provista de Emision:</label> 
+		                    <span class="label label-success label-xs">21/01/14</span>
+		                  </p>
+		                </div>
+		
+		                <div class="col-md-4 clearfix">
+		                  <p>
+		                    <label>Fecha de Vencimiento:</label> 
+		                    <span class="label label-success label-xs">21/02/14</span>
+		                  </p>
+		                </div>
+		
+		                <!-- comision -->
+		                <div class="col-md-4 clearfix">
+		                  <div class="form-group">
+		                    <label for="">% Comisi&oacute;n</label>
+		                    <select class="form-control">
+		                      <option>0</option>
+		                      <option>1.0</option>
+		                      <option>2.0</option>
+		                      <option>3.0</option>
+		                      <option>4.0</option>
+		                      <option>5.0</option>
+		                      <option>6.0</option>
+		                      <option>7.0</option>
+		                      <option>8.0</option>
+		                      <option>9.0</option>
+		                      <option>10.0</option>
+		                      <option>3.5</option>
+		                    </select>
+		                  </div>
+		                </div>
+		
+		                <div class="col-md-4 clearfix">
+		                  <div class="form-group">
+		                    <label for="">Comisi&oacute;n</label>
+		                    <input type="text" class="form-control" placeholder="Ingesar comisi&oacute;n">
+		                  </div>
+		                </div>
+		
+		                <div class="col-md-12 clearfix"></div>
+		
+		                <div class="col-md-4 clearfix">
+		                  <div class="form-group">
+		                    <label for="">Cobrado</label>
+		                    <select class="form-control">
+		                      <option>No</option>
+		                      <option>Si</option>
+		                    </select>
+		                  </div>
+		                </div>
+		
+		                <div class="col-md-4 clearfix">
+		                  <div class="form-group">
+		                    <label for="">Fecha comprobante entregable</label>
+		                    <div class="input-group">
+		                      <input type="text" class="form-control form-datepicker">
+		                      <span class="input-group-addon">
+		                        <span class="glyphicon glyphicon-calendar"></span>
+		                      </span>
+		                    </div>
+		                  </div>                          
+		                </div>
+		
+		                <div class="col-md-4 clearfix">
+		                  <div class="form-group">
+		                    <label for="">Tipo de comprobante entregable</label>
+		                    <select class="form-control">
+		                      <option>Valor 1</option>
+		                      <option>Valor 2</option>
+		                    </select>
+		                  </div>
+		                </div>
+		
+		                <div class="col-md-12 clearfix">
+		                  <label>Responsble por Loyal</label>
+		                </div>
+		
+		                <div class="col-md-4 clearfix">
+		                  <div class="form-group">
+		                    <label for="">Nombre</label>
+		                    <input type="text" class="form-control" placeholder="Buscar nombre...">
+		                  </div>
+		                </div>
+		
+		                <div class="col-md-4 clearfix">
+		                  <div class="form-group">
+		                    <label for="">Area</label>
+		                    <select class="form-control">
+		                      <option>Administraci&oacute;n</option>
+		                      <option>Ventas</option>
+		                      <option>T&eacute;cnica</option>
+		                      <option>Servicios</option>
+		                    </select>
+		                  </div>
+		                </div>
+		
+		                <div class="col-md-12 clearfix"></div>
+		
+		                <div class="col-md-4 clearfix">
+		                  <div class="form-group">
+		                    <label for="">Linea de producto</label>
+		                    <select class="form-control">
+		                      <option>Actualizaci&oacute;n</option>
+		                      <option>Licencias</option>
+		                      <option>Soporte</option>
+		                      <option>Proyectos Veraz</option>
+		                      <option>Mantenimiento Veraz</option>
+		                      <option>Viaticos</option>
+		                    </select>
+		                  </div>
+		                </div>
+		
+		                <div class="col-md-4 clearfix">
+		                  <div class="form-group">
+		                    <label for="">Costo</label>
+		                    <input type="text" class="form-control" placeholder="Ingresar costo">
+		                  </div>
+		                </div>
+		
+		                <div class="col-md-4 clearfix">
+		                  <div class="form-group">
+		                    <label for="">Rentabilidad</label>
+		                    <input type="text" class="form-control" placeholder="Ingresar rentabilidad">
+		                  </div>
+		                </div>
+		
+		                <div class="col-md-4 clearfix">
+		                  <div class="form-group">
+		                    <label for="">Forma de pago</label>
+		                    <input type="text" class="form-control" placeholder="Ingresar forma de pago">
+		                  </div>
+		                </div>
+		
+		                <div class="col-md-4 clearfix">
+		                  <div class="form-group">
+		                    <label for="">Remito</label>
+		                    <input type="text" class="form-control" placeholder="Ingresar remito">
+		                  </div>
+		                </div>
+		
+		                <div class="col-md-4 clearfix">
+		                  <div class="form-group">
+		                    <label for="">Orden de compra</label>
+		                    <input type="text" class="form-control" placeholder="Ingresar orden de compra">
+		                  </div>
+		                </div>
+		
+		                <div class="col-md-12 clearfix">
+		                  <hr>
+		                </div>
+		
+		                <div class="col-md-12 clearfix">
+							
+							<button type="button" class="btn btn-primary btn-table-insert" data="append">
+		                    	<span class="glyphicon glyphicon-th-list"></span>
+		                       	Insertar fila
+		                    </button> 
+		                      <button type="button" class="btn btn-primary btn-table-reset">
+		                        <span class="glyphicon glyphicon-remove-sign"></span>
+		                        Reiniciar tabla
+		                      </button>                  
+		                  </div>                           
+		                
+		
+		                <div class="col-md-12 clearfix">
+		                  <table class="table" cellpadding="0" cellspacing="0">
+		                    <thead>
+		                      <tr>
+		                        <th>#</th>
+		                        <th>Descripci&oacute;n</th>
+		                        <th>Tipo de moneda</th>
+		                        <th>Precio unitario</th>
+		                        <th>Total</th>
+		                        <th>Acciones</th>
+		                      </tr>
+		                    </thead>
+		                    <tbody class="table-fc-body">
+		                    
+								<@ row_number = 1 @>
+		                   
+		
+		                    </tbody>
+		                  	</table>
+							<!-- resultado -->
+							<table class="table" cellpadding="0" cellspacing="0">
+								<tbody>
+		                      		<tr>
+		                      			<td colspan="3">&nbsp;</td>
+		                        		<td><strong>Sub total</strong></td>
+		                        		<td>00.000</td>
+		                        		<td>&nbsp;</td>
+		                     		 </tr>
+		                      		<tr>
+		                        		<td colspan="3">&nbsp;</td>
+		                        		<td><strong>IVA [21%]</strong></td>
+		                        		<td>00.000</td>
+		                        		<td>&nbsp;</td>
+		                      		</tr>
+		                      		<tr>
+		                       			<td colspan="3">&nbsp;</td>
+		                        		<td><strong>Total</strong></td>
+		                        		<td>00.000</td>
+		                        		<td>&nbsp;</td>
+		                      		</tr>
+								</tbody>
+							</table>
+		                </div>
+		
+		              </div>
+		
+		
+		            </fieldset>
+		          </form>
+		        </div>
+		      </div>            
+		  </section>              
+		</div>
+	</script>
+	
+	<script id="tmpl-fc-a-item" type="text/template">
+		<tr>
+		    <td class="number"><@= row_number++ @></td>
+		    <td><input class="form-control input-sm" name="descripcion" type="text" placeholder="Ingresar descripci&oacute;n"></td>
+		    <td>
+		      <select class="form-control input-sm" name="moneda">
+		        <option>$</option>
+		        <option>u$s</option>
+		      </select>
+		    </td>
+		    <td><input class="form-control input-sm" name="precio-unitario" type="text" placeholder="Ingresar precio unitario"></td>
+		    <td><input class="form-control input-sm" name="total" type="text" placeholder="Ingresar total"></td>
+		    <td>
+		      	<button type="button" class="btn btn-xs btn-success btn-add-line">
+		       		<i class="glyphicon glyphicon-ok"></i>
+		      	</button>
+				<button type="button" class="btn btn-xs btn-danger btn-delete-line">
+		      		<i class="glyphicon glyphicon-remove"></i>
+		      	</button>
+		    </td>
+	  	</tr>	
+	</script>
+	
+	<script id="tmpl-fc-r-item" type="text/template">
+ 		<tr>
+			<td><@= numero @></td>
+			<td><@= descripcion @></td>
+			<td><@= moneda @></td>
+			<td><@= precio_unitario @></td>
+			<td><@= total @></td>
+			<td>
+			  <button type="button" class="btn btn-xs btn-primary">
+			    <i class="glyphicon glyphicon-edit"></i>
+			  </button>
+			  <button type="button" class="btn btn-xs btn-danger">
+			    <i class="glyphicon glyphicon-remove"></i>
+			  </button>
+			</td>
+		</tr>                      
+	</script>
+	
+	
     <!-- Modal Bootstrap -->
     <script id="tmpl-modal" type="text/template">
-      <div class="modal fade bs-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal fade bs-modal-sm" id="<@= modal_id @>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm">
           <div class="modal-content">
             <div class="modal-header">
@@ -727,6 +1134,8 @@
     <script type="text/javascript" src="resources/libs/backbone/underscore-min.js"></script>
     <script type="text/javascript" src="resources/libs/backbone/backbone-min.js"></script>
     <script type="text/javascript" src="resources/libs/bootstrap/js/bootstrap.js"></script>
+    
+    <script type="text/javascript" src="resources/libs/bootstrap/datepicker/js/bootstrap-datepicker.js"></script>
     
     <!-- Project -->    
     <script type="text/javascript" src="resources/libs/project/utils.js"></script>

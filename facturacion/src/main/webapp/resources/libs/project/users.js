@@ -1,7 +1,6 @@
 
 
 // Model
-
 window.User = Backbone.Model.extend({
 	urlRoot: "personas",
 	defaults: {
@@ -19,7 +18,11 @@ window.User = Backbone.Model.extend({
 	  }
 });
 
-//window.UserCollection = Backbone.Model.extend({});
+window.DeleteModel = new Backbone.Model({ 
+	title		: '', 
+	body		: '',
+	modal_id	: 'modal'
+});
 
 window.UserCollection = Backbone.Collection.extend({
 	model: User,
@@ -28,16 +31,14 @@ window.UserCollection = Backbone.Collection.extend({
 
 
 /*
-var UsersModel = Backbone.Model.extend({ 
-	url: 'personas'
-});
-*/
+ * 	Vision total de usuarios
+ * */
 
-// Vista del listado de usuarios totales
-
-var UsersView = Backbone.View.extend({
+window.UsersView = Backbone.View.extend({
 
 	el: PATH_LAYOUT,
+	
+	active:".btn-usuarios",
 
 	template: _.template( $('#tmpl-list-user').html() ),
 
@@ -53,7 +54,10 @@ var UsersView = Backbone.View.extend({
 	}, 
 
 	render: function () {
-
+		
+		$('.main-menu').find('a').removeClass('active');
+		$(this.active).addClass('active');
+		
 	    $(this.el).html(this.template(this.model.toJSON()));
 	    return this;
 
@@ -64,22 +68,27 @@ var UsersView = Backbone.View.extend({
 		var id = $(ev.currentTarget).attr('data');
 		var usuario = $(ev.currentTarget).attr('data-usuario');
 
-		var msg = ModelDelete.set({
+		var msg = DeleteModel.set({
 			'title'	: 'Eliminar Usuario', 
-			'body'  : '¿Confirma la eliminacion del usuario '+ usuario +'?',
+			'body'  : '¿Confirma la eliminaci&oacute;n de '+ usuario +'?',
 			'id'	: id
 		});
 
-		var view = new ModalView({ model: msg });
+		var view = new DeleteUserView({ model: msg });
 		view.show();
 
 	}     
 });
 
+/*
+ * 	Creacion de usuario
+ * */
 
-var NewUsuerView = Backbone.View.extend({
-
+window.NewUsuerView = Backbone.View.extend({
+	
 	el: PATH_LAYOUT,
+	
+	active:".btn-usuarios",
 
 	template: _.template( $('#tmpl-new-user').html() ),
 
@@ -94,7 +103,10 @@ var NewUsuerView = Backbone.View.extend({
 	}, 
 
 	render: function () {
-
+		
+		$('.main-menu').find('a').removeClass('active');
+		$(this.active).addClass('active');
+		
 	    $(this.el).html(this.template(this.model.toJSON()));
 	    return this;
 
@@ -103,9 +115,9 @@ var NewUsuerView = Backbone.View.extend({
 	// Btn click Aceptar / Save usuario
     accept: function() {
     	
-    	var u = new UserCollection();
+    	var u = new User();
 	    		
-    	u.create({
+    	u.save({
     		"id"			: null,
     	    "nombre"		: $("input[name='nombre']").val(),
     	    "apellido"		: $("input[name='apellido']").val(),
@@ -118,9 +130,16 @@ var NewUsuerView = Backbone.View.extend({
     	    },
     	    "enabled"		: parseInt( $("select[name='enabled'] option:selected").val(), 10 )
     	} , {
-			success: function() {
-				console.log('ok');
-			}
+			success: function(response) {
+			
+				app.navigate('usuarios', true);
+				
+			},
+            error : function(err) {
+                console.log('error callback');
+                console.log(err);
+                app.navigate('usuarios', true);
+            }
 		}); 	
     	
     }	
@@ -128,9 +147,11 @@ var NewUsuerView = Backbone.View.extend({
 });
 
 
-// Editar
+/*
+ * 	Edicion de usuario
+ * */
 
-var EditUserView = Backbone.View.extend({
+window.EditUserView = Backbone.View.extend({
 
 	el: PATH_LAYOUT,
 
@@ -157,9 +178,9 @@ var EditUserView = Backbone.View.extend({
 	// Btn click Aceptar / Save usuario
     accept: function() {
     	
-    	var u = new UserCollection();
+    	var user = new UserCollection();
 	    		
-    	u.create({
+    	user.create({
     		"id"			: $("input[name='id']").val(),
     	    "nombre"		: $("input[name='nombre']").val(),
     	    "apellido"		: $("input[name='apellido']").val(),
@@ -174,28 +195,27 @@ var EditUserView = Backbone.View.extend({
     	} , {
 			success: function() {
 				
-				//app.navigate('usuarios');
+				console.log('editado...');
+				app.navigate('usuarios', true);
 				
-			}
+			},
+            error : function(err) {
+                app.navigate('usuarios', true);
+            }
 		}); 	
     	
     }		
 	
 });
 
-// Modelo Modal
+/*
+ * 	Eliminacion de usuario
+ * */
 
-var ModelDelete = new Backbone.Model({ 
+window.DeleteUserView = Backbone.View.extend({
 
-	title: '', 
-	body: '' 
-
-});
-
-var ModalView = Backbone.View.extend({
-
-	el: '#modal',
-
+	el: MODAL_LAYOUT,
+	
     events: {
         'click .btn-aceptar': 'accept'
     },
@@ -210,23 +230,27 @@ var ModalView = Backbone.View.extend({
     },
 
     show: function() {
-        $(document.body).append(this.render().el);                
+        $(document.body).append(this.render().el);
+    },
+    
+    hide: function(){
+    	$('#modal').modal('hide');
     },
 
     accept: function() {
     	
-    	console.log(this.model.attributes.id);
+    	this.hide();
     	
-    	var a = new UserCollections();
+    	var id = this.model.attributes.id;
     	
-    	a.destroy({
-    		"id": this.model.attributes.id
-    	}, {
-			success: function() {
-				console.log('ok');
-			}
-		});
+    	$('#user-' + id).remove();
     	
+    	var user = new User({
+    		"id":id
+    	});
+    	    	
+    	user.destroy();	
+    	    	
     }
        
 });

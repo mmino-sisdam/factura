@@ -11,7 +11,12 @@
 /* ------------------------------ */
 
 PATH_LAYOUT = $('#layout');
+MODAL_LAYOUT = $('#layout-modal');
 
+
+
+
+/*
 tpl = {
 
     // Hash of preloaded templates for the app
@@ -75,3 +80,4 @@ tpl = {
 		return result;
 	};
 })(jQuery);
+*/

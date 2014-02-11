@@ -29,7 +29,7 @@
 		  	// invoice.js
 
 		  	// Initialize the Model
-			var get = new InvoiceModel();
+			var get = new Inovice();
 
 			// Initialize the View, 
 			// passing it the model instance
@@ -66,6 +66,7 @@
 			
 		  	// Initialize the Model
 			var get = new User();
+			
 			// Initialize the View, 
 			// passing it the model instance
 			var view = new UsersView({ model: get });
@@ -92,7 +93,7 @@
 		  
 		});
 
-		var app = new Router();
+		window.app = new Router();
 
 		Backbone.history.start();
 
