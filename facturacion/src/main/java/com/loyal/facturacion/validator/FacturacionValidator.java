@@ -16,8 +16,5 @@ public class FacturacionValidator implements Validator {
 	@Override
 	public void validate(Object target, Errors errors) {
 		// TODO Auto-generated method stub
-		
 	}
-
-
 }

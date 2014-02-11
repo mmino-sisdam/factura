@@ -55,7 +55,7 @@ public class PersonaController{
 
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
-	public @ResponseBody ResponseMessage deleteR(@PathVariable Integer id){
+	public @ResponseBody ResponseMessage delete(@PathVariable Integer id){
 		personaDAO.deleteById(id);
 		return new ResponseMessage(ResponseMessageType.OK);
 	}

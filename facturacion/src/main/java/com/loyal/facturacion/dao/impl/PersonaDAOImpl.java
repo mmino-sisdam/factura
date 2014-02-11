@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.security.authentication.encoding.MessageDigestPasswordEncoder;
@@ -20,7 +22,7 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 
 	@Override
 	@Transactional
-	public int insert(Persona persona) {
+	public int insert(Persona persona) throws DataAccessException, DuplicateKeyException {
 		MessageDigestPasswordEncoder m = new MessageDigestPasswordEncoder("MD5");
 		String sql = "INSERT INTO personas "
 				+ "(NOMBRE, APELLIDO, USERNAME, MAIL, TELEFONO, PASSWORD, ACCESS_ENABLED, ROLE_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -33,7 +35,7 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 	}
 
 	@Override
-	public Persona findById(Integer id) {
+	public Persona findById(Integer id) throws DataAccessException{
 		String sql = "SELECT PERSONA_ID, MAIL, NOMBRE, APELLIDO, USERNAME, TELEFONO, ACCESS_ENABLED, p.ROLE_ID, ROLE, DESCRIP "
 				+ "FROM personas p, roles r "
 				+ "WHERE p.ROLE_ID = r.ROLE_ID AND p.PERSONA_ID = ?";
@@ -73,7 +75,7 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 	}
 
 	@Override
-	public int update(Persona persona) {
+	public int update(Persona persona) throws DataAccessException, DuplicateKeyException {
 		String sql = "UPDATE personas "
 				+ "SET NOMBRE = ?, APELLIDO = ?,  MAIL = ?, TELEFONO = ?, ACCESS_ENABLED = ?, ROLE_ID = ? "
 				+ "WHERE PERSONA_ID = ?";
@@ -106,7 +108,7 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 	}
 	
 	@Override
-	public int deleteById(Integer id) {
+	public int deleteById(Integer id) throws DataAccessException{
 		String sql = "DELETE FROM personas WHERE PERSONA_ID = ?";
 		return getJdbcTemplate().update(
 				sql,
