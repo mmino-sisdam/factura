@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.loyal.facturacion.validator.FacturacionValidator;
+
 @SuppressWarnings("unchecked")
 @ControllerAdvice
 public class EntityExceptionHandler extends ResponseEntityExceptionHandler {
@@ -35,7 +37,7 @@ public class EntityExceptionHandler extends ResponseEntityExceptionHandler {
             error = objectError.getObjectName() + ", " + objectError.getDefaultMessage();
             errors.add(error);
         }
-        ErrorMessage errorMessage = new ErrorMessage(errors);
+        ResponseMessage errorMessage = new ResponseMessage(ResponseMessageType.ERROR, errors);
         return new ResponseEntity(errorMessage, headers, status);
     }
 
@@ -44,7 +46,7 @@ public class EntityExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         String unsupported = "Unsupported content type: " + ex.getContentType();
         String supported = "Supported content types: " + MediaType.toString(ex.getSupportedMediaTypes());
-        ErrorMessage errorMessage = new ErrorMessage(unsupported, supported);
+        ResponseMessage errorMessage = new ResponseMessage(ResponseMessageType.ERROR,unsupported, supported);
         return new ResponseEntity(errorMessage, headers, status);
     }
 
@@ -52,13 +54,13 @@ public class EntityExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         Throwable mostSpecificCause = ex.getMostSpecificCause();
-        ErrorMessage errorMessage;
+        ResponseMessage errorMessage;
         if (mostSpecificCause != null) {
             String exceptionName = mostSpecificCause.getClass().getName();
             String message = mostSpecificCause.getMessage();
-            errorMessage = new ErrorMessage(exceptionName, message);
+            errorMessage = new ResponseMessage(ResponseMessageType.ERROR,exceptionName, message);
         } else {
-            errorMessage = new ErrorMessage(ex.getMessage());
+            errorMessage = new ResponseMessage(ResponseMessageType.ERROR,ex.getMessage());
         }
         return new ResponseEntity(errorMessage, headers, status);
     }

@@ -1,4 +1,4 @@
-package com.loyal.facturacion.controller;
+package com.loyal.facturacion.validator;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;

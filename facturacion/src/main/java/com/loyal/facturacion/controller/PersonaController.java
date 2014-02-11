@@ -9,8 +9,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.http.*;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +22,7 @@ import com.loyal.facturacion.model.Persona;
 @Controller
 @RequestMapping(value="/personas")
 
-public class PersonaController {
+public class PersonaController{
 
 	@Autowired
 	PersonaDAO personaDAO;
@@ -38,26 +36,29 @@ public class PersonaController {
 
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public void create(@Valid @RequestBody Persona persona){
+	public @ResponseBody ResponseMessage create(@Valid @RequestBody Persona persona){
 		personaDAO.insert(persona);
+		return new ResponseMessage(ResponseMessageType.OK);
 	}
-	
+
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
 	public @ResponseBody Persona find(@PathVariable Integer id){
 		return personaDAO.findById(id);
 	}
-	
+
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.OK)
-	public void updateR(@RequestBody Persona persona){
+	public @ResponseBody ResponseMessage update(@RequestBody Persona persona){
 		personaDAO.update(persona);
+		return new ResponseMessage(ResponseMessageType.OK);
 	}
-	
+
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.OK)
-	public void deleteR(@PathVariable Integer id){
+	public @ResponseBody ResponseMessage deleteR(@PathVariable Integer id){
 		personaDAO.deleteById(id);
+		return new ResponseMessage(ResponseMessageType.OK);
 	}
-	
-	  
+
+
 }
