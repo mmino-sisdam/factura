@@ -24,6 +24,8 @@
   
     <div class="page-containter">
       
+      <div id="msg-alert"></div>
+      
       <div class="sidebar-menu">
 
         <header>

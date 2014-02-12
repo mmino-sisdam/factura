@@ -11,7 +11,8 @@
 /* ------------------------------ */
 
 var PATH_LAYOUT = $('#layout');
-var MODAL_LAYOUT = $('#layout-modal');
+var PATH_MODAL = $('#layout-modal');
+var PATH_ALERT = $('#msg-alert');
 var PATH_IVA = 21;
 
 

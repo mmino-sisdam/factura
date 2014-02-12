@@ -27,6 +27,39 @@ tr.day {
 	display: none;
 }
 
+#msg-alert {
+	width: 100%;
+	position: fixed;
+	top: 20px;
+	left: 0;
+	z-index: 9;
+	text-align: center;
+	p.success {
+		display: inline-block;
+		position: relative;
+		border: 1px solid #f0c36d;
+		background: #f9edbe;
+		color: #1a1a1a;
+		font-size: 12px;
+		padding: 3px 10px;
+		-webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+		-moz-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+		box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+	}
+	p.error {
+		display: inline-block;
+		position: relative;
+		border: 1px solid #ff0000;
+		background: #ff3368;
+		color: #fff;
+		font-size: 12px;
+		padding: 3px 10px;
+		-webkit-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+		-moz-box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+		box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+	}		
+}
+
 .page-containter {
 	position: relative;
 	padding-left: 280px;
