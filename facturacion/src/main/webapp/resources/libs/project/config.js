@@ -8,8 +8,8 @@
 		    ""								: "dashboard",
 		    "facturas"						: "invoice",
 		    "factura/nueva/tipo-:tipo"		: "new_invoice",
-		    "factura/editar/:id"			: "invoice_edit",
-		    "factura/info/:id"				: "invoice_info",
+		    "factura/editar/id/:numero"		: "invoice_edit",
+		    "factura/info/:id/:numero"		: "invoice_info",
 		    "usuarios"						: "users",
 		    "usuario/nuevo"					: "new_user",
 		    "usuario/editar/:id"			: "edit_user"
@@ -48,10 +48,18 @@
 
 		  },
 
-		  invoice_info: function(id){
+		  invoice_info: function(id, numero){
+		  
+			  // Id corresponde al tipo de factura
+			  // Numero corresponde al numero de factura
 
-		  	console.log(id);
-
+		  	//console.log(id + '--' + numero);
+			 // var get = new Inovice({"id": id + '-' + numero});
+			  
+			  var view = new NewInvoiceInfoView();
+			  
+			  //get.fetch();
+			  
 		  },
 
 		  // Seccion vista de factura por ID

@@ -55,8 +55,7 @@ window.UsersView = Backbone.View.extend({
 
 	render: function () {
 		
-		$('.main-menu').find('a').removeClass('active');
-		$(this.active).addClass('active');
+		active(this.active);
 		
 	    $(this.el).html(this.template(this.model.toJSON()));
 	    return this;
@@ -104,8 +103,7 @@ window.NewUsuerView = Backbone.View.extend({
 
 	render: function () {
 		
-		$('.main-menu').find('a').removeClass('active');
-		$(this.active).addClass('active');
+		active(this.active);
 		
 	    $(this.el).html(this.template(this.model.toJSON()));
 	    return this;
@@ -117,7 +115,7 @@ window.NewUsuerView = Backbone.View.extend({
     	
     	var u = new User();
 	    		
-    	u.save({
+    	u.create({
     		"id"			: null,
     	    "nombre"		: $("input[name='nombre']").val(),
     	    "apellido"		: $("input[name='apellido']").val(),
@@ -132,13 +130,13 @@ window.NewUsuerView = Backbone.View.extend({
     	} , {
 			success: function(response) {
 			
-				app.navigate('usuarios', true);
+				app.navigate(URL_USUARIOS, true);
 				
 			},
             error : function(err) {
-                console.log('error callback');
+               // console.log('error callback');
                 console.log(err);
-                app.navigate('usuarios', true);
+               // app.navigate('usuarios', true);
             }
 		}); 	
     	
@@ -154,6 +152,8 @@ window.NewUsuerView = Backbone.View.extend({
 window.EditUserView = Backbone.View.extend({
 
 	el: PATH_LAYOUT,
+	
+	active:".btn-usuarios",
 
 	template: _.template( $('#tmpl-new-user').html() ),
 
@@ -169,7 +169,9 @@ window.EditUserView = Backbone.View.extend({
 	}, 
 
 	render: function () {
-
+		
+		active(this.active);
+		
 	    $(this.el).html(this.template(this.model.toJSON()));
 	    return this;
 
@@ -195,12 +197,10 @@ window.EditUserView = Backbone.View.extend({
     	} , {
 			success: function() {
 				
-				console.log('editado...');
-				app.navigate('usuarios', true);
+				app.navigate(URL_USUARIOS, true);
 				
 			},
             error : function(err) {
-                app.navigate('usuarios', true);
             }
 		}); 	
     	

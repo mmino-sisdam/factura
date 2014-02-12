@@ -10,11 +10,23 @@
 // Variables globales
 /* ------------------------------ */
 
-PATH_LAYOUT = $('#layout');
-MODAL_LAYOUT = $('#layout-modal');
+var PATH_LAYOUT = $('#layout');
+var MODAL_LAYOUT = $('#layout-modal');
+var PATH_IVA = 21;
 
 
+// Routing
+/* ------------------------------ */
+var URL_FACTURAS = 'facturas';
+var URL_USUARIOS = 'usuarios';
 
+
+// Active
+/* ------------------------------ */
+function active(x){
+	$('.main-menu').find('a').removeClass('active');
+	$(x).addClass('active');
+};
 
 /*
 tpl = {
