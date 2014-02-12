@@ -39,7 +39,10 @@ public class Factura {
 	private Integer idTipoComision;
 	private BigDecimal importeComision;
 	
+	private BigDecimal importeCosto;
+	
 	private Integer idTipoComprobableEntregable;
+	private Date fechaComprobableEntregable;
 	
 	private BigDecimal importeCobrado;
 	
@@ -232,6 +235,18 @@ public class Factura {
 	}
 	public void setDetalles(List<FacturaDetalle> detalles) {
 		this.detalles = detalles;
+	}
+	public BigDecimal getImporteCosto() {
+		return importeCosto;
+	}
+	public void setImporteCosto(BigDecimal importeCosto) {
+		this.importeCosto = importeCosto;
+	}
+	public Date getFechaComprobableEntregable() {
+		return fechaComprobableEntregable;
+	}
+	public void setFechaComprobableEntregable(Date fechaComprobableEntregable) {
+		this.fechaComprobableEntregable = fechaComprobableEntregable;
 	}
 	
 }

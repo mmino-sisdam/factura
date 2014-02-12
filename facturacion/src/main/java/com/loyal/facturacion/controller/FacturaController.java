@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.http.*;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,13 +45,12 @@ public class FacturaController{
 		facturaDAO.insert(factura);
 		return new ResponseMessage(ResponseMessageType.OK);
 	}
-	/*
 
-	@RequestMapping(value="/{id}",method=RequestMethod.GET)
-	public @ResponseBody Persona find(@PathVariable Integer id){
-		return personaDAO.findById(id);
+	@RequestMapping(value="/{idTipo}-{numero}",method=RequestMethod.GET)
+	public @ResponseBody Factura find(@PathVariable Integer idTipo, @PathVariable Long numero){
+		return facturaDAO.findById(idTipo, numero);
 	}
-
+/*
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.OK)
 	public @ResponseBody ResponseMessage update(@RequestBody Persona persona){
