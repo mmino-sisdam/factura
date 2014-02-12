@@ -2,10 +2,7 @@ package com.loyal.facturacion.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.RowMapper;
@@ -51,25 +48,7 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 				+ "FROM personas p, roles r "
 				+ "WHERE p.ROLE_ID = r.ROLE_ID;";
 
-		List<Persona> lista = new ArrayList<Persona>();
-
-		List<Map<String, Object>> rows = getJdbcTemplate().queryForList(sql);
-		for (@SuppressWarnings("rawtypes") Map row : rows) {
-			Persona persona= new Persona();
-			persona.setId(Integer.parseInt(String.valueOf(row.get("PERSONA_ID"))));
-			persona.setNombre((String)row.get("NOMBRE"));
-			persona.setMail((String)row.get("MAIL"));
-			persona.setApellido((String)row.get("APELLIDO"));
-			persona.setUsername((String)row.get("USERNAME"));
-			persona.setTelefono((String)row.get("TELEFONO"));
-			persona.setEnabled((Boolean)row.get("ACCESS_ENABLED")) ;
-			Rol rol = new Rol();
-			rol.setId(Integer.parseInt(String.valueOf(row.get("ROLE_ID"))));
-			rol.setDescripcion((String)row.get("DESCRIP"));
-			rol.setRole((String)row.get("ROLE"));
-			persona.setRol(rol);
-			lista.add(persona);
-		}
+		List<Persona> lista = getJdbcTemplate().query(sql, new PersonaRowMapper(), new Object[]{});
 
 		return lista;
 	}
@@ -86,9 +65,17 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 						persona.isEnabled(),persona.getRol().getId(), persona.getId() });
 	}
 
-	public class PersonaRowMapper implements RowMapper<Object> {
+	@Override
+	public int deleteById(Integer id) throws DataAccessException{
+		String sql = "DELETE FROM personas WHERE PERSONA_ID = ?";
+		return getJdbcTemplate().update(
+				sql,
+				new Object[] { id });
+	}
+	
+	public class PersonaRowMapper implements RowMapper<Persona> {
 		@Override
-		public Object mapRow(ResultSet rs, int rowNum)
+		public Persona mapRow(ResultSet rs, int rowNum)
 				throws SQLException {
 			Persona persona= new Persona();
 			persona.setId(rs.getInt("PERSONA_ID"));
@@ -107,11 +94,4 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 		}
 	}
 	
-	@Override
-	public int deleteById(Integer id) throws DataAccessException{
-		String sql = "DELETE FROM personas WHERE PERSONA_ID = ?";
-		return getJdbcTemplate().update(
-				sql,
-				new Object[] { id });
-	}
 }

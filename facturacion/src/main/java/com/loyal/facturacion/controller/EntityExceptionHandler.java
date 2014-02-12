@@ -11,14 +11,10 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import com.loyal.facturacion.validator.FacturacionValidator;
 
 @SuppressWarnings("unchecked")
 @ControllerAdvice
@@ -67,11 +63,6 @@ public class EntityExceptionHandler extends ResponseEntityExceptionHandler {
 			errorMessage = new ResponseMessage(ResponseMessageType.ERROR,ex.getMessage());
 		}
 		return new ResponseEntity(errorMessage, headers, status);
-	}
-
-	@InitBinder
-	public void initBinder(WebDataBinder binder, WebRequest webRequest){ 
-		binder.setValidator(new FacturacionValidator());
 	}
 
 	@ExceptionHandler(value = { DataAccessException.class })

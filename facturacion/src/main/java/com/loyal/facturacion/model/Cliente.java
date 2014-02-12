@@ -6,8 +6,8 @@ public class Cliente {
 	private String cuit;
 	private String direccion;
 	private String localizacion;
-	private int tipoIVA;
-	private int tipoRetencion;
+	private Integer idTipoIVA;
+	private Integer idTipoRetencion;
 	
 	public Integer getId() {
 		return id;
@@ -39,17 +39,16 @@ public class Cliente {
 	public void setLocalizacion(String localizacion) {
 		this.localizacion = localizacion;
 	}
-	public int getTipoIVA() {
-		return tipoIVA;
+	public Integer getIdTipoRetencion() {
+		return idTipoRetencion;
 	}
-	public void setTipoIVA(int tipoIVA) {
-		this.tipoIVA = tipoIVA;
+	public void setIdTipoRetencion(Integer idTipoRetencion) {
+		this.idTipoRetencion = idTipoRetencion;
 	}
-	public int getTipoRetencion() {
-		return tipoRetencion;
+	public Integer getIdTipoIVA() {
+		return idTipoIVA;
 	}
-	public void setTipoRetencion(int tipoRetencion) {
-		this.tipoRetencion = tipoRetencion;
+	public void setIdTipoIVA(Integer idTipoIVA) {
+		this.idTipoIVA = idTipoIVA;
 	}
-
 }

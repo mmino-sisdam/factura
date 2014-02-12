@@ -2,10 +2,9 @@ package com.loyal.facturacion.dao.impl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,19 +17,19 @@ public class ClienteDAOImpl extends JdbcDaoSupport implements ClienteDAO {
 
 	@Override
 	@Transactional
-	public void insert(Cliente cliente) {
-		String sql = "INSERT INTO CLIENTES "
-				+ "(NOMBRE, CUIT, DIRECCION, LOCALIZACION, TIPO_IVA, TIPO_RETENCION) VALUES (?, ?, ?, ?, ?, ?)";
+	public void insert(Cliente cliente) throws DataAccessException {
+		String sql = "INSERT INTO clientes "
+				+ "(NOMBRE, CUIT, DIRECCION, LOCALIZACION, TIPO_IVA_ID, TIPO_RETENCION_ID) VALUES (?, ?, ?, ?, ?, ?)";
 		getJdbcTemplate().update(
 				sql,
 				new Object[] { cliente.getNombre(), cliente.getCuit(),
 						cliente.getDireccion(), cliente.getLocalizacion(),
-						cliente.getTipoIVA(), cliente.getTipoRetencion() });
+						cliente.getIdTipoIVA(), cliente.getIdTipoRetencion() });
 	}
 
 	@Override
 	public Cliente findById(Integer id) {
-		String sql = "SELECT * FROM CLIENTES WHERE CLIENTE_ID = ?";
+		String sql = "SELECT * FROM clientes WHERE CLIENTE_ID = ?";
 		Cliente cliente = (Cliente) getJdbcTemplate().queryForObject(
 				sql, new Object[] { id }, new ClienteRowMapper());
 		return cliente;
@@ -39,43 +38,30 @@ public class ClienteDAOImpl extends JdbcDaoSupport implements ClienteDAO {
 	@Override
 	public List<Cliente> getAll() {
 
-		String sql = "SELECT * FROM CLIENTES";
+		String sql = "SELECT * FROM clientes order by nombre";
 
-		List<Cliente> lista = new ArrayList<Cliente>();
-
-		List<Map<String, Object>> rows = getJdbcTemplate().queryForList(sql);
-		for (@SuppressWarnings("rawtypes") Map row : rows) {
-			Cliente cliente  = new Cliente();
-			cliente.setId(Integer.parseInt(String.valueOf(row.get("CLIENTE_ID"))));
-			cliente.setCuit((String)row.get("CUIT"));
-			cliente.setNombre((String)row.get("NOMBRE"));
-			cliente.setDireccion((String)row.get("DIRECCION"));
-			cliente.setLocalizacion((String)row.get("LOCALIZACION"));
-			cliente.setTipoIVA(Integer.parseInt((String)row.get("TIPO_IVA")));
-			cliente.setTipoRetencion(Integer.parseInt((String)row.get("TIPO_RETENCION")));
-			lista.add(cliente);
-		}
+		List<Cliente> lista = getJdbcTemplate().query(sql, new ClienteRowMapper(), new Object[]{});
 
 		return lista;
 	}
 
 	@Override
-	public void update(Cliente cliente) {
-		String sql = "UPDATE CLIENTES "
-				+ "SET NOMBRE = ?, CUIT = ?, DIRECCION = ?, LOCALIZACION = ?, TIPO_IVA = ?, TIPO_RETENCION = ? "
+	public void update(Cliente cliente)  throws DataAccessException{
+		String sql = "UPDATE clientes "
+				+ "SET NOMBRE = ?, CUIT = ?, DIRECCION = ?, LOCALIZACION = ?, TIPO_IVA_ID = ?, TIPO_RETENCION_ID = ? "
 				+ "WHERE CLIENTE_ID = ?";
 		getJdbcTemplate().update(
 				sql,
 				new Object[] { cliente.getNombre(), cliente.getCuit(),
 						cliente.getDireccion(), cliente.getLocalizacion(),
-						cliente.getTipoIVA(), cliente.getTipoRetencion() });
+						cliente.getIdTipoIVA(), cliente.getIdTipoRetencion() });
 
 
 	}
 
-	public class ClienteRowMapper implements RowMapper<Object> {
+	public class ClienteRowMapper implements RowMapper<Cliente> {
 		@Override
-		public Object mapRow(ResultSet rs, int rowNum)
+		public Cliente mapRow(ResultSet rs, int rowNum)
 				throws SQLException {
 			Cliente cliente= new Cliente();
 			cliente.setId(rs.getInt("CLIENTE_ID"));
@@ -83,8 +69,8 @@ public class ClienteDAOImpl extends JdbcDaoSupport implements ClienteDAO {
 			cliente.setCuit(rs.getString("CUIT"));
 			cliente.setDireccion(rs.getString("DIRECCION"));
 			cliente.setLocalizacion(rs.getString("LOCALIZACION"));
-			cliente.setTipoIVA(rs.getInt("TIPO_IVA"));
-			cliente.setTipoRetencion(rs.getInt("TIPO_RETENCION"));
+			cliente.setIdTipoIVA(rs.getInt("TIPO_IVA_ID"));
+			cliente.setIdTipoRetencion(rs.getInt("TIPO_RETENCION_ID"));
 			return cliente;
 		}
 	}

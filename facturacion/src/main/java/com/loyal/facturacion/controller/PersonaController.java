@@ -9,15 +9,19 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.http.*;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.request.WebRequest;
 
 import com.loyal.facturacion.dao.PersonaDAO;
 import com.loyal.facturacion.model.Persona;
+import com.loyal.facturacion.validator.PersonaValidator;
 
 @Controller
 @RequestMapping(value="/personas")
@@ -48,7 +52,7 @@ public class PersonaController{
 
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.OK)
-	public @ResponseBody ResponseMessage update(@RequestBody Persona persona){
+	public @ResponseBody ResponseMessage update(@Valid @RequestBody Persona persona){
 		personaDAO.update(persona);
 		return new ResponseMessage(ResponseMessageType.OK);
 	}
@@ -60,5 +64,8 @@ public class PersonaController{
 		return new ResponseMessage(ResponseMessageType.OK);
 	}
 
-
+	@InitBinder
+	public void initBinder(WebDataBinder binder, WebRequest webRequest){ 
+		binder.setValidator(new PersonaValidator());
+	}
 }

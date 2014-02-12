@@ -2,6 +2,7 @@ package com.loyal.facturacion.model.factura;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class Factura {
 	private Integer idTipoFactura;
@@ -19,8 +20,38 @@ public class Factura {
 	private Integer idStatus;
 	private String status;
 	
+	private String contacto;
+	private Integer idUsuario;
+	
+	private Integer idLineaProducto;
+	
+	private Date fechaVencimiento;
+	private Date fechaProbableCobro;
+	private Date fechaCobro;
+	
+	private Integer idTipoRetencion;
+	private Integer idTipoIVA;
+	
+	private BigDecimal importeSubtotal;
+	private BigDecimal importeIVA;
 	private BigDecimal importeTotal;
+	
+	private Integer idTipoComision;
+	private BigDecimal importeComision;
+	
+	private Integer idTipoComprobableEntregable;
+	
+	private BigDecimal importeCobrado;
+	
 	private BigDecimal importeRentabilidad;
+	
+	private String formaDePago;
+	
+	private String remito;
+	private String ordenDeCompra;
+	
+	private List<FacturaDetalle> detalles;
+	
 	
 	public Integer getIdTipoFactura() {
 		return idTipoFactura;
@@ -93,6 +124,114 @@ public class Factura {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getContacto() {
+		return contacto;
+	}
+	public void setContacto(String contacto) {
+		this.contacto = contacto;
+	}
+	public Integer getIdUsuario() {
+		return idUsuario;
+	}
+	public void setIdUsuario(Integer idUsuario) {
+		this.idUsuario = idUsuario;
+	}
+	public Integer getIdLineaProducto() {
+		return idLineaProducto;
+	}
+	public void setIdLineaProducto(Integer idLineaProducto) {
+		this.idLineaProducto = idLineaProducto;
+	}
+	public Date getFechaVencimiento() {
+		return fechaVencimiento;
+	}
+	public void setFechaVencimiento(Date fechaVencimiento) {
+		this.fechaVencimiento = fechaVencimiento;
+	}
+	public Date getFechaProbableCobro() {
+		return fechaProbableCobro;
+	}
+	public void setFechaProbableCobro(Date fechaProbableCobro) {
+		this.fechaProbableCobro = fechaProbableCobro;
+	}
+	public Date getFechaCobro() {
+		return fechaCobro;
+	}
+	public void setFechaCobro(Date fechaCobro) {
+		this.fechaCobro = fechaCobro;
+	}
+	public Integer getIdTipoRetencion() {
+		return idTipoRetencion;
+	}
+	public void setIdTipoRetencion(Integer idTipoRetencion) {
+		this.idTipoRetencion = idTipoRetencion;
+	}
+	public Integer getIdTipoIVA() {
+		return idTipoIVA;
+	}
+	public void setIdTipoIVA(Integer idTipoIVA) {
+		this.idTipoIVA = idTipoIVA;
+	}
+	public BigDecimal getImporteSubtotal() {
+		return importeSubtotal;
+	}
+	public void setImporteSubtotal(BigDecimal importeSubtotal) {
+		this.importeSubtotal = importeSubtotal;
+	}
+	public BigDecimal getImporteIVA() {
+		return importeIVA;
+	}
+	public void setImporteIVA(BigDecimal importeIVA) {
+		this.importeIVA = importeIVA;
+	}
+	public Integer getIdTipoComision() {
+		return idTipoComision;
+	}
+	public void setIdTipoComision(Integer idTipoComision) {
+		this.idTipoComision = idTipoComision;
+	}
+	public BigDecimal getImporteComision() {
+		return importeComision;
+	}
+	public void setImporteComision(BigDecimal importeComision) {
+		this.importeComision = importeComision;
+	}
+	public Integer getIdTipoComprobableEntregable() {
+		return idTipoComprobableEntregable;
+	}
+	public void setIdTipoComprobableEntregable(Integer idTipoComprobableEntregable) {
+		this.idTipoComprobableEntregable = idTipoComprobableEntregable;
+	}
+	public BigDecimal getImporteCobrado() {
+		return importeCobrado;
+	}
+	public void setImporteCobrado(BigDecimal importeCobrado) {
+		this.importeCobrado = importeCobrado;
+	}
+	public String getFormaDePago() {
+		return formaDePago;
+	}
+	public void setFormaDePago(String formaDePago) {
+		this.formaDePago = formaDePago;
+	}
+	public String getRemito() {
+		return remito;
+	}
+	public void setRemito(String remito) {
+		this.remito = remito;
+	}
+	public String getOrdenDeCompra() {
+		return ordenDeCompra;
+	}
+	public void setOrdenDeCompra(String ordenDeCompra) {
+		this.ordenDeCompra = ordenDeCompra;
+	}
+	public List<FacturaDetalle> getDetalles() {
+		return detalles;
+	}
+	public void setDetalles(List<FacturaDetalle> detalles) {
+		this.detalles = detalles;
 	}
 	
 }

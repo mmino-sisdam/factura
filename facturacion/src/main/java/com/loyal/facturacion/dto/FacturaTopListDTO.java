@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.loyal.facturacion.model.factura.Factura;
 
-public class FacturaListDTO {
+public class FacturaTopListDTO {
 
     private Integer year;
     private Integer month;

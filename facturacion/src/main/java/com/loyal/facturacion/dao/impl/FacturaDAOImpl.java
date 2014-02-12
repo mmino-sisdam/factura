@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.loyal.facturacion.dao.FacturaDAO;
-import com.loyal.facturacion.dto.FacturaListDTO;
+import com.loyal.facturacion.dto.FacturaTopListDTO;
 import com.loyal.facturacion.model.factura.Factura;
 
 public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
@@ -42,14 +42,14 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 	}
 
 	@Override
-	public List<FacturaListDTO> getAll() {
+	public List<FacturaTopListDTO> getAll() {
 
 		String sql = "SELECT year(fecha_emision) AS year, month(fecha_emision) AS month, SUM(importe_rentabilidad) AS importe_rentabilidad, "
 				+ "SUM(importe_total) AS importe_total  "
 				+ "FROM facturacion.facturas "
 				+ "GROUP BY year(fecha_emision), month(fecha_emision); ";
 
-		List<FacturaListDTO> lista = getJdbcTemplate().query(sql,
+		List<FacturaTopListDTO> lista = getJdbcTemplate().query(sql,
 				new FacturaListDTORowMapper());
 
 		sql = "SELECT f.*, c.nombre AS cliente, tf.nombre AS tipo_factura, s.nombre AS status, pr.apellido ape_respo, pr.nombre AS nom_respo "
@@ -61,10 +61,10 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 				+ "WHERE year(fecha_emision) = ? AND month(fecha_emision) = ? "
 				+ "ORDER BY fecha_emision;";
 
-		for (FacturaListDTO facturaListDTO : lista) {
+		for (FacturaTopListDTO facturaListDTO : lista) {
 			facturaListDTO.setList(getJdbcTemplate().query(
 					sql,
-					new FacturaRowMapper(),
+					new FacturaListRowMapper(),
 					new Object[] { facturaListDTO.getYear(),
 							facturaListDTO.getMonth() }));
 		}
@@ -84,6 +84,12 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 								factura.getNumero() });
 	}
 
+	@Override
+	public int deleteById(Integer id, Long numero) throws DataAccessException {
+		String sql = "DELETE FROM facturas WHERE FACTURA_ID = ?";
+		return getJdbcTemplate().update(sql, new Object[] { id, numero });
+	}
+	
 	public class FacturaRowMapper implements RowMapper<Factura> {
 		@Override
 		public Factura mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -105,12 +111,34 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 			return factura;
 		}
 	}
-
-	public class FacturaListDTORowMapper implements RowMapper<FacturaListDTO> {
+	
+	public class FacturaListRowMapper implements RowMapper<Factura> {
 		@Override
-		public FacturaListDTO mapRow(ResultSet rs, int rowNum)
+		public Factura mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Factura factura = new Factura();
+			factura.setIdTipoFactura(rs.getInt("TIPO_FACTURA_ID"));
+			factura.setTipoFactura(rs.getString("TIPO_FACTURA"));
+			factura.setNumero(rs.getLong("FACTURA_ID"));
+			factura.setFecha(rs.getDate("FECHA_EMISION"));
+			factura.setCliente(rs.getString("CLIENTE"));
+			factura.setIdCliente(rs.getInt("CLIENTE_ID"));
+			factura.setIdResponsable(rs.getInt("PERSONA_RESPONSABLE_ID"));
+			factura.setResponsable(rs.getString("APE_RESPO") + ", "
+					+ rs.getString("NOM_RESPO"));
+			factura.setIdStatus(rs.getInt("STATUS_ID"));
+			factura.setStatus(rs.getString("STATUS"));
+			factura.setImporteRentabilidad(rs
+					.getBigDecimal("IMPORTE_RENTABILIDAD"));
+			factura.setImporteTotal(rs.getBigDecimal("IMPORTE_TOTAL"));
+			return factura;
+		}
+	}
+
+	public class FacturaListDTORowMapper implements RowMapper<FacturaTopListDTO> {
+		@Override
+		public FacturaTopListDTO mapRow(ResultSet rs, int rowNum)
 				throws SQLException {
-			FacturaListDTO factura = new FacturaListDTO();
+			FacturaTopListDTO factura = new FacturaTopListDTO();
 			factura.setMonto(rs.getBigDecimal("IMPORTE_TOTAL"));
 			factura.setRentabilidad(rs.getBigDecimal("IMPORTE_RENTABILIDAD"));
 			Integer month = rs.getInt("MONTH");
@@ -120,11 +148,5 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 			factura.setMonthName(mes[month + 1]);
 			return factura;
 		}
-	}
-
-	@Override
-	public int deleteById(Integer id, Long numero) throws DataAccessException {
-		String sql = "DELETE FROM facturas WHERE FACTURA_ID = ?";
-		return getJdbcTemplate().update(sql, new Object[] { id, numero });
 	}
 }
