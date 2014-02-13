@@ -24,6 +24,12 @@ window.DeleteModel = new Backbone.Model({
 	modal_id	: 'modal'
 });
 
+window.AlertModel = new Backbone.Model({ 
+	'type'		: '', 
+	'body'		: ''
+});
+
+
 window.UserCollection = Backbone.Collection.extend({
 	model: User,
 	url: "personas"
@@ -113,7 +119,7 @@ window.NewUsuerView = Backbone.View.extend({
 	// Btn click Aceptar / Save usuario
     accept: function() {
     	
-    	var u = new User();
+    	var u = new UserCollection();
 	    		
     	u.create({
     		"id"			: null,
@@ -129,14 +135,26 @@ window.NewUsuerView = Backbone.View.extend({
     	    "enabled"		: parseInt( $("select[name='enabled'] option:selected").val(), 10 )
     	} , {
 			success: function(response) {
+				
+				var msg = AlertModel.set({
+            		'type': 'success',
+            		'body': 'El usuario se creo correctamente'
+            	});
+            	
+            	var view = new AlertView({model: msg });
 			
 				app.navigate(URL_USUARIOS, true);
 				
 			},
-            error : function(err) {
-               // console.log('error callback');
-                console.log(err);
-               // app.navigate('usuarios', true);
+            error : function(err, response) {
+            	
+            	var msg = AlertModel.set({
+            		'type': 'error',
+            		'body': 'Hubo un error'
+            	});
+            	
+            	var view = new AlertView({model: msg });       
+        		
             }
 		}); 	
     	
@@ -208,13 +226,35 @@ window.EditUserView = Backbone.View.extend({
 	
 });
 
+
+window.AlertView = Backbone.View.extend({
+	
+	el: PATH_ALERT,	
+	
+	template: _.template('<p class="<@= type @>"><@= body @></p>'),
+	
+    initialize: function() {
+    	
+        this.render();
+    
+    },
+
+    render: function() {
+    	
+    	$(this.el).html(this.template(this.model.toJSON())).show().delay(4000).fadeOut('fast');
+	    return this; 
+	    
+    }   
+    
+});
+
 /*
  * 	Eliminacion de usuario
  * */
 
 window.DeleteUserView = Backbone.View.extend({
 
-	el: MODAL_LAYOUT,
+	el: PATH_MODAL,
 	
     events: {
         'click .btn-aceptar': 'accept'
