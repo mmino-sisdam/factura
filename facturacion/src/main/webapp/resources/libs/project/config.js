@@ -29,20 +29,25 @@
 		  	// invoice.js
 
 		  	// Initialize the Model
-			var get = new Inovice();
+			var get = new Invoice();
+			
+			
 
 			// Initialize the View, 
 			// passing it the model instance
-			var view = new InvoiceView({ model: get });
+			var view = new InvoiceView({ model: get});
 
 		  },
 
 		  // Seccion nueva factura
 		  new_invoice: function(tipo){
 
-		  	if(tipo == 'A'){
-
-		  		var view = new NewInvoiceView_A();
+		  	if(tipo == '1'){
+		  		
+		  		// Initialize the Model
+				var get = new InvoiceData();
+				
+		  		var view = new NewInvoiceView_A({ model: get });
 
 		  	}
 
@@ -54,7 +59,7 @@
 			  // Numero corresponde al numero de factura
 
 		  	//console.log(id + '--' + numero);
-			  var get = new Inovice({"id": id + '-' + numero});
+			  var get = new Invoice({"id": id + '-' + numero});
 			  
 			  var view = new NewInvoiceInfoView({model: get});
 			  

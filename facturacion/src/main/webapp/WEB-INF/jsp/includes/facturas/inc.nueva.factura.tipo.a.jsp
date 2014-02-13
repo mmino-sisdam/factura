@@ -16,54 +16,61 @@
 		          Creaci&oacute;n de factura tipo A
 		        </div>
 		        <div class="panel-body">
-		          <form role="form">
+		          <form role="form" id="form-invoice">
 		            <fieldset>
-		
+						
+						<input type="hidden" name="idTipoFactura" value="1"/>
 		              <div class="row">
 		
 		                <!-- columna nro. 1 -->
 		                <div class="col-md-4 clearfix">
 		                  <div class="form-group">
-		                    <label for="">Cliente</label>
-		                    <input type="text" class="form-control form-type-client" placeholder="Buscar cliente...">
+		                    <label for="idCliente">Cliente</label>
+		                    <input name="idCliente" type="text" class="form-control form-type-client" placeholder="Buscar cliente...">
 		                  </div>
 		                  <div class="form-group">
-		                    <label for="">Localizaci&oacute;n / Sucursal</label>
-		                    <input type="text" class="form-control" placeholder="Ingresar sucursal">
+		                    <label>Localizaci&oacute;n / Sucursal</label>
+		                    <input type="text" class="form-control" placeholder="Ingresar sucursal"/>
 		                  </div>
 		                  <div class="form-group">
-		                    <label for="">Contacto</label>
-		                    <input type="text" class="form-control" placeholder="Ingresar contacto">
+		                    <label for="contacto">Contacto</label>
+		                    <input name="contacto" type="text" class="form-control" placeholder="Ingresar contacto"/>
 		                  </div>
 		                  <div class="form-group">
-		                    <label for="">Situaci&oacute;n ante el IVA</label>
-		                    <select class="form-control">
-		                      <option>Responsable inscripto</option>
-		                      <option>No inscripto</option>
-		                      <option>Excento</option>
-		                      <option>Consumidor final</option>
+		                    <label for="idTipoIVA">Situaci&oacute;n ante el IVA</label>
+		                    <select name="idTipoIVA" class="form-control">
+		                      <option value="1">Responsable inscripto</option>
+		                      <option value="2">No inscripto</option>
+		                      <option value="3">Excento</option>
+		                      <option value="4">Consumidor final</option>
 		                    </select>
 		                  </div>
 		                  <div class="form-group">
 		                    <label for="">CUIT</label>
-		                    <input type="text" class="form-control" placeholder="Ingresar CUIT">
+		                    <input type="text" class="form-control" placeholder="Ingresar CUIT"/>
 		                  </div>
 		                  <div class="form-group">
 		                    <label for="">Retenci&oacute;n</label>
 		                    <select class="form-control">
-		                      <option>Sin retenci&oacute;n</option>
-		                      <option>50%</option>
-		                      <option>80%</option>
+		                      <@ _.each(tipo_retencion, function(r){ @>
+
+		                      		<option value="<@= r.id @>"><@= r.nombre @></option>
+
+							  	<@ }); @>
 		                    </select>
 		                  </div>
 		                </div>
 		
 		                <!-- columna nro. 2 -->
 		                <div class="col-md-4 clearfix">
+						  <div class="form-group">
+		                    <label for="">N&uacute;mero factura</label>
+		                    <input name="numero" type="text" class="form-control" />
+		                  </div>
 		                  <div class="form-group">
 		                    <label for="">Fecha</label>
 		                    <div class="input-group">
-		                      <input type="text" class="form-control form-datepicker input-fecha-emision" name="fecha" /s>
+		                      <input name="fecha" type="text" class="form-control form-datepicker input-fecha-emision" />
 		                      <span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
 		                      </span>
@@ -72,7 +79,7 @@
 		                  <div class="form-group">
 		                    <label for="">Fecha vencimiento</label>
 		                    <div class="input-group">
-		                      <input type="text" class="form-control form-datepicker input-fecha-vencimiento" name="fecha_vencimiento"/>
+		                      <input name="fechaVencimiento" type="text" class="form-control form-datepicker input-fecha-vencimiento" name="fecha_vencimiento"/>
 		                      <span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
 		                      </span>
@@ -81,7 +88,7 @@
 		                  <div class="form-group">
 		                    <label for="">Fecha probable de cobro</label>
 		                    <div class="input-group">
-		                      <input type="text" class="form-control form-datepicker">
+		                      <input name="fechaProbableCobro" type="text" class="form-control form-datepicker">
 		                      <span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
 		                      </span>
@@ -90,7 +97,7 @@
 		                  <div class="form-group">
 		                    <label for="">Fecha cobro</label>
 		                    <div class="input-group">
-		                      <input type="text" class="form-control form-datepicker">
+		                      <input name="fechaCobro" type="text" class="form-control form-datepicker">
 		                      <span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
 		                      </span>
@@ -101,27 +108,29 @@
 		                <!-- columna nro. 3 -->
 		                <div class="col-md-4 clearfix">
 		                   <div class="form-group">
-		                      <label for="">Status</label>
-		                      <select class="form-control select-status">
-		                        <option>A cobrar</option>
-		                        <option>Cobrada</option>
-		                        <option>A facturar</option>
-		                        <option>Dar de baja</option>
-		                        <option>Anulada</option>
+		                      <label for="status">Status</label>
+		                      <select name ="idStatus" class="form-control select-status">
+
+		                        <@ _.each(status, function(s){ @>
+
+		                      		<option value="<@= s.id @>"><@= s.nombre @></option>
+
+							  	<@ }); @>
+
 		                      </select>
 		                    </div>  
 		                    <div class="form-group">
-		                      <label for="">Sub Total</label>
-		                      <input type="text" class="form-control" placeholder="Ingresar sub total">
+		                      <label for="importeSubtotal">Sub Total</label>
+		                      <input name="importeSubtotal" type="text" class="form-control" placeholder="Ingresar sub total">
 		                    </div> 
 		                    <div class="form-group">
-		                      <label for="">IVA</label>
-		                      <input type="text" class="form-control" placeholder="Ingresar IVA">
+		                      <label for="importeIVA">IVA</label>
+		                      <input name="importeIVA" type="text" class="form-control" placeholder="Ingresar IVA">
 		                    </div>  
 		                    <div class="form-group">
-		                        <label for="">Total</label>
+		                        <label for="importeTotal">Total</label>
 		                        <div class="input-group">
-		                          <input type="text" class="form-control">
+		                          <input name="importeTotal" type="text" class="form-control"/>
 		                          <span class="input-group-addon">
 		                            %
 		                          </span>
@@ -158,7 +167,7 @@
 		                <!-- comision -->
 		                <div class="col-md-4 clearfix">
 		                  <div class="form-group">
-		                    <label for="">% Comisi&oacute;n</label>
+		                    <label for="">% Comisi&oacute;n FF</label>
 		                    <select class="form-control">
 		                      <option>0</option>
 		                      <option>1.0</option>
@@ -179,27 +188,26 @@
 		                <div class="col-md-4 clearfix">
 		                  <div class="form-group">
 		                    <label for="">Comisi&oacute;n</label>
-		                    <input type="text" class="form-control" placeholder="Ingesar comisi&oacute;n">
+		                    <input name="importeComision" type="text" class="form-control" placeholder="Ingesar comisi&oacute;n"/>
 		                  </div>
 		                </div>
 		
-		                <div class="col-md-12 clearfix"></div>
-		
 		                <div class="col-md-4 clearfix">
 		                  <div class="form-group">
-		                    <label for="">Cobrado</label>
-		                    <select class="form-control">
+		                    <label for="cobrado">Cobrado FF</label>
+		                    <select name="cobrado" class="form-control">
 		                      <option>No</option>
 		                      <option>Si</option>
 		                    </select>
 		                  </div>
 		                </div>
-		
+						
+<!--
 		                <div class="col-md-4 clearfix">
 		                  <div class="form-group">
 		                    <label for="">Fecha comprobante entregable</label>
 		                    <div class="input-group">
-		                      <input type="text" class="form-control form-datepicker">
+		                      <input name="fechaComprobableEntregable" type="text" class="form-control form-datepicker"/>
 		                      <span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
 		                      </span>
@@ -209,36 +217,26 @@
 		
 		                <div class="col-md-4 clearfix">
 		                  <div class="form-group">
-		                    <label for="">Tipo de comprobante entregable</label>
-		                    <select class="form-control">
-		                      <option>Valor 1</option>
-		                      <option>Valor 2</option>
+		                    <label for="tipoFactura">Tipo de comprobante entregable</label>
+		                    <select name="tipoFactura" class="form-control">
+		                      <option value="1">Factura A</option>
+		                      <option>Factura A</option>
 		                    </select>
 		                  </div>
 		                </div>
-		
+-->	
 		                <div class="col-md-12 clearfix">
 		                  <label>Responsble por Loyal</label>
 		                </div>
 		
 		                <div class="col-md-4 clearfix">
 		                  <div class="form-group">
-		                    <label for="">Nombre</label>
-		                    <input type="text" class="form-control" placeholder="Buscar nombre...">
+		                    <label for="idUsuario">Nombre</label>
+		                    <input name="idUsuario" type="text" class="form-control" placeholder="Buscar nombre..."/>
 		                  </div>
 		                </div>
 		
-		                <div class="col-md-4 clearfix">
-		                  <div class="form-group">
-		                    <label for="">Area</label>
-		                    <select class="form-control">
-		                      <option>Administraci&oacute;n</option>
-		                      <option>Ventas</option>
-		                      <option>T&eacute;cnica</option>
-		                      <option>Servicios</option>
-		                    </select>
-		                  </div>
-		                </div>
+		                <div class="col-md-4 clearfix"></div>
 		
 		                <div class="col-md-12 clearfix"></div>
 		
@@ -246,48 +244,47 @@
 		                  <div class="form-group">
 		                    <label for="">Linea de producto</label>
 		                    <select class="form-control">
-		                      <option>Actualizaci&oacute;n</option>
-		                      <option>Licencias</option>
-		                      <option>Soporte</option>
-		                      <option>Proyectos Veraz</option>
-		                      <option>Mantenimiento Veraz</option>
-		                      <option>Viaticos</option>
+							  <@ _.each(linea_producto, function(l){ @>
+
+		                      	<option value="<@= l.id @>"><@= l.nombre @></option>
+
+							  <@ }); @>
 		                    </select>
 		                  </div>
 		                </div>
 		
 		                <div class="col-md-4 clearfix">
 		                  <div class="form-group">
-		                    <label for="">Costo</label>
-		                    <input type="text" class="form-control" placeholder="Ingresar costo">
+		                    <label for="importeCosto">Costo</label>
+		                    <input name="importeCosto" type="text" class="form-control" placeholder="Ingresar costo"/>
 		                  </div>
 		                </div>
 		
 		                <div class="col-md-4 clearfix">
 		                  <div class="form-group">
-		                    <label for="">Rentabilidad</label>
-		                    <input type="text" class="form-control" placeholder="Ingresar rentabilidad">
+		                    <label for="importeRentabilidad">Rentabilidad</label>
+		                    <input name="importeRentabilidad" type="text" class="form-control" placeholder="Ingresar rentabilidad"/>
 		                  </div>
 		                </div>
 		
 		                <div class="col-md-4 clearfix">
 		                  <div class="form-group">
-		                    <label for="">Forma de pago</label>
-		                    <input type="text" class="form-control" placeholder="Ingresar forma de pago">
+		                    <label for="formaDePago">Forma de pago</label>
+		                    <input name="formaDePago" type="text" class="form-control" placeholder="Ingresar forma de pago"/>
 		                  </div>
 		                </div>
 		
 		                <div class="col-md-4 clearfix">
 		                  <div class="form-group">
-		                    <label for="">Remito</label>
-		                    <input type="text" class="form-control" placeholder="Ingresar remito">
+		                    <label for="remito">Remito</label>
+		                    <input name="remito" type="text" class="form-control" placeholder="Ingresar remito"/>
 		                  </div>
 		                </div>
 		
 		                <div class="col-md-4 clearfix">
 		                  <div class="form-group">
-		                    <label for="">Orden de compra</label>
-		                    <input type="text" class="form-control" placeholder="Ingresar orden de compra">
+		                    <label for="ordenDeCompra">Orden de compra</label>
+		                    <input name="ordenDeCompra" type="text" class="form-control" placeholder="Ingresar orden de compra">
 		                  </div>
 		                </div>
 		
@@ -321,11 +318,12 @@
 		                      </tr>
 		                    </thead>
 		                    <tbody class="table-fc-body">
-		                    
+
 								<@ row_number = 1 @>	                   
 		
 		                    </tbody>
 		                  	</table>
+							
 							<!-- resultado -->
 							<table class="table" cellpadding="0" cellspacing="0">
 								<tbody>
