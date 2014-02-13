@@ -23,7 +23,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.loyal.facturacion.dao.FacturaDAO;
 import com.loyal.facturacion.dao.PersonaDAO;
-import com.loyal.facturacion.dto.FacturaTopListDTO;
+import com.loyal.facturacion.dto.FacturaHeadListDTO;
 import com.loyal.facturacion.model.Persona;
 import com.loyal.facturacion.model.factura.Factura;
 import com.loyal.facturacion.validator.FacturaValidator;
@@ -40,8 +40,8 @@ public class FacturaController{
 	PersonaDAO personaDAO;
 
 	@RequestMapping(method=RequestMethod.GET)
-	public @ResponseBody Map<String, Collection<FacturaTopListDTO>> list(){
-		Map<String, Collection<FacturaTopListDTO>> results = new HashMap<String, Collection<FacturaTopListDTO>>();
+	public @ResponseBody Map<String, Collection<FacturaHeadListDTO>> list(){
+		Map<String, Collection<FacturaHeadListDTO>> results = new HashMap<String, Collection<FacturaHeadListDTO>>();
 		results.put("invoice", facturaDAO.getAll());
 		return results;
 	}

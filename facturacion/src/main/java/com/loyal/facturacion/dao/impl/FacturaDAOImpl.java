@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.loyal.facturacion.dao.FacturaDAO;
-import com.loyal.facturacion.dto.FacturaTopListDTO;
+import com.loyal.facturacion.dto.FacturaHeadListDTO;
 import com.loyal.facturacion.model.factura.Factura;
 import com.loyal.facturacion.model.factura.FacturaDetalle;
 
@@ -47,14 +47,14 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 	}
 
 	@Override
-	public List<FacturaTopListDTO> getAll() {
+	public List<FacturaHeadListDTO> getAll() {
 
 		String sql = "SELECT year(fecha_emision) AS year, month(fecha_emision) AS month, SUM(importe_rentabilidad) AS importe_rentabilidad, "
 				+ "SUM(importe_total) AS importe_total  "
 				+ "FROM facturacion.facturas "
 				+ "GROUP BY year(fecha_emision), month(fecha_emision); ";
 
-		List<FacturaTopListDTO> lista = getJdbcTemplate().query(sql,
+		List<FacturaHeadListDTO> lista = getJdbcTemplate().query(sql,
 				new FacturaListDTORowMapper());
 
 		sql = "SELECT f.*, c.nombre AS cliente, tf.nombre AS tipo_factura, s.nombre AS status, pr.apellido ape_respo, pr.nombre AS nom_respo "
@@ -66,7 +66,7 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 				+ "WHERE year(fecha_emision) = ? AND month(fecha_emision) = ? "
 				+ "ORDER BY fecha_emision;";
 
-		for (FacturaTopListDTO facturaListDTO : lista) {
+		for (FacturaHeadListDTO facturaListDTO : lista) {
 			facturaListDTO.setList(getJdbcTemplate().query(
 					sql,
 					new FacturaListRowMapper(),
@@ -294,11 +294,11 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 	}
 
 	public class FacturaListDTORowMapper implements
-			RowMapper<FacturaTopListDTO> {
+			RowMapper<FacturaHeadListDTO> {
 		@Override
-		public FacturaTopListDTO mapRow(ResultSet rs, int rowNum)
+		public FacturaHeadListDTO mapRow(ResultSet rs, int rowNum)
 				throws SQLException {
-			FacturaTopListDTO factura = new FacturaTopListDTO();
+			FacturaHeadListDTO factura = new FacturaHeadListDTO();
 			factura.setMonto(rs.getBigDecimal("IMPORTE_TOTAL"));
 			factura.setRentabilidad(rs.getBigDecimal("IMPORTE_RENTABILIDAD"));
 			Integer month = rs.getInt("MONTH");

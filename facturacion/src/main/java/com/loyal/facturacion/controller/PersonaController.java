@@ -25,7 +25,6 @@ import com.loyal.facturacion.validator.PersonaValidator;
 
 @Controller
 @RequestMapping(value="/personas")
-
 public class PersonaController{
 
 	@Autowired
