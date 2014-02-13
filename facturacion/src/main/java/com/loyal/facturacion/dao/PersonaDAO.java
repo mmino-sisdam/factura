@@ -14,6 +14,8 @@ public interface PersonaDAO {
 	public int update(Persona persona)  throws DataAccessException, DuplicateKeyException;
 	
 	public Persona findById(Integer id)  throws DataAccessException;
+	
+	public Persona findByUsername(String username)  throws DataAccessException;
 
 	public List<Persona> getAll(); 
 

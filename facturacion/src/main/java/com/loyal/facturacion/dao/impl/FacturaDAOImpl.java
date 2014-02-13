@@ -24,34 +24,15 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 	@Transactional
 	public int insert(Factura factura) throws DataAccessException,
 			DuplicateKeyException {
-		String sql = "INSERT INTO facturas "
-				+ "(tipo_factura_id, factura_id, cliente_id, contacto, persona_id,	fecha_emision, fecha_vencimiento,"
-				+ "fecha_probable_cobro, fecha_cobro, importe_subtotal, importe_iva, importe_total,	persona_responsable_id,"
-				+ "importe_comision, importe_cobrado, fecha_comprobante_entregable, importe_costo, importe_rentabilidad,"
-				+ "forma_pago, remito, orden_compra, status_id, tipo_comision_id, tipo_comprobante_entregable_id,"
-				+ "linea_producto_id, tipo_iva_id, tipo_retencion_id)"
-				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		return getJdbcTemplate().update(
-				sql,
-				new Object[] { factura.getIdTipoFactura(), factura.getNumero(),
-						factura.getIdCliente(), factura.getContacto(),
-						factura.getIdUsuario(), factura.getFecha(),
-						factura.getFechaVencimiento(),
-						factura.getFechaProbableCobro(),
-						factura.getFechaCobro(), factura.getImporteSubtotal(),
-						factura.getImporteIVA(), factura.getImporteTotal(),
-						factura.getIdResponsable(),
-						factura.getImporteComision(),
-						factura.getImporteCobrado(),
-						factura.getFechaComprobableEntregable(),
-						factura.getImporteCosto(),
-						factura.getImporteRentabilidad(),
-						factura.getFormaDePago(), factura.getRemito(),
-						factura.getOrdenDeCompra(), factura.getIdStatus(),
-						factura.getIdTipoComision(),
-						factura.getIdTipoComprobableEntregable(),
-						factura.getIdLineaProducto(), factura.getIdTipoIVA(),
-						factura.getIdTipoRetencion() });
+		int result = insertEncabezado(factura);
+		if (result > 0) {
+			for (FacturaDetalle detalle : factura.getDetalles()) {
+				insertDetalle(factura.getIdTipoFactura(), factura.getNumero(),
+						detalle);
+			}
+
+		}
+		return result;
 	}
 
 	@Override
@@ -59,7 +40,7 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 	public Factura findById(Integer idTipo, Long numero)
 			throws DataAccessException {
 		Factura factura = findEncabezadoId(idTipo, numero);
-		if (factura!=null){
+		if (factura != null) {
 			factura.setDetalles(findDetallesId(idTipo, numero));
 		}
 		return factura;
@@ -97,15 +78,17 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 	}
 
 	@Override
+	@Transactional
 	public int update(Factura factura) throws DataAccessException,
 			DuplicateKeyException {
-		String sql = "UPDATE facturas "
-				+ "SET NOMBRE = ?, APELLIDO = ?,  MAIL = ?, TELEFONO = ?, ACCESS_ENABLED = ?, ROLE_ID = ? "
-				+ "WHERE PERSONA_ID = ?";
-		return getJdbcTemplate()
-				.update(sql,
-						new Object[] { factura.getIdTipoFactura(),
-								factura.getNumero() });
+		int result = updateEncabezado(factura);
+		if (result > 0) {
+			for (FacturaDetalle detalle : factura.getDetalles()) {
+				updateDetalle(factura.getIdTipoFactura(), factura.getNumero(),
+						detalle);
+			}
+		}
+		return result;
 	}
 
 	@Override
@@ -127,27 +110,118 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 				new Object[] { idTipo, numero }, new FacturaRowMapper());
 		return factura;
 	}
-	
+
 	private List<FacturaDetalle> findDetallesId(Integer idTipo, Long numero)
 			throws DataAccessException {
 		String sql = "SELECT * FROM factura_detalle WHERE tipo_factura_id = ? and factura_id = ?";
-		List<FacturaDetalle> detalles = getJdbcTemplate().query(sql, new FacturaDetalleRowMapper(), new Object[] { idTipo, numero });
+		List<FacturaDetalle> detalles = getJdbcTemplate().query(sql,
+				new FacturaDetalleRowMapper(), new Object[] { idTipo, numero });
 		return detalles;
+	}
+
+	private int insertEncabezado(Factura factura) throws DataAccessException {
+
+		String sql = "INSERT INTO facturas "
+				+ "(tipo_factura_id, factura_id, cliente_id, contacto, persona_id,	fecha_emision, fecha_vencimiento,"
+				+ "fecha_probable_cobro, fecha_cobro, importe_subtotal, importe_iva, importe_total,	persona_responsable_id,"
+				+ "importe_comision, importe_cobrado, fecha_comprobante_entregable, importe_costo, importe_rentabilidad,"
+				+ "forma_pago, remito, orden_compra, status_id, tipo_comision_id, tipo_comprobante_entregable_id,"
+				+ "linea_producto_id, tipo_iva_id, tipo_retencion_id)"
+				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		return getJdbcTemplate().update(
+				sql,
+				new Object[] { factura.getIdTipoFactura(), factura.getNumero(),
+						factura.getIdCliente(), factura.getContacto(),
+						factura.getIdUsuario(), factura.getFecha(),
+						factura.getFechaVencimiento(),
+						factura.getFechaProbableCobro(),
+						factura.getFechaCobro(), factura.getImporteSubtotal(),
+						factura.getImporteIVA(), factura.getImporteTotal(),
+						factura.getIdResponsable(),
+						factura.getImporteComision(),
+						factura.getImporteCobrado(),
+						factura.getFechaComprobableEntregable(),
+						factura.getImporteCosto(),
+						factura.getImporteRentabilidad(),
+						factura.getFormaDePago(), factura.getRemito(),
+						factura.getOrdenDeCompra(), factura.getIdStatus(),
+						factura.getIdTipoComision(),
+						factura.getIdTipoComprobableEntregable(),
+						factura.getIdLineaProducto(), factura.getIdTipoIVA(),
+						factura.getIdTipoRetencion() });
+	}
+
+	private int insertDetalle(Integer idTipoFactura, Long numero,
+			FacturaDetalle detalle) throws DataAccessException {
+
+		String sql = "INSERT INTO factura_detalle "
+				+ "(tipo_factura_id, factura_id, detalle, importe_unitario, importe_total)"
+				+ " VALUES (?, ?, ?, ?, ?)";
+		return getJdbcTemplate().update(
+				sql,
+				new Object[] { idTipoFactura, numero, detalle.getDetalle(),
+						detalle.getCantidad(), detalle.getImporteUnitario(),
+						detalle.getImporteTotal() });
+	}
+
+	private int updateEncabezado(Factura factura) throws DataAccessException {
+
+		String sql = "UPDATE facturas SET"
+				+ "cliente_id = ?, contacto = ?, fecha_emision = ?, fecha_vencimiento = ?,"
+				+ "fecha_probable_cobro = ?, fecha_cobro = ?, importe_subtotal = ?, importe_iva = ?, importe_total = ?,	persona_responsable_id = ?,"
+				+ "importe_comision = ?, importe_cobrado = ?, fecha_comprobante_entregable = ?, importe_costo = ?, importe_rentabilidad = ?,"
+				+ "forma_pago = ?, remito = ?, orden_compra = ?, status_id = ?, tipo_comision_id = ?, tipo_comprobante_entregable_id = ?,"
+				+ "linea_producto_id = ?, tipo_iva_id = ?, tipo_retencion_id = ? "
+				+ "WHERE f.tipo_factura_id = ? AND factura_id = ? ";
+		return getJdbcTemplate().update(
+				sql,
+				new Object[] { factura.getIdCliente(), factura.getContacto(),
+						factura.getFecha(), factura.getFechaVencimiento(),
+						factura.getFechaProbableCobro(),
+						factura.getFechaCobro(), factura.getImporteSubtotal(),
+						factura.getImporteIVA(), factura.getImporteTotal(),
+						factura.getIdResponsable(),
+						factura.getImporteComision(),
+						factura.getImporteCobrado(),
+						factura.getFechaComprobableEntregable(),
+						factura.getImporteCosto(),
+						factura.getImporteRentabilidad(),
+						factura.getFormaDePago(), factura.getRemito(),
+						factura.getOrdenDeCompra(), factura.getIdStatus(),
+						factura.getIdTipoComision(),
+						factura.getIdTipoComprobableEntregable(),
+						factura.getIdLineaProducto(), factura.getIdTipoIVA(),
+						factura.getIdTipoRetencion(),
+						factura.getIdTipoFactura(), factura.getNumero() });
+	}
+
+	private int updateDetalle(Integer idTipoFactura, Long numero,
+			FacturaDetalle detalle) throws DataAccessException {
+
+		String sql = "UPDATE factura_detalle SET"
+				+ "cantidad = ?, detalle = ?, importe_unitario = ?, importe_total = ? "
+				+ "WHERE f.tipo_factura_id = ? AND factura_id = ? ";
+		return getJdbcTemplate().update(
+				sql,
+				new Object[] { detalle.getCantidad(), detalle.getDetalle(),
+						detalle.getImporteUnitario(),
+						detalle.getImporteTotal(), idTipoFactura, numero });
 	}
 
 	public class FacturaDetalleRowMapper implements RowMapper<FacturaDetalle> {
 		@Override
-		public FacturaDetalle mapRow(ResultSet rs, int rowNum) throws SQLException {
+		public FacturaDetalle mapRow(ResultSet rs, int rowNum)
+				throws SQLException {
 			FacturaDetalle facturaDetalle = new FacturaDetalle();
 			facturaDetalle.setDetalle(rs.getString("DETALLE"));
 			facturaDetalle.setCantidad(rs.getInt("CANTIDAD"));
-			facturaDetalle.setImporteUnitario(rs.getBigDecimal("IMPORTE_UNITARIO"));
+			facturaDetalle.setImporteUnitario(rs
+					.getBigDecimal("IMPORTE_UNITARIO"));
 			facturaDetalle.setImporteTotal(rs.getBigDecimal("IMPORTE_TOTAL"));
 			return facturaDetalle;
 		}
 	}
 
-	
 	public class FacturaRowMapper implements RowMapper<Factura> {
 		@Override
 		public Factura mapRow(ResultSet rs, int rowNum) throws SQLException {
