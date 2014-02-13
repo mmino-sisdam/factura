@@ -4,6 +4,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+
+import com.loyal.facturacion.controller.JsonDateDeserializer;
+
 public class Factura {
 	private Integer idTipoFactura;
 	private String tipoFactura;
@@ -16,6 +20,7 @@ public class Factura {
 	private Integer idResponsable;
 	private String responsable;
 	
+	@JsonDeserialize(using = JsonDateDeserializer.class) 
 	private Date fecha;
 	private Integer idStatus;
 	private String status;
@@ -25,8 +30,11 @@ public class Factura {
 	
 	private Integer idLineaProducto;
 	
+	@JsonDeserialize(using = JsonDateDeserializer.class)
 	private Date fechaVencimiento;
+	@JsonDeserialize(using = JsonDateDeserializer.class)
 	private Date fechaProbableCobro;
+	@JsonDeserialize(using = JsonDateDeserializer.class)
 	private Date fechaCobro;
 	
 	private Integer idTipoRetencion;
