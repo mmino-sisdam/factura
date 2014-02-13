@@ -1,7 +1,18 @@
 
-window.Inovice = Backbone.Model.extend({
+window.Invoice = Backbone.Model.extend({
 	urlRoot: "facturas",
-	//urlRoot: "../../facturacion/resources/json/facturas.json"
+	defaults: {
+		"id"		: null
+	}
+});
+
+window.InvoiceCollection = Backbone.Collection.extend({
+	model: Invoice,
+	url: "facturas"
+});
+
+window.InvoiceData = Backbone.Model.extend({
+	urlRoot: "datos/factura"
 });
 
 window.Clients = Backbone.Model.extend({
@@ -9,7 +20,7 @@ window.Clients = Backbone.Model.extend({
 	urlRoot: "../../facturacion/resources/json/clientes.json"
 });
 
-window.InoviceTableModel = Backbone.Collection.extend({
+window.InvoiceTableModel = Backbone.Collection.extend({
 	defaults: {
 		"id"				: null,
 		"numero"			: "",
@@ -100,13 +111,14 @@ var NewInvoiceView_A = Backbone.View.extend({
 	},
 	
 	// Table line inputs
-	tableRenderAdd: $('#tmpl-fc-a-item').html(),
+	tableRenderAdd: _.template( $('#tmpl-fc-a-item').html() ),
 	
 	// Table render
 	tableRender: _.template( $('#tmpl-fc-r-item').html() ),
 	
     events: {
        'click .btn-cancel'			: 'cancel',
+       'click .btn-accept'			: 'accept',
        'click .btn-table-insert'	: 'add_line',
        'click .btn-table-reset'		: 'table_reset',
        'click .btn-delete-line'		: 'delete_line',
@@ -116,18 +128,20 @@ var NewInvoiceView_A = Backbone.View.extend({
 
 	initialize: function () {
 
-		this.render();
+		this.model.fetch();
+		this.model.bind('change', this.render, this);
+		
+		window.Table = new InvoiceTableModel();
 
 	}, 
 
 	render: function () {
 		
-		
 		var t = this;
 		
 		active(t.active);
 		
-	    $(this.el).html(this.template);
+		$(this.el).html(this.template(this.model.toJSON()));
 	    
 	    // datepicker class form-datepicker
 	    $('.form-datepicker').datepicker({
@@ -155,13 +169,49 @@ var NewInvoiceView_A = Backbone.View.extend({
 	    });
 	    
 	    // Inizialize table
-	    $(this.table).append( _.template(this.tableRenderAdd) );
-	    
-	    window.model = new InoviceTableModel();
-	    	    
+	    $(this.table).html( this.tableRenderAdd );
+    
 	    return this;
 
 	},
+	
+	accept: function(){
+		
+		var post = new InvoiceCollection();
+		var alert, msg;
+		
+		var data = $('#form-invoice').serializeObject();
+		var result = $.extend(data, {"detalles": Table.toJSON()} );
+		
+    	post.create(result , {
+			success: function(response) {
+				
+				msg = AlertModel.set({
+            		'type': 'success',
+            		'body': 'La factura se cargo correctamente'
+            	});
+            	
+            	alert = new AlertView({model: msg });
+			
+				app.navigate(URL_USUARIOS, true);				
+				
+			},
+            error : function(err, response) {
+ 
+            	msg = AlertModel.set({
+            		'type': 'error',
+            		'body': 'Hubo un error al cargar la factura'
+            	});
+            	
+            	alert = new AlertView({model: msg });  
+            	      
+        		
+            }
+		}); 		
+		
+		
+		
+	},	
 	
 	cancel: function(){
 		
@@ -178,7 +228,7 @@ var NewInvoiceView_A = Backbone.View.extend({
 	// Buton -- insertar fila
 	add_line: function(ev){
 		
-		$(this.table).append( _.template(this.tableRenderAdd) );
+		$(this.table).append( this.tableRenderAdd );
 		
 	},
 	
@@ -187,16 +237,17 @@ var NewInvoiceView_A = Backbone.View.extend({
 		
 		row_number = 1;
 		
-		$(this.table).html( _.template(this.tableRenderAdd) );
+		$(this.table).html( this.tableRenderAdd );
 		
 	},
 	
 	// Buton -- confirmar una fila
 	confirm_line: function(ev){
 		
+		
 		var line = $(ev.currentTarget).parent().parent();
 		
-		model.add({
+		Table.add({
 			"id"				: line.find('.number').text(),
 			"descripcion"		: line.find('input[name="descripcion"]').val(),
 			"moneda"			: line.find('select[name="moneda"]').val(),
@@ -204,7 +255,7 @@ var NewInvoiceView_A = Backbone.View.extend({
 			"total"				: line.find('input[name="total"]').val()
 		});
 				
-		$(this.table).html( this.tableRender( {"rows": model.toJSON()} ) );
+		$(this.table).html( this.tableRender( {"rows": Table.toJSON()} ) );
 		
 		//console.log(model.toJSON());
 		
@@ -214,7 +265,7 @@ var NewInvoiceView_A = Backbone.View.extend({
 		var iva = 0;
 		var total = 0;	
 		
-		model.each(function(m) {
+		Table.each(function(m) {
 			
 			console.log(m.toJSON().total.replace(/\./g,''));
 			// Replace de puntos por vacio para sumar el total
@@ -243,27 +294,6 @@ var NewInvoiceView_A = Backbone.View.extend({
 		$(this.clases.label_sub_total).html(subtotal);
 		$(this.clases.label_iva).html(iva);
 		$(this.clases.label_total).html(total);
-		
-		/*
-		var subtotal = 0;
-		var iva = 0;
-		var total = 0;
-		
-		model.each(function(m) {
-		  
-			subtotal += m.toJSON().total;
-			
-			console.log(m.toJSON());
-			
-		}, this);
-		
-		iva = (subtotal * PATH_IVA) / 100;	
-		total = subtotal - iva;
-		
-		$(this.clases.label_sub_total).html(subtotal);
-		$(this.clases.label_iva).html(iva);
-		$(this.clases.label_total).html(total);
-		*/
 		
 	},
 	

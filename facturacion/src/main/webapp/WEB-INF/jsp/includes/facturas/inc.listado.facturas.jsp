@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+
     <script id="tmpl-list-invoice" type="text/template">
       <div class="main-panel">
         <ol class="breadcrumb">
@@ -36,16 +36,16 @@
                       <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-A">Factura A</a></li>
-                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-B">Factura B</a></li>
-                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-E">Factura E</a></li>
+                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-1">Factura A</a></li>
+                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-2">Factura B</a></li>
+                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-3">Factura E</a></li>
                       <li class="divider"></li>
-                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-Nota-de-credito-A">Nota de cr&eacute;dito A</a></li>
-                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-Nota-de-credito-B">Nota de cr&eacute;dito B</a></li>
-                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-Nota-de-credito-E">Nota de cr&eacute;dito E</a></li>
+                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-4">Nota de cr&eacute;dito A</a></li>
+                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-5">Nota de cr&eacute;dito B</a></li>
+                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-6">Nota de cr&eacute;dito E</a></li>
                       <li class="divider"></li>
-                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-Nota-de-debito-A">Nota de d&eacute;bito A</a></li>
-                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-Nota-de-debito-B">Nota de d&eacute;bito B</a></li>
+                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-7">Nota de d&eacute;bito A</a></li>
+                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-8">Nota de d&eacute;bito B</a></li>
                     </ul>
                   </div>                   
                 </div>
