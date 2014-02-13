@@ -21,7 +21,7 @@ public class DatosController{
 	@RequestMapping(value="/factura", method=RequestMethod.GET)
 	public @ResponseBody Map<String, List<DatoDTO>> listForFactura(){
 		Map<String, List<DatoDTO>> map = datosDAO.getListForFactura();
-		datosDAO.getListForFactura().putAll(datosDAO.getListForCliente());
+		map.putAll(datosDAO.getListForCliente());
 		return map;
 	}
 
