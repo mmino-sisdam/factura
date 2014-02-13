@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 
-import com.loyal.facturacion.dto.FacturaTopListDTO;
+import com.loyal.facturacion.dto.FacturaHeadListDTO;
 import com.loyal.facturacion.model.factura.Factura;
 
 public interface FacturaDAO {
@@ -16,7 +16,7 @@ public interface FacturaDAO {
 	
 	public Factura findById(Integer tipo, Long numero)  throws DataAccessException;
 
-	public List<FacturaTopListDTO> getAll(); 
+	public List<FacturaHeadListDTO> getAll(); 
 
 	public int deleteById(Integer tipo, Long id)  throws DataAccessException;
 
