@@ -40,6 +40,8 @@ window.InvoiceView = Backbone.View.extend({
 
 		this.model.fetch();
 		this.model.bind('change', this.render, this); 
+		
+		$('.btn-month').unbind('click');
 
 	}, 
 
@@ -54,8 +56,6 @@ window.InvoiceView = Backbone.View.extend({
 	},
 	
 	invoice_next: function(ev){
-		
-		ev.preventDefault();
 		
 		var id = $(ev.currentTarget).attr('data');
 		var next = $(ev.currentTarget).nextAll('.month-id-' + id);
@@ -299,9 +299,8 @@ var NewInvoiceInfoView = Backbone.View.extend({
 
 	initialize: function () {
 		
-		this.render();
-		//this.model.fetch();
-		//this.model.bind('change', this.render, this); 
+		this.model.fetch();
+		this.model.bind('change', this.render, this); 
 
 	}, 
 
@@ -310,7 +309,7 @@ var NewInvoiceInfoView = Backbone.View.extend({
 		// Active menu
 		active(this.active);
 		
-	    $(this.el).html(this.template());
+		$(this.el).html(this.template(this.model.toJSON()));
 	    return this;
 
 	},

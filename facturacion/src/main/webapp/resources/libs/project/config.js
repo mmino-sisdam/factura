@@ -54,9 +54,9 @@
 			  // Numero corresponde al numero de factura
 
 		  	//console.log(id + '--' + numero);
-			 // var get = new Inovice({"id": id + '-' + numero});
+			  var get = new Inovice({"id": id + '-' + numero});
 			  
-			  var view = new NewInvoiceInfoView();
+			  var view = new NewInvoiceInfoView({model: get});
 			  
 			  //get.fetch();
 			  
