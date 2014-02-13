@@ -52,7 +52,7 @@ public class PersonaController{
 
 	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
 	@ResponseStatus(HttpStatus.OK)
-	public @ResponseBody ResponseMessage update(@Valid @RequestBody Persona persona){
+	public @ResponseBody ResponseMessage update(@Valid @RequestBody Persona persona, @PathVariable Integer id){
 		personaDAO.update(persona);
 		return new ResponseMessage(ResponseMessageType.OK);
 	}

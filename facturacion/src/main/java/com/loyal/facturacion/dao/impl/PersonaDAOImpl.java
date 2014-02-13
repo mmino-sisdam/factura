@@ -3,6 +3,7 @@ package com.loyal.facturacion.dao.impl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.RowMapper;
@@ -31,6 +32,16 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 						persona.isEnabled(), persona.getRol().getId() });
 	}
 
+	@Override
+	public Persona findByUsername(String username) throws DataAccessException {
+		String sql = "SELECT PERSONA_ID, MAIL, NOMBRE, APELLIDO, USERNAME, TELEFONO, ACCESS_ENABLED, p.ROLE_ID, ROLE, DESCRIP "
+				+ "FROM personas p, roles r "
+				+ "WHERE p.ROLE_ID = r.ROLE_ID AND p.USERNAME = ?";
+		Persona persona = (Persona) getJdbcTemplate().queryForObject(
+				sql, new Object[] { username }, new PersonaRowMapper());
+		return persona;
+	}
+	
 	@Override
 	public Persona findById(Integer id) throws DataAccessException{
 		String sql = "SELECT PERSONA_ID, MAIL, NOMBRE, APELLIDO, USERNAME, TELEFONO, ACCESS_ENABLED, p.ROLE_ID, ROLE, DESCRIP "
