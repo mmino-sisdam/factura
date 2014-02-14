@@ -1,4 +1,4 @@
-package com.loyal.facturacion.controller;
+package com.loyal.facturacion.json;
 
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonProcessingException;

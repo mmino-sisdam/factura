@@ -5,8 +5,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
-import com.loyal.facturacion.controller.JsonDateDeserializer;
+import com.loyal.facturacion.json.JsonDateDeserializer;
+import com.loyal.facturacion.json.JsonDateSerializer;
 
 public class Factura {
 	private Integer idTipoFactura;
@@ -21,6 +23,7 @@ public class Factura {
 	private String responsable;
 	
 	@JsonDeserialize(using = JsonDateDeserializer.class) 
+	@JsonSerialize(using = JsonDateSerializer.class)
 	private Date fecha;
 	private Integer idStatus;
 	private String status;
@@ -31,10 +34,13 @@ public class Factura {
 	private Integer idLineaProducto;
 	
 	@JsonDeserialize(using = JsonDateDeserializer.class)
+	@JsonSerialize(using = JsonDateSerializer.class)
 	private Date fechaVencimiento;
 	@JsonDeserialize(using = JsonDateDeserializer.class)
+	@JsonSerialize(using = JsonDateSerializer.class)
 	private Date fechaProbableCobro;
 	@JsonDeserialize(using = JsonDateDeserializer.class)
+	@JsonSerialize(using = JsonDateSerializer.class)
 	private Date fechaCobro;
 	
 	private Integer idTipoRetencion;

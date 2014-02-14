@@ -13,7 +13,7 @@ import com.loyal.facturacion.dao.DatosDAO;
 import com.loyal.facturacion.dto.DatoDTO;
 
 public class DatosDAOImpl extends JdbcDaoSupport implements DatosDAO {
-	private final String[] factura= {"linea_producto", "status", "tipo_factura"};
+	private final String[] factura= {"linea_producto", "status", "tipo_factura", "tipo_comision"};
 	private final String[] cliente= {"tipo_iva", "tipo_retencion"};
 
 	@Override
@@ -30,7 +30,7 @@ public class DatosDAOImpl extends JdbcDaoSupport implements DatosDAO {
 		Map<String,List<DatoDTO>> map = new HashMap<String, List<DatoDTO>>();
 		for (int i = 0; i < tablas.length; i++) {
 			String tabla = tablas[i];
-			String sql = "SELECT * FROM "+ tabla + " order by nombre";
+			String sql = "SELECT * FROM "+ tabla;
 			map.put(tablas[i], getJdbcTemplate().query(sql, new DatoRowMapper(tabla), new Object[]{}));
 		}
 		return map;

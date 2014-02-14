@@ -64,7 +64,7 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 				+ "INNER JOIN status s ON s.status_id = f.status_id "
 				+ "INNER JOIN personas pr ON pr.persona_id = f.persona_responsable_id "
 				+ "WHERE year(fecha_emision) = ? AND month(fecha_emision) = ? "
-				+ "ORDER BY fecha_emision;";
+				+ "ORDER BY fecha_emision, tipo_factura_id, factura_id;";
 
 		for (FacturaHeadListDTO facturaListDTO : lista) {
 			facturaListDTO.setList(getJdbcTemplate().query(
@@ -305,7 +305,7 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 			Integer year = rs.getInt("YEAR");
 			factura.setMonth(month);
 			factura.setYear(year);
-			factura.setMonthName(mes[month + 1]);
+			factura.setMonthName(mes[month - 1]);
 			return factura;
 		}
 	}
