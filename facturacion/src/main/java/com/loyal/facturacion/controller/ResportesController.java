@@ -1,8 +1,5 @@
 package com.loyal.facturacion.controller;
 
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,10 +17,32 @@ public class ResportesController {
 	@Autowired
 	ReportesDAO reportesDAO;
 
-	@RequestMapping(value = "/vendedor",method = RequestMethod.POST)
+	@RequestMapping(value = "/vendedor", method = RequestMethod.POST)
 	public @ResponseBody
-	List<Map<String, Object>> facturacionPorVendedor(@RequestBody ReporteDTO reporteDTO) {
-		return reportesDAO.facturacionPorVendedor(reporteDTO.getDesde(), reporteDTO.getHasta());
+	ReporteDTO facturacionPorVendedor(@RequestBody ReporteDTO reporteDTO) {
+		reporteDTO.setResultado(reportesDAO.facturacionAcumuladaPorVendedor(reporteDTO));
+		return reporteDTO;
+	}
+
+	@RequestMapping(value = "/producto", method = RequestMethod.POST)
+	public @ResponseBody
+	ReporteDTO facturacionPorLineaProducto(@RequestBody ReporteDTO reporteDTO) {
+		reporteDTO.setResultado(reportesDAO.facturacionAcumuladaPorLineaProducto(reporteDTO));
+		return reporteDTO;
+	}
+
+	@RequestMapping(value = "/status", method = RequestMethod.POST)
+	public @ResponseBody
+	ReporteDTO facturacionPorStatus(@RequestBody ReporteDTO reporteDTO) {
+		reporteDTO.setResultado(reportesDAO.facturacionAcumuladaPorStatus(reporteDTO));
+		return reporteDTO;
+	}
+	
+	@RequestMapping(value = "/vencimiento", method = RequestMethod.POST)
+	public @ResponseBody
+	ReporteDTO facturacionAVencer(@RequestBody ReporteDTO reporteDTO) {
+		reporteDTO.setResultado(reportesDAO.facturacionAVencer(reporteDTO));
+		return reporteDTO;
 	}
 
 }

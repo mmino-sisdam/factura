@@ -1,6 +1,5 @@
 package com.loyal.facturacion.controller;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.loyal.facturacion.dao.ClienteDAO;
 import com.loyal.facturacion.dao.DatosDAO;
 import com.loyal.facturacion.dao.PersonaDAO;
-import com.loyal.facturacion.dto.DatoDTO;
 
 @Controller
 @RequestMapping(value="/datos")
