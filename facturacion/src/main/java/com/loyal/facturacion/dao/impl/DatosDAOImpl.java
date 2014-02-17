@@ -17,17 +17,17 @@ public class DatosDAOImpl extends JdbcDaoSupport implements DatosDAO {
 	private final String[] cliente= {"tipo_iva", "tipo_retencion"};
 
 	@Override
-	public Map<String,List<DatoDTO>> getListForFactura() {
+	public Map<String, Object> getListForFactura() {
 		return getList(factura);
 	}
 	
 	@Override
-	public Map<String,List<DatoDTO>> getListForCliente() {
+	public Map<String, Object> getListForCliente() {
 		return getList(cliente);
 	}
 	
-	private Map<String,List<DatoDTO>> getList(String[] tablas) {
-		Map<String,List<DatoDTO>> map = new HashMap<String, List<DatoDTO>>();
+	private Map<String, Object> getList(String[] tablas) {
+		Map<String,Object> map = new HashMap<String, Object>();
 		for (int i = 0; i < tablas.length; i++) {
 			String tabla = tablas[i];
 			String sql = "SELECT * FROM "+ tabla;

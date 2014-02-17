@@ -124,7 +124,7 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 		String sql = "INSERT INTO facturas "
 				+ "(tipo_factura_id, factura_id, cliente_id, contacto, persona_id,	fecha_emision, fecha_vencimiento,"
 				+ "fecha_probable_cobro, fecha_cobro, importe_subtotal, importe_iva, importe_total,	persona_responsable_id,"
-				+ "importe_comision, importe_cobrado, fecha_comprobante_entregable, importe_costo, importe_rentabilidad,"
+				+ "importe_comision, fecha_comprobante_entregable, importe_costo, importe_rentabilidad,"
 				+ "forma_pago, remito, orden_compra, status_id, tipo_comision_id, tipo_comprobante_entregable_id,"
 				+ "linea_producto_id, tipo_iva_id, tipo_retencion_id)"
 				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -139,7 +139,6 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 						factura.getImporteIVA(), factura.getImporteTotal(),
 						factura.getIdResponsable(),
 						factura.getImporteComision(),
-						factura.getImporteCobrado(),
 						factura.getFechaComprobableEntregable(),
 						factura.getImporteCosto(),
 						factura.getImporteRentabilidad(),
@@ -169,7 +168,7 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 		String sql = "UPDATE facturas SET"
 				+ "cliente_id = ?, contacto = ?, fecha_emision = ?, fecha_vencimiento = ?,"
 				+ "fecha_probable_cobro = ?, fecha_cobro = ?, importe_subtotal = ?, importe_iva = ?, importe_total = ?,	persona_responsable_id = ?,"
-				+ "importe_comision = ?, importe_cobrado = ?, fecha_comprobante_entregable = ?, importe_costo = ?, importe_rentabilidad = ?,"
+				+ "importe_comision = ?, fecha_comprobante_entregable = ?, importe_costo = ?, importe_rentabilidad = ?,"
 				+ "forma_pago = ?, remito = ?, orden_compra = ?, status_id = ?, tipo_comision_id = ?, tipo_comprobante_entregable_id = ?,"
 				+ "linea_producto_id = ?, tipo_iva_id = ?, tipo_retencion_id = ? "
 				+ "WHERE f.tipo_factura_id = ? AND factura_id = ? ";
@@ -182,7 +181,6 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 						factura.getImporteIVA(), factura.getImporteTotal(),
 						factura.getIdResponsable(),
 						factura.getImporteComision(),
-						factura.getImporteCobrado(),
 						factura.getFechaComprobableEntregable(),
 						factura.getImporteCosto(),
 						factura.getImporteRentabilidad(),
@@ -251,7 +249,6 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 			factura.setImporteIVA(rs.getBigDecimal("IMPORTE_IVA"));
 
 			factura.setImporteComision(rs.getBigDecimal("IMPORTE_COMISION"));
-			factura.setImporteCobrado(rs.getBigDecimal("IMPORTE_COBRADO"));
 			factura.setFechaComprobableEntregable(rs
 					.getDate("FECHA_COMPROBANTE_ENTREGABLE"));
 			factura.setImporteCosto(rs.getBigDecimal("IMPORTE_COSTO"));
