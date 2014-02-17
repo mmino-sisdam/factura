@@ -75,11 +75,59 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 				+ "FROM facturas f "
 				+ "INNER JOIN clientes c ON c.cliente_id = f.cliente_id "
 				+ "INNER JOIN tipo_factura tf ON tf.tipo_factura_id = f.tipo_factura_id "
-				+ "INNER JOIN status s ON s.status_id = f.status_id "
 				+ "INNER JOIN personas pr ON pr.persona_id = f.persona_responsable_id "
-				+ "WHERE fecha_vencimiento between date(?) and date(?) and s.activa = 1 "
+				+ "INNER JOIN status s ON s.status_id = f.status_id "				
+				+ "WHERE fecha_vencimiento between date(?) and date(?) and f.status_id!=4 "
 				+ "ORDER BY fecha_vencimiento, tipo_factura_id, factura_id;";
 
+		return query(sql, reporteDTO.getDesde(), reporteDTO.getHasta());
+	}
+	
+	@Override
+	public List<Map<String, Object>> indicadorFacturacionPendiente(ReporteDTO reporteDTO) {
+
+		String sql = "SELECT count(*) AS cantidad, "
+				+ "sum(importe_comision) AS importeComision, "
+				+ "sum(importe_costo) AS importeCosto, "
+				+ "sum(importe_rentabilidad) AS importeRentabilidad, "
+				+ "sum(importe_subtotal) AS importeSubtotal, "
+				+ "sum(importe_iva) AS importeIva, "
+				+ "sum(importe_total) AS importeTotal "
+				+ "FROM facturas f "
+				+ "WHERE status_id not in(1,4)";
+		
+		return getJdbcTemplate().queryForList(sql);
+	}
+
+	@Override
+	public List<Map<String, Object>> indicadorFacturacionCobrada(ReporteDTO reporteDTO) {
+
+		String sql = "SELECT count(*) AS cantidad, "
+				+ "sum(importe_comision) AS importeComision, "
+				+ "sum(importe_costo) AS importeCosto, "
+				+ "sum(importe_rentabilidad) AS importeRentabilidad, "
+				+ "sum(importe_subtotal) AS importeSubtotal, "
+				+ "sum(importe_iva) AS importeIva, "
+				+ "sum(importe_total) AS importeTotal "
+				+ "FROM facturas f "
+				+ "WHERE fecha_cobro between date(?) and date(?) and status_id = 1";
+		
+		return query(sql, reporteDTO.getDesde(), reporteDTO.getHasta());
+	}
+	
+	@Override
+	public List<Map<String, Object>> indicadorFacturacion(ReporteDTO reporteDTO) {
+
+		String sql = "SELECT count(*) AS cantidad, "
+				+ "sum(importe_comision) AS importeComision, "
+				+ "sum(importe_costo) AS importeCosto, "
+				+ "sum(importe_rentabilidad) AS importeRentabilidad, "
+				+ "sum(importe_subtotal) AS importeSubtotal, "
+				+ "sum(importe_iva) AS importeIva, "
+				+ "sum(importe_total) AS importeTotal "
+				+ "FROM facturas f "
+				+ "WHERE fecha_emision between date(?) and date(?) and status_id!=4";
+		
 		return query(sql, reporteDTO.getDesde(), reporteDTO.getHasta());
 	}
 	

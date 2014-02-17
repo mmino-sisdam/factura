@@ -14,5 +14,11 @@ public interface ReportesDAO {
 	public List<Map<String, Object>> facturacionAcumuladaPorStatus(ReporteDTO reporteDTO);
 	
 	public List<Map<String, Object>> facturacionAVencer(ReporteDTO reporteDTO);
+	
+	public List<Map<String, Object>> indicadorFacturacionCobrada(ReporteDTO reporteDTO);
+
+	public List<Map<String, Object>> indicadorFacturacionPendiente(ReporteDTO reporteDTO);
+
+	public List<Map<String, Object>> indicadorFacturacion(ReporteDTO reporteDTO);
 
 }
