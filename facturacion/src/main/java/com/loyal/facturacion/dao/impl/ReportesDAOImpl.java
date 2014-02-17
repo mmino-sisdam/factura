@@ -21,7 +21,6 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 				+ "sum(importe_subtotal) AS importe_subtotal, "
 				+ "sum(importe_iva) AS importe_iva, "
 				+ "sum(importe_total) AS importe_total, "
-				+ "sum(importe_cobrado) AS importe_cobrado "
 				+ "FROM facturas f "
 				+ "INNER JOIN personas p on p.persona_id = f.persona_responsable_id "
 				+ "WHERE fecha_emision between ? and ? "

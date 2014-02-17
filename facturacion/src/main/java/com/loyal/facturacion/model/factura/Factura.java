@@ -58,8 +58,6 @@ public class Factura {
 	private Integer idTipoComprobableEntregable;
 	private Date fechaComprobableEntregable;
 	
-	private BigDecimal importeCobrado;
-	
 	private BigDecimal importeRentabilidad;
 	
 	private String formaDePago;
@@ -219,12 +217,6 @@ public class Factura {
 	}
 	public void setIdTipoComprobableEntregable(Integer idTipoComprobableEntregable) {
 		this.idTipoComprobableEntregable = idTipoComprobableEntregable;
-	}
-	public BigDecimal getImporteCobrado() {
-		return importeCobrado;
-	}
-	public void setImporteCobrado(BigDecimal importeCobrado) {
-		this.importeCobrado = importeCobrado;
 	}
 	public String getFormaDePago() {
 		return formaDePago;
