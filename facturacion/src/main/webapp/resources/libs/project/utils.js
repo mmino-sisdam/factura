@@ -29,6 +29,12 @@ function active(x){
 	$(x).addClass('active');
 };
 
+function convertToDecimal(x){
+	x = x.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+	x = x.split('').reverse().join('').replace(/^[\.]/,'');	
+	return x;
+};
+
 /*
 tpl = {
 

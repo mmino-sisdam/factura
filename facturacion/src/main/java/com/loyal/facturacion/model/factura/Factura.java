@@ -11,67 +11,67 @@ import com.loyal.facturacion.json.JsonDateDeserializer;
 import com.loyal.facturacion.json.JsonDateSerializer;
 
 public class Factura {
-	private Integer idTipoFactura;
+	private Integer idTipoFactura; //
 	private String tipoFactura;
 	
-	private Long numero;
+	private Long numero; //
 	
-	private Integer idCliente;
+	private Integer idCliente; //
 	private String cliente;
 	
-	private Integer idResponsable;
+	private Integer idResponsable; // 
 	private String responsable;
 	
 	@JsonDeserialize(using = JsonDateDeserializer.class) 
 	@JsonSerialize(using = JsonDateSerializer.class)
-	private Date fecha;
-	private Integer idStatus;
+	private Date fecha; //
+	private Integer idStatus; // 
 	private String status;
 	
 	private String contacto;
 	private Integer idUsuario;
 	
-	private Integer idLineaProducto;
+	private Integer idLineaProducto; // 
 	
 	@JsonDeserialize(using = JsonDateDeserializer.class)
 	@JsonSerialize(using = JsonDateSerializer.class)
-	private Date fechaVencimiento;
+	private Date fechaVencimiento; // 
 	@JsonDeserialize(using = JsonDateDeserializer.class)
 	@JsonSerialize(using = JsonDateSerializer.class)
-	private Date fechaProbableCobro;
+	private Date fechaProbableCobro; // 
 	@JsonDeserialize(using = JsonDateDeserializer.class)
 	@JsonSerialize(using = JsonDateSerializer.class)
-	private Date fechaCobro;
+	private Date fechaCobro; //
 	
-	private Integer idTipoRetencion;
-	private Integer idTipoIVA;
+	private Integer idTipoRetencion; //
+	private Integer idTipoIVA; //
 	
 	private BigDecimal importeSubtotal;
-	private BigDecimal importeIVA;
-	private BigDecimal importeTotal;
+	private BigDecimal importeIVA; // 
+	private BigDecimal importeTotal; //
 	
-	private Integer idTipoComision;
+	private Integer idTipoComision; //
 	private BigDecimal importeComision;
 	
-	private BigDecimal importeCosto;
+	private BigDecimal importeCosto; // 
 	
 	private Integer idTipoComprobableEntregable;
 	private Date fechaComprobableEntregable;
 	
 	private BigDecimal importeCobrado;
 	
-	private BigDecimal importeRentabilidad;
+	private BigDecimal importeRentabilidad; // 
 	
-	private String formaDePago;
+	private String formaDePago; //
 	
-	private String remito;
-	private String ordenDeCompra;
+	private String remito; // 
+	private String ordenDeCompra; // 
 	
-	private List<FacturaDetalle> detalles;
+	private List<FacturaDetalle> detalles; //
 	
 	
 	public Integer getIdTipoFactura() {
-		return idTipoFactura;
+		return idTipoFactura; //
 	}
 	public void setIdTipoFactura(Integer idTipoFactura) {
 		this.idTipoFactura = idTipoFactura;

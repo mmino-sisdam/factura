@@ -100,7 +100,6 @@
     <script type="text/javascript" src="resources/libs/bootstrap/js/bootstrap.js"></script>
     
     <script type="text/javascript" src="resources/libs/bootstrap/datepicker/js/bootstrap-datepicker.js"></script>
-    <script type="text/javascript" src="resources/libs/bootstrap/typehead/js/typeahead.js"></script>
     
     <!-- Project -->    
     <script type="text/javascript" src="resources/libs/project/utils.js"></script>
@@ -108,7 +107,7 @@
     <script type="text/javascript" src="resources/libs/project/dashboard.js"></script>
     <script type="text/javascript" src="resources/libs/project/users.js"></script>
     <script type="text/javascript" src="resources/libs/project/invoice.js"></script>
-    
+    <script type="text/javascript" src="resources/libs/project/clients.js"></script>
 
   </body>
 </html>

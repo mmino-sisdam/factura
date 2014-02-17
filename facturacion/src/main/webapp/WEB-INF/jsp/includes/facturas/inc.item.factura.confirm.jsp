@@ -3,19 +3,21 @@
 	<script id="tmpl-fc-r-item" type="text/template">
 		
 		<@ 
+		
+			count = 1;
+
 		_.each(rows, function(i) { @>
  		<tr>
 			<td>
-				<@= i.id @>
+				<@= count++ @>
 			</td>
 			<td>
-				<@= i.descripcion @>
+				<@= i.detalle @>
+			</td>
 			<td>
-				<@= i.moneda @></td>
+				<@= i.importeUnitario @>
 			<td>
-				<@= i.precio_unitario @>
-			<td>
-				<@= i.total @>
+				<@= i.importeTotal @>
 			<td>
 			  <button type="button" class="btn btn-xs btn-primary">
 			    <i class="glyphicon glyphicon-edit"></i>

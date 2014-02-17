@@ -1,9 +1,6 @@
 
 window.Invoice = Backbone.Model.extend({
-	urlRoot: "facturas",
-	defaults: {
-		"id"		: null
-	}
+	urlRoot: "facturas"
 });
 
 window.InvoiceCollection = Backbone.Collection.extend({
@@ -15,19 +12,11 @@ window.InvoiceData = Backbone.Model.extend({
 	urlRoot: "datos/factura"
 });
 
-window.Clients = Backbone.Model.extend({
-	//urlRoot: "facturas",
-	urlRoot: "../../facturacion/resources/json/clientes.json"
-});
-
 window.InvoiceTableModel = Backbone.Collection.extend({
 	defaults: {
-		"id"				: null,
-		"numero"			: "",
-		"descripcion"		: "",
-		"moneda"			: "",
-		"precio_unitario"	: "",
-		"total"				: ""
+		"detalle"			: "",
+		"importeUnitario"	: "",
+		"importeTotal"		: ""
 	}	
 });
 
@@ -123,17 +112,25 @@ var NewInvoiceView_A = Backbone.View.extend({
        'click .btn-table-reset'		: 'table_reset',
        'click .btn-delete-line'		: 'delete_line',
        'click .btn-add-line'		: 'confirm_line',
-       'change .select-status'		: 'change_status'
+       'change .select-status'		: 'change_status',
+       'focus .form-type-client'	: 'find_client',
     },
 
 	initialize: function () {
 
 		this.model.fetch();
 		this.model.bind('change', this.render, this);
+
 		
 		window.Table = new InvoiceTableModel();
 
 	}, 
+	
+	find_client: function(ev){
+
+
+		
+	},	
 
 	render: function () {
 		
@@ -152,7 +149,6 @@ var NewInvoiceView_A = Backbone.View.extend({
 	    	
 	    	var that = $(ev.currentTarget);
 	    	
-	    	
 	    	if( that.hasClass( t.clases.input_emision) ){
 	    		// Si el input tiene la clase de input emision 
 		    	// Imprimo la fecha en label emision
@@ -164,15 +160,22 @@ var NewInvoiceView_A = Backbone.View.extend({
 	    		$(t.clases.label_vencimiento).html( that.val() );
 	    		
 	    	}else{}
-	    	
-	    	
+	
 	    });
+
+		
+		// Clientes
+		//var clients = new Clients();
+		  //  clients.fetch();
+		
+		
+  
 	    
 	    // Inizialize table
 	    $(this.table).html( this.tableRenderAdd );
     
 	    return this;
-
+  
 	},
 	
 	accept: function(){
@@ -193,7 +196,7 @@ var NewInvoiceView_A = Backbone.View.extend({
             	
             	alert = new AlertView({model: msg });
 			
-				app.navigate(URL_USUARIOS, true);				
+				app.navigate(URL_FACTURAS, true);				
 				
 			},
             error : function(err, response) {
@@ -244,56 +247,66 @@ var NewInvoiceView_A = Backbone.View.extend({
 	// Buton -- confirmar una fila
 	confirm_line: function(ev){
 		
-		
 		var line = $(ev.currentTarget).parent().parent();
+		var detalle = line.find('input[name="detalle"]');
+		var importeUnitario = line.find('input[name="importe-unitario"]');
+		var importeTotal = line.find('input[name="importe-total"]');
 		
-		Table.add({
-			"id"				: line.find('.number').text(),
-			"descripcion"		: line.find('input[name="descripcion"]').val(),
-			"moneda"			: line.find('select[name="moneda"]').val(),
-			"precio_unitario"	: line.find('input[name="precio-unitario"]').val(),
-			"total"				: line.find('input[name="total"]').val()
-		});
+		if( !isNaN(importeUnitario) && !isNaN(importeTotal) ){
+			
+			
+			Table.add({
+				"detalle"			: detalle.val(),
+				"importeUnitario"	: importeUnitario.val(),
+				"importeTotal"		: importeTotal.val()
+			});
+					
+			$(this.table).html( this.tableRender( {"rows": Table.toJSON()} ) );
+			
+			//console.log(model.toJSON());
+			
+			
+			// Suma de valores
+			var subtotal = 0;
+			var iva = 0;
+			var total = 0;	
+			
+			Table.each(function(m) {
 				
-		$(this.table).html( this.tableRender( {"rows": Table.toJSON()} ) );
-		
-		//console.log(model.toJSON());
-		
-		
-		// Suma de valores
-		var subtotal = 0;
-		var iva = 0;
-		var total = 0;	
-		
-		Table.each(function(m) {
+				console.log(m.toJSON().importeTotal.replace(/\./g,''));
+				// Replace de puntos por vacio para sumar el total
+				subtotal += parseInt(m.toJSON().importeTotal.replace(/\./g,''));			
+				
+			}, this);		
 			
-			console.log(m.toJSON().total.replace(/\./g,''));
-			// Replace de puntos por vacio para sumar el total
-			subtotal += parseInt(m.toJSON().total.replace(/\./g,''));			
+			// Calculo el IVA
+			iva = (subtotal * PATH_IVA) / 100;	
 			
-		}, this);		
-		
-		// Calculo el IVA
-		iva = (subtotal * PATH_IVA) / 100;	
-		
-		// Calculo el total
-		total = subtotal - iva;		
-		
-		// 
-		subtotal = subtotal.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
-		subtotal = subtotal.split('').reverse().join('').replace(/^[\.]/,'');
-		
-		iva = iva.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
-		iva = iva.split('').reverse().join('').replace(/^[\.]/,'');
-		
-		total = total.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
-		total = total.split('').reverse().join('').replace(/^[\.]/,'');
-		
-		//console.log(subtotal);
-
-		$(this.clases.label_sub_total).html(subtotal);
-		$(this.clases.label_iva).html(iva);
-		$(this.clases.label_total).html(total);
+			// Calculo el total
+			total = subtotal - iva;		
+			
+			subtotal = convertToDecimal(subtotal);
+			iva = convertToDecimal(iva);
+			total = convertToDecimal(total);
+			
+			/*
+			subtotal = subtotal.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+			subtotal = subtotal.split('').reverse().join('').replace(/^[\.]/,'');
+			
+			iva = iva.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+			iva = iva.split('').reverse().join('').replace(/^[\.]/,'');
+			
+			total = total.toString().split('').reverse().join('').replace(/(?=\d*\.?)(\d{3})/g,'$1.');
+			total = total.split('').reverse().join('').replace(/^[\.]/,'');
+			*/
+			//console.log(subtotal);
+	
+			$(this.clases.label_sub_total).html(subtotal);
+			$(this.clases.label_iva).html(iva);
+			$(this.clases.label_total).html(total);
+		}else{
+			console.log('error');
+		}
 		
 	},
 	
