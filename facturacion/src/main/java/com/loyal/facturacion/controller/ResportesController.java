@@ -23,11 +23,11 @@ public class ResportesController {
 
 	@RequestMapping(value = "/vendedor", method = RequestMethod.POST)
 	public @ResponseBody
-	ReporteDTO facturacionPorVendedor(@RequestBody ReporteDTO reporteDTO) {
-		Map<String, List<Map<String, Object>>> map =  new HashMap<String, List<Map<String,Object>>>();
-		map.put("vendedor",reportesDAO.facturacionAcumuladaPorVendedor(reporteDTO));
-		reporteDTO.setResultado(map);
-		return reporteDTO;
+	Map<String, ReporteDTO> facturacionPorVendedor(@RequestBody ReporteDTO reporteDTO) {
+		Map<String, ReporteDTO> map =  new HashMap<String, ReporteDTO>();
+		reporteDTO.setResultado(reportesDAO.facturacionAcumuladaPorVendedor(reporteDTO));
+		map.put("vendedor",reporteDTO);
+		return map;
 	}
 
 	@RequestMapping(value = "/producto", method = RequestMethod.POST)
@@ -35,7 +35,7 @@ public class ResportesController {
 	ReporteDTO facturacionPorLineaProducto(@RequestBody ReporteDTO reporteDTO) {
 		Map<String, List<Map<String, Object>>> map =  new HashMap<String, List<Map<String,Object>>>();
 		map.put("producto",reportesDAO.facturacionAcumuladaPorLineaProducto(reporteDTO));
-		reporteDTO.setResultado(map);
+	//	reporteDTO.setResultado(map);
 		return reporteDTO;
 	}
 
@@ -44,7 +44,7 @@ public class ResportesController {
 	ReporteDTO facturacionPorStatus(@RequestBody ReporteDTO reporteDTO) {
 		Map<String, List<Map<String, Object>>> map =  new HashMap<String, List<Map<String,Object>>>();
 		map.put("status", reportesDAO.facturacionAcumuladaPorStatus(reporteDTO));
-		reporteDTO.setResultado(map);
+//		reporteDTO.setResultado(map);
 		return reporteDTO;
 	}
 	
@@ -53,7 +53,7 @@ public class ResportesController {
 	ReporteDTO facturacionAVencer(@RequestBody ReporteDTO reporteDTO) {
 		Map<String, List<Map<String, Object>>> map =  new HashMap<String, List<Map<String,Object>>>();
 		map.put("vencimiento", reportesDAO.facturacionAVencer(reporteDTO));
-		reporteDTO.setResultado(map);
+	//	reporteDTO.setResultado(map);
 		return reporteDTO;
 	}
 	
@@ -64,7 +64,7 @@ public class ResportesController {
 		map.put("cobrada", reportesDAO.indicadorFacturacionCobrada(reporteDTO));
 		map.put("pendiente", reportesDAO.indicadorFacturacionPendiente(reporteDTO));
 		map.put("ventas", reportesDAO.indicadorFacturacion(reporteDTO));
-		reporteDTO.setResultado(map);
+//		reporteDTO.setResultado(map);
 		return reporteDTO;
 	}
 

@@ -25,7 +25,7 @@ public class ReporteDTO {
     private Integer pagina;
     private Integer totalPaginas;
     
-    private Map<String, List<Map<String, Object>>> resultado;
+    private List<Map<String, Object>> resultado;
     
 	public Date getDesde() {
 		if (mes!=null || desde == null){
@@ -80,10 +80,10 @@ public class ReporteDTO {
 	public void setMes(Integer mes) {
 		this.mes = mes;
 	}
-	public Map<String, List<Map<String, Object>>> getResultado() {
+	public List<Map<String, Object>> getResultado() {
 		return resultado;
 	}
-	public void setResultado(Map<String, List<Map<String, Object>>> resultado) {
+	public void setResultado(List<Map<String, Object>> resultado) {
 		this.resultado = resultado;
 	}
 }
