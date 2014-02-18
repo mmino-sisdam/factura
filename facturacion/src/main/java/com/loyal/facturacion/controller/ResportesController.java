@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,15 +21,6 @@ public class ResportesController {
 	@Autowired
 	ReportesDAO reportesDAO;
 
-	@RequestMapping(value = "/vendedor", method = RequestMethod.GET)
-	public @ResponseBody
-	Map<String, ReportePaginadoDTO> facturacionPorVendedorGet(@ModelAttribute ReportePaginadoDTO reporteDTO) {
-		Map<String, ReportePaginadoDTO> map =  new HashMap<String, ReportePaginadoDTO>();
-		reporteDTO.setResultado(reportesDAO.facturacionAcumuladaPorVendedor(reporteDTO));
-		map.put("vendedor",reporteDTO);
-		return map;
-	}
-	
 	@RequestMapping(value = "/vendedor", method = RequestMethod.POST)
 	public @ResponseBody
 	Map<String, ReportePaginadoDTO> facturacionPorVendedor(@RequestBody ReportePaginadoDTO reporteDTO) {
@@ -75,5 +65,6 @@ public class ResportesController {
 		reporteDTO.getResultado().put("ventas", reportesDAO.indicadorFacturacion(reporteDTO));
 		return reporteDTO;
 	}
+
 
 }
