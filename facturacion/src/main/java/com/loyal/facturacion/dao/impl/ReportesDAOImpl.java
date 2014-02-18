@@ -7,12 +7,13 @@ import java.util.Map;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.loyal.facturacion.dto.ReporteDTO;
+import com.loyal.facturacion.dto.ReportePaginadoDTO;
 import com.loyal.facturacion.dao.ReportesDAO;
 
 public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 
 	@Override
-	public List<Map<String, Object>> facturacionAcumuladaPorVendedor(ReporteDTO reporteDTO) {
+	public List<Map<String, Object>> facturacionAcumuladaPorVendedor(ReportePaginadoDTO reporteDTO) {
 		
 		String sql = "SELECT count(*) AS cantidad, "
 				+ "p.apellido, p.nombre, f.persona_responsable_id as idPersonaResponsable,"
@@ -33,7 +34,7 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 	}
 	
 	@Override
-	public List<Map<String, Object>> facturacionAcumuladaPorLineaProducto(ReporteDTO reporteDTO) {
+	public List<Map<String, Object>> facturacionAcumuladaPorLineaProducto(ReportePaginadoDTO reporteDTO) {
 		
 		
 		return query(generateQuerySQLDato("linea_producto"), reporteDTO.getDesde(), reporteDTO.getHasta());
@@ -41,7 +42,7 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 	}
 	
 	@Override
-	public List<Map<String, Object>> facturacionAcumuladaPorStatus(ReporteDTO reporteDTO) {
+	public List<Map<String, Object>> facturacionAcumuladaPorStatus(ReportePaginadoDTO reporteDTO) {
 		
 		
 		return query(generateQuerySQLDato("status"), reporteDTO.getDesde(), reporteDTO.getHasta());
@@ -70,7 +71,7 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 	}
 
 	@Override
-	public List<Map<String, Object>> facturacionAVencer(ReporteDTO reporteDTO) {
+	public List<Map<String, Object>> facturacionAVencer(ReportePaginadoDTO reporteDTO) {
 		String sql = "SELECT f.*, c.nombre AS cliente, tf.nombre AS tipo_factura, s.nombre AS status, pr.apellido ape_respo, pr.nombre AS nom_respo "
 				+ "FROM facturas f "
 				+ "INNER JOIN clientes c ON c.cliente_id = f.cliente_id "

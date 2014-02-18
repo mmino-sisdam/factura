@@ -2,28 +2,26 @@ package com.loyal.facturacion.dto;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.loyal.facturacion.json.JsonDateDeserializer;
 import com.loyal.facturacion.json.JsonDateSerializer;
 
 public class ReporteDTO {
 
-	@JsonDeserialize(using = JsonDateDeserializer.class) 
-	@JsonSerialize(using = JsonDateSerializer.class)
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private Date desde;
-	@JsonDeserialize(using = JsonDateDeserializer.class) 
-	@JsonSerialize(using = JsonDateSerializer.class)
-    private Date hasta;
+	
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	private Date hasta;
 	
 	private Integer mes;
     
-    private List<Map<String, Object>> resultado;
-    
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	public Date getDesde() {
 		if (mes!=null || desde == null){
 			Calendar c = Calendar.getInstance();
@@ -37,9 +35,13 @@ public class ReporteDTO {
 		}
 		return desde;
 	}
+	@JsonDeserialize(using = JsonDateDeserializer.class)
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	public void setDesde(Date desde) {
 		this.desde = desde;
 	}
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	public Date getHasta() {
 		if (mes!=null || hasta == null){
 			Calendar c = Calendar.getInstance();
@@ -52,17 +54,13 @@ public class ReporteDTO {
 		}
 		return hasta;
 	}
+	@JsonDeserialize(using = JsonDateDeserializer.class)
+	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	public void setHasta(Date hasta) {
 		this.hasta = hasta;
 	}
 
 	public void setMes(Integer mes) {
 		this.mes = mes;
-	}
-	public List<Map<String, Object>> getResultado() {
-		return resultado;
-	}
-	public void setResultado(List<Map<String, Object>> resultado) {
-		this.resultado = resultado;
 	}
 }

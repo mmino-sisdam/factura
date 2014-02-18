@@ -5,13 +5,14 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.loyal.facturacion.dao.ReportesDAO;
-import com.loyal.facturacion.dto.ReporteDTO;
+import com.loyal.facturacion.dto.ReporteIndicadorDTO;
 import com.loyal.facturacion.dto.ReportePaginadoDTO;
 
 @Controller
@@ -21,6 +22,15 @@ public class ResportesController {
 	@Autowired
 	ReportesDAO reportesDAO;
 
+	@RequestMapping(value = "/vendedor", method = RequestMethod.GET)
+	public @ResponseBody
+	Map<String, ReportePaginadoDTO> facturacionPorVendedorGet(@ModelAttribute ReportePaginadoDTO reporteDTO) {
+		Map<String, ReportePaginadoDTO> map =  new HashMap<String, ReportePaginadoDTO>();
+		reporteDTO.setResultado(reportesDAO.facturacionAcumuladaPorVendedor(reporteDTO));
+		map.put("vendedor",reporteDTO);
+		return map;
+	}
+	
 	@RequestMapping(value = "/vendedor", method = RequestMethod.POST)
 	public @ResponseBody
 	Map<String, ReportePaginadoDTO> facturacionPorVendedor(@RequestBody ReportePaginadoDTO reporteDTO) {
@@ -57,32 +67,13 @@ public class ResportesController {
 		return map;
 	}
 	
-	@RequestMapping(value = "/indicadorPendiente", method = RequestMethod.POST)
+	@RequestMapping(value = "/indicadores", method = RequestMethod.POST)
 	public @ResponseBody
-	Map<String, ReporteDTO> indicadorPendiente(@RequestBody ReporteDTO reporteDTO) {
-		Map<String, ReporteDTO> map =  new HashMap<String, ReporteDTO>();
-		reporteDTO.setResultado(reportesDAO.indicadorFacturacionPendiente(reporteDTO));
-		map.put("pendiente", reporteDTO);
-		return map;
+	ReporteIndicadorDTO indicadores(@RequestBody ReporteIndicadorDTO reporteDTO) {
+		reporteDTO.getResultado().put("pendiente", reportesDAO.indicadorFacturacionPendiente(reporteDTO));
+		reporteDTO.getResultado().put("cobrado", reportesDAO.indicadorFacturacionCobrada(reporteDTO));
+		reporteDTO.getResultado().put("ventas", reportesDAO.indicadorFacturacion(reporteDTO));
+		return reporteDTO;
 	}
-	
-	@RequestMapping(value = "/indicadorCobrado", method = RequestMethod.POST)
-	public @ResponseBody
-	Map<String, ReporteDTO> indicadorCobrado(@RequestBody ReporteDTO reporteDTO) {
-		Map<String, ReporteDTO> map =  new HashMap<String, ReporteDTO>();
-		reporteDTO.setResultado(reportesDAO.indicadorFacturacionCobrada(reporteDTO));
-		map.put("cobrado", reporteDTO);
-		return map;
-	}
-	
-	@RequestMapping(value = "/indicadorVentas", method = RequestMethod.POST)
-	public @ResponseBody
-	Map<String, ReporteDTO> indicadorVentas(@RequestBody ReporteDTO reporteDTO) {
-		Map<String, ReporteDTO> map =  new HashMap<String, ReporteDTO>();
-		reporteDTO.setResultado(reportesDAO.indicadorFacturacion(reporteDTO));
-		map.put("ventas", reporteDTO);
-		return map;
-	}
-
 
 }
