@@ -25,7 +25,7 @@
 
 	
                       <!-- columna 1 -->
-                      <div class="col-md-4 clearfix">
+                      <div class="col-md-4 clearfix col-1">
                         <div class="form-group">
                           <label for="">Nombre</label>
                           <input type="text" name="nombre" class="form-control" placeholder="Ingesar nombre" value="<@= nombre @>"/>
@@ -45,7 +45,7 @@
                       </div>
 
                       <!-- columna 2 -->
-                      <div class="col-md-4 clearfix">
+                      <div class="col-md-4 clearfix col-2">
                         <div class="form-group">
                           <label for="">Usuario</label>
                           <input type="text" name="username" class="form-control" placeholder="Ingesar usuario" value="<@= username @>" />
@@ -61,7 +61,7 @@
                       </div>
 
                       <!-- columna 3 -->
-                      <div class="col-md-4 clearfix">
+                      <div class="col-md-4 clearfix col-3">
                         <div class="form-group">
                           <label for="">Perfil</label>
                           <select class="form-control" name="rol">

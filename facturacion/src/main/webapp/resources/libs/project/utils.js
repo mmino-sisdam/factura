@@ -13,6 +13,9 @@
 var PATH_LAYOUT = $('#layout');
 var PATH_MODAL = $('#layout-modal');
 var PATH_ALERT = $('#msg-alert');
+var PATH_D_VENDEDOR = '#dashboard-vendedor';
+var PATH_D_PRODUCTO = '#dashboard-producto';
+
 var PATH_IVA = 21;
 
 

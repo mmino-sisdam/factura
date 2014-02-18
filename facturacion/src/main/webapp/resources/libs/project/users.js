@@ -31,7 +31,6 @@ window.AlertModel = new Backbone.Model({
 
 
 window.UserCollection = Backbone.Collection.extend({
-	model: User,
 	url: "personas"
 });
 
@@ -104,6 +103,7 @@ window.NewUsuerView = Backbone.View.extend({
 	initialize: function () {
 
 		this.render();
+		this.post = new UserCollection();
 
 	}, 
 
@@ -118,10 +118,11 @@ window.NewUsuerView = Backbone.View.extend({
 
 	// Btn click Aceptar / Save usuario
     accept: function() {
+    	    	
+    	console.log(this.post);
     	
-    	var u = new UserCollection();
-	    		
-    	u.create({
+	    	
+    	this.post.create({
     		"id"			: null,
     	    "nombre"		: $("input[name='nombre']").val(),
     	    "apellido"		: $("input[name='apellido']").val(),
@@ -191,6 +192,11 @@ window.EditUserView = Backbone.View.extend({
 		active(this.active);
 		
 	    $(this.el).html(this.template(this.model.toJSON()));
+	    
+	    // Remove a la columna de usuario y contraseña
+	    $(this.el).find('.col-2').remove();
+	    $(this.el).find('.col-1, .col-3').removeClass('col-md-4').addClass('col-md-6');
+	    
 	    return this;
 
 	},

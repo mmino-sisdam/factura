@@ -18,27 +18,32 @@
 		        <div class="panel-body">
 		          <form role="form" id="form-invoice">
 		            <fieldset>
-						
-						<input type="hidden" name="idTipoFactura" value="1"/>
+					  <input type="hidden" name="idTipoFactura" value="1"/>
 		              <div class="row">
 		
 		                <!-- columna nro. 1 -->
 		                <div class="col-md-4 clearfix">
 		                  <div class="form-group">
 		                    <label for="idCliente">Cliente</label>
-		                    <input name="idCliente" type="text" class="form-control form-type-client" placeholder="Buscar cliente...">
+							<select name="idCliente" class="form-control select-client required">
+								<@ _.each(clientes, function(cliente){ @>
+
+		                      		<option data-iva="<@= cliente.idTipoIVA @>" data-retencion="<@= cliente.idTipoRetencion @>" data-cuit="<@= cliente.cuit @>" data-direccion="<@= cliente.direccion @>" value="<@= cliente.id @>"><@= cliente.nombre @></option>
+
+							  	<@ }); @>
+							</select>
 		                  </div>
 		                  <div class="form-group">
 		                    <label>Localizaci&oacute;n / Sucursal</label>
-		                    <input type="text" class="form-control" placeholder="Ingresar sucursal"/>
+		                    <input type="text" class="form-control cliente-sucursal" placeholder="Ingresar sucursal"/>
 		                  </div>
 		                  <div class="form-group">
 		                    <label for="contacto">Contacto</label>
-		                    <input name="contacto" type="text" class="form-control" placeholder="Ingresar contacto"/>
+		                    <input name="contacto" type="text" class="form-control cliente-contacto" placeholder="Ingresar contacto"/>
 		                  </div>
 		                  <div class="form-group">
 		                    <label for="idTipoIVA">Situaci&oacute;n ante el IVA</label>
-		                    <select name="idTipoIVA" class="form-control">
+		                    <select name="idTipoIVA" class="form-control cliente-iva">
 		                      <option value="1">Responsable inscripto</option>
 		                      <option value="2">No inscripto</option>
 		                      <option value="3">Excento</option>
@@ -47,11 +52,11 @@
 		                  </div>
 		                  <div class="form-group">
 		                    <label for="">CUIT</label>
-		                    <input type="text" class="form-control" placeholder="Ingresar CUIT"/>
+		                    <input type="text" class="form-control cliente-cuit" placeholder="Ingresar CUIT"/>
 		                  </div>
 		                  <div class="form-group">
 		                    <label for="">Retenci&oacute;n</label>
-		                    <select name="idTipoRetencion" class="form-control">
+		                    <select name="idTipoRetencion" class="form-control cliente-retencion">
 		                      <@ _.each(tipo_retencion, function(r){ @>
 
 		                      		<option value="<@= r.id @>"><@= r.nombre @></option>
@@ -65,12 +70,12 @@
 		                <div class="col-md-4 clearfix">
 						  <div class="form-group">
 		                    <label for="">N&uacute;mero factura</label>
-		                    <input name="numero" type="text" class="form-control" />
+		                    <input name="numero" type="text" class="form-control required" />
 		                  </div>
 		                  <div class="form-group">
 		                    <label for="">Fecha</label>
 		                    <div class="input-group">
-		                      <input name="fecha" type="text" class="form-control form-datepicker input-fecha-emision" />
+		                      <input name="fecha" type="text" class="form-control form-datepicker input-fecha-emision required" />
 		                      <span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
 		                      </span>
@@ -79,7 +84,7 @@
 		                  <div class="form-group">
 		                    <label for="">Fecha vencimiento</label>
 		                    <div class="input-group">
-		                      <input name="fechaVencimiento" type="text" class="form-control form-datepicker input-fecha-vencimiento" name="fecha_vencimiento"/>
+		                      <input name="fechaVencimiento" type="text" class="form-control form-datepicker input-fecha-vencimiento required"/>
 		                      <span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
 		                      </span>
@@ -88,7 +93,7 @@
 		                  <div class="form-group">
 		                    <label for="">Fecha probable de cobro</label>
 		                    <div class="input-group">
-		                      <input name="fechaProbableCobro" type="text" class="form-control form-datepicker">
+		                      <input name="fechaProbableCobro" type="text" class="form-control form-datepicker required" />
 		                      <span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
 		                      </span>
@@ -97,7 +102,7 @@
 		                  <div class="form-group">
 		                    <label for="">Fecha cobro</label>
 		                    <div class="input-group">
-		                      <input name="fechaCobro" type="text" class="form-control form-datepicker">
+		                      <input name="fechaCobro" type="text" class="form-control form-datepicker required" />
 		                      <span class="input-group-addon">
 		                        <span class="glyphicon glyphicon-calendar"></span>
 		                      </span>
@@ -121,16 +126,16 @@
 		                    </div>  
 		                    <div class="form-group">
 		                      <label for="importeSubtotal">Sub Total</label>
-		                      <input name="importeSubtotal" type="text" class="form-control" placeholder="Ingresar sub total">
+		                      <input name="importeSubtotal" type="text" class="form-control" placeholder="Ingresar sub total required" />
 		                    </div> 
 		                    <div class="form-group">
 		                      <label for="importeIVA">IVA</label>
-		                      <input name="importeIVA" type="text" class="form-control" placeholder="Ingresar IVA">
+		                      <input name="importeIVA" type="text" class="form-control required" placeholder="Ingresar IVA" />
 		                    </div>  
 		                    <div class="form-group">
 		                        <label for="importeTotal">Total</label>
 		                        <div class="input-group">
-		                          <input name="importeTotal" type="text" class="form-control"/>
+		                          <input name="importeTotal" type="text" class="form-control required"/>
 		                          <span class="input-group-addon">
 		                            %
 		                          </span>
@@ -187,29 +192,6 @@
 		                  </div>
 		                </div>
 
-<!--
-		                <div class="col-md-4 clearfix">
-		                  <div class="form-group">
-		                    <label for="">Fecha comprobante entregable</label>
-		                    <div class="input-group">
-		                      <input name="fechaComprobableEntregable" type="text" class="form-control form-datepicker"/>
-		                      <span class="input-group-addon">
-		                        <span class="glyphicon glyphicon-calendar"></span>
-		                      </span>
-		                    </div>
-		                  </div>                          
-		                </div>
-		
-		                <div class="col-md-4 clearfix">
-		                  <div class="form-group">
-		                    <label for="tipoFactura">Tipo de comprobante entregable</label>
-		                    <select name="tipoFactura" class="form-control">
-		                      <option value="1">Factura A</option>
-		                      <option>Factura A</option>
-		                    </select>
-		                  </div>
-		                </div>
--->	
 		                <div class="col-md-12 clearfix">
 		                  <label>Responsble por Loyal</label>
 		                </div>
@@ -217,7 +199,13 @@
 		                <div class="col-md-4 clearfix">
 		                  <div class="form-group">
 		                    <label for="idResponsable">Nombre</label>
-		                    <input name="idResponsable" type="text" class="form-control" placeholder="Buscar nombre..."/>
+							<select name="idResponsable" class="form-control">
+								<@ _.each(responsables, function(responsable){ @>
+
+		                      		<option value="<@= responsable.id @>"><@= responsable.nombre + ' ' + responsable.apellido @></option>
+
+							  	<@ }); @>
+							</select>
 		                  </div>
 		                </div>
 		

@@ -108,6 +108,8 @@
     <script type="text/javascript" src="resources/libs/project/users.js"></script>
     <script type="text/javascript" src="resources/libs/project/invoice.js"></script>
     <script type="text/javascript" src="resources/libs/project/clients.js"></script>
+    
+    <script type="text/javascript" src="resources/libs/plugins/jquery.validate.min.js"></script>
 
   </body>
 </html>

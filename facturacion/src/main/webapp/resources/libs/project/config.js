@@ -8,7 +8,7 @@
 		    ""								: "dashboard",
 		    "facturas"						: "invoice",
 		    "factura/nueva/tipo-:tipo"		: "new_invoice",
-		    "factura/editar/id/:numero"		: "invoice_edit",
+		    "factura/editar/:id/:numero"	: "invoice_edit",
 		    "factura/info/:id/:numero"		: "invoice_info",
 		    "usuarios"						: "users",
 		    "usuario/nuevo"					: "new_user",
@@ -17,7 +17,7 @@
 
 		  // Seccion Dashboard
 		  dashboard: function() {
-			  
+			
 			// Initialize the View, 
 		  	var view = new DashboardView();
 
@@ -57,21 +57,19 @@
 		  
 			  // Id corresponde al tipo de factura
 			  // Numero corresponde al numero de factura
-
-		  	//console.log(id + '--' + numero);
 			  var get = new Invoice({"id": id + '-' + numero});
 			  
 			  var view = new NewInvoiceInfoView({model: get});
 			  
-			  //get.fetch();
-			  
 		  },
 
 		  // Seccion vista de factura por ID
-		  invoice_edit: function(id){
+		  invoice_edit: function(id, numero){
 		  	
-		  	console.log(id);
-
+		  	var data = new Invoice({"id": id + '-' + numero});
+		  	
+		  	new NewInvoiceEditView({model: data});
+		  	
 		  },
 
 		  // Seccion usuarios
