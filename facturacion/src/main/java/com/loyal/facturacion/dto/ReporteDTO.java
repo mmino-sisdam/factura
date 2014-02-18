@@ -21,9 +21,6 @@ public class ReporteDTO {
     private Date hasta;
 	
 	private Integer mes;
-    private Integer itemsPorPagina;
-    private Integer pagina;
-    private Integer totalPaginas;
     
     private List<Map<String, Object>> resultado;
     
@@ -59,24 +56,6 @@ public class ReporteDTO {
 		this.hasta = hasta;
 	}
 
-	public Integer getItemsPorPagina() {
-		return itemsPorPagina;
-	}
-	public void setItemsPorPagina(Integer itemsPorPagina) {
-		this.itemsPorPagina = itemsPorPagina;
-	}
-	public Integer getPagina() {
-		return pagina;
-	}
-	public void setPagina(Integer pagina) {
-		this.pagina = pagina;
-	}
-	public Integer getTotalPaginas() {
-		return totalPaginas;
-	}
-	public void setTotalPaginas(Integer totalPaginas) {
-		this.totalPaginas = totalPaginas;
-	}
 	public void setMes(Integer mes) {
 		this.mes = mes;
 	}

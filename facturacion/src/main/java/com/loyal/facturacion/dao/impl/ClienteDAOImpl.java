@@ -59,6 +59,14 @@ public class ClienteDAOImpl extends JdbcDaoSupport implements ClienteDAO {
 
 	}
 
+	@Override
+	public int deleteById(Integer id) throws DataAccessException{
+		String sql = "DELETE FROM clientes WHERE CLIENTE_ID = ?";
+		return getJdbcTemplate().update(
+				sql,
+				new Object[] { id });
+	}
+	
 	public class ClienteRowMapper implements RowMapper<Cliente> {
 		@Override
 		public Cliente mapRow(ResultSet rs, int rowNum)

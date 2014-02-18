@@ -15,5 +15,7 @@ public interface ClienteDAO {
 	public Cliente findById(Integer id);
 
 	public List<Cliente> getAll();
+	
+	public int deleteById(Integer id)  throws DataAccessException;
 
 }
