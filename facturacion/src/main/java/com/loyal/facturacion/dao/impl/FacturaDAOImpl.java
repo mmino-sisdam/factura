@@ -129,7 +129,7 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 				+ "importe_comision, fecha_comprobante_entregable, importe_costo, importe_rentabilidad,"
 				+ "forma_pago, remito, orden_compra, status_id, tipo_comision_id, tipo_comprobante_entregable_id,"
 				+ "linea_producto_id, tipo_iva_id, tipo_retencion_id)"
-				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		return getJdbcTemplate().update(
 				sql,
 				new Object[] { factura.getIdTipoFactura(), factura.getNumero(),
