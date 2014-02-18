@@ -25,9 +25,8 @@ public class ReporteDTO {
 			Calendar c = Calendar.getInstance();
 		    c.setTime(new Date());
 		    if (mes!=null){
-		    	c.set(Calendar.MONTH, mes);
+		    	c.set(Calendar.MONTH, mes -1);
 		    }
-		    c.add(Calendar.MONTH, - 1);
 		    c.set(Calendar.DAY_OF_MONTH, 1);
 		    desde=c.getTime();			
 		}
