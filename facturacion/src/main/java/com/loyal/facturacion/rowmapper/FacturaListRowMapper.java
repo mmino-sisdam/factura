@@ -15,6 +15,7 @@ public class FacturaListRowMapper implements RowMapper<FacturaListDTO> {
 		factura.setTipoFactura(rs.getString("TIPO_FACTURA"));
 		factura.setNumero(rs.getLong("FACTURA_ID"));
 		factura.setFecha(rs.getDate("FECHA_EMISION"));
+		factura.setFechaVencimiento(rs.getDate("FECHA_VENCIMIENTO"));
 		factura.setCliente(rs.getString("CLIENTE"));
 		factura.setIdCliente(rs.getInt("CLIENTE_ID"));
 		factura.setIdResponsable(rs.getInt("PERSONA_RESPONSABLE_ID"));
@@ -25,6 +26,8 @@ public class FacturaListRowMapper implements RowMapper<FacturaListDTO> {
 		factura.setImporteRentabilidad(rs
 				.getBigDecimal("IMPORTE_RENTABILIDAD"));
 		factura.setImporteTotal(rs.getBigDecimal("IMPORTE_TOTAL"));
+		factura.setFormaDePago(rs.getString("FORMA_PAGO"));
+		
 		return factura;
 	}
 }

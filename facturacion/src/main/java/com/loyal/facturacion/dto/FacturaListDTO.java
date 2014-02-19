@@ -25,6 +25,13 @@ public class FacturaListDTO {
 	@JsonDeserialize(using = JsonDateDeserializer.class) 
 	@JsonSerialize(using = JsonDateSerializer.class)
 	private Date fecha;
+	
+	@JsonDeserialize(using = JsonDateDeserializer.class)
+	@JsonSerialize(using = JsonDateSerializer.class)
+	private Date fechaVencimiento;
+	
+	private String formaDePago;
+	
 	private Integer idStatus;
 	private String status;
 	
@@ -105,5 +112,17 @@ public class FacturaListDTO {
 	}
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public Date getFechaVencimiento() {
+		return fechaVencimiento;
+	}
+	public void setFechaVencimiento(Date fechaVencimiento) {
+		this.fechaVencimiento = fechaVencimiento;
+	}
+	public String getFormaDePago() {
+		return formaDePago;
+	}
+	public void setFormaDePago(String formaDePago) {
+		this.formaDePago = formaDePago;
 	}
 }
