@@ -11,6 +11,7 @@ public class ItemReporteAcumuladoDTO {
 	private Integer cantidad;
 	private String nombre;
 	private Integer id;
+	private String descripcion;
 	
 	@JsonSerialize(using=JsonImporteSerializer.class)
 	private BigDecimal importeComision;
@@ -77,6 +78,12 @@ public class ItemReporteAcumuladoDTO {
 	}
 	public void setImporteTotal(BigDecimal importeTotal) {
 		this.importeTotal = importeTotal;
+	}
+	public String getDescripcion() {
+		return descripcion;
+	}
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 }

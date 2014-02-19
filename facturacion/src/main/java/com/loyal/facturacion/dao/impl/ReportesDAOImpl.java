@@ -21,7 +21,7 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 	public List<ItemReporteAcumuladoDTO> facturacionAcumuladaPorVendedor(ReportePaginadoDTO reporteDTO) {
 		
 		String sql = "SELECT count(*) AS cantidad, "
-				+ "CONCAT(p.apellido,\", \", p.nombre) as nombre, f.persona_responsable_id as id,"
+				+ "CONCAT(p.apellido,\", \", p.nombre) as nombre, f.persona_responsable_id as id, null as descripcion,"
 				+ "sum(importe_comision) AS importeComision, "
 				+ "sum(importe_costo) AS importeCosto, "
 				+ "sum(importe_rentabilidad) AS importeRentabilidad, "
@@ -64,7 +64,7 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 	
 	private String generateQuerySQLDato(String dato){
 		String sql = "SELECT count(*) AS cantidad, "
-				+ "l.nombre, l."+dato+"_id as id,"
+				+ "l.nombre, l."+dato+"_id as id, l.descripcion,"
 				+ "sum(importe_comision) AS importeComision, "
 				+ "sum(importe_costo) AS importeCosto, "
 				+ "sum(importe_rentabilidad) AS importeRentabilidad, "
@@ -96,7 +96,7 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 	@Override
 	public List<ItemReporteAcumuladoDTO> indicadorFacturacionPendiente(ReporteDTO reporteDTO) {
 
-		String sql = "SELECT null as id, null as nombre,count(*) AS cantidad, "
+		String sql = "SELECT null as id, null as nombre,count(*) AS cantidad, null as descripcion,"
 				+ "sum(importe_comision) AS importeComision, "
 				+ "sum(importe_costo) AS importeCosto, "
 				+ "sum(importe_rentabilidad) AS importeRentabilidad, "
@@ -112,7 +112,7 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 	@Override
 	public List<ItemReporteAcumuladoDTO> indicadorFacturacionCobrada(ReporteDTO reporteDTO) {
 
-		String sql = "SELECT null as id, null as nombre,count(*) AS cantidad, "
+		String sql = "SELECT null as id, null as nombre,count(*) AS cantidad, null as descripcion,"
 				+ "sum(importe_comision) AS importeComision, "
 				+ "sum(importe_costo) AS importeCosto, "
 				+ "sum(importe_rentabilidad) AS importeRentabilidad, "
@@ -128,7 +128,7 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 	@Override
 	public List<ItemReporteAcumuladoDTO> indicadorFacturacion(ReporteDTO reporteDTO) {
 
-		String sql = "SELECT null as id, null as nombre, count(*) AS cantidad, "
+		String sql = "SELECT null as id, null as nombre, count(*) AS cantidad, null as descripcion,"
 				+ "sum(importe_comision) AS importeComision, "
 				+ "sum(importe_costo) AS importeCosto, "
 				+ "sum(importe_rentabilidad) AS importeRentabilidad, "
@@ -148,6 +148,7 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 			
 			item.setId(rs.getInt("ID"));
 			item.setNombre(rs.getString("NOMBRE"));
+			item.setDescripcion(rs.getString("DESCRIPCION"));
 			item.setImporteComision(rs.getBigDecimal("IMPORTECOMISION"));
 			item.setImporteCosto(rs.getBigDecimal("IMPORTECOSTO"));
 			item.setImporteIva(rs.getBigDecimal("IMPORTEIVA"));
