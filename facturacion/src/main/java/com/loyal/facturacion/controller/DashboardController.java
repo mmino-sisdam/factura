@@ -16,7 +16,7 @@ import com.loyal.facturacion.dto.ReportePaginadoDTO;
 
 @Controller
 @RequestMapping(value = "/reportes")
-public class ResportesController {
+public class DashboardController {
 
 	@Autowired
 	ReportesDAO reportesDAO;
@@ -63,6 +63,7 @@ public class ResportesController {
 		reporteDTO.getResultado().put("pendiente", reportesDAO.indicadorFacturacionPendiente(reporteDTO));
 		reporteDTO.getResultado().put("cobrado", reportesDAO.indicadorFacturacionCobrada(reporteDTO));
 		reporteDTO.getResultado().put("ventas", reportesDAO.indicadorFacturacion(reporteDTO));
+		reporteDTO.getResultado().put("vencido", reportesDAO.indicadorFacturacionVencida(reporteDTO));
 		return reporteDTO;
 	}
 

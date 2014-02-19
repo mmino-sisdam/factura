@@ -9,7 +9,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import com.loyal.facturacion.json.JsonDateDeserializer;
 import com.loyal.facturacion.json.JsonDateSerializer;
 
-public class ReporteDTO {
+public abstract class ReporteParametrizadoDTO {
 
 	@JsonDeserialize(using = JsonDateDeserializer.class) 
 	@JsonSerialize(using = JsonDateSerializer.class)
@@ -19,7 +19,7 @@ public class ReporteDTO {
     private Date hasta;
 	
 	private Integer mes;
-    
+	
 	public Date getDesde() {
 		if (mes!=null || desde == null){
 			Calendar c = Calendar.getInstance();

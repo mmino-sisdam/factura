@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import com.loyal.facturacion.dto.FacturaListDTO;
 import com.loyal.facturacion.dto.ItemReporteAcumuladoDTO;
-import com.loyal.facturacion.dto.ReporteDTO;
+import com.loyal.facturacion.dto.ReporteIndicadorDTO;
 import com.loyal.facturacion.dto.ReportePaginadoDTO;
 import com.loyal.facturacion.dao.ReportesDAO;
 import com.loyal.facturacion.rowmapper.FacturaListRowMapper;
@@ -30,7 +30,7 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 				+ "sum(importe_total) AS importeTotal "
 				+ "FROM facturas f "
 				+ "INNER JOIN personas p on p.persona_id = f.persona_responsable_id "
-				+ "WHERE fecha_emision between date(?) and date(?) "
+				+ "WHERE fecha_emision between date(?) and date(?)  and f.status_id not in(4)"
 				+ "GROUP BY persona_responsable_id "
 				+ "ORDER BY apellido, nombre";
 		
@@ -73,7 +73,7 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 				+ "sum(importe_total) AS importeTotal "
 				+ "FROM facturas f "
 				+ "INNER JOIN " + dato + " l on l." + dato + "_id = f." + dato + "_id "
-				+ "WHERE fecha_emision between date(?) and date(?) "
+				+ "WHERE fecha_emision between date(?) and date(?) and f.status_id not in(4)"
 				+ "GROUP BY l." + dato + "_id "
 				+ "ORDER BY l.nombre";		
 		return sql;
@@ -94,7 +94,7 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 	}
 	
 	@Override
-	public List<ItemReporteAcumuladoDTO> indicadorFacturacionPendiente(ReporteDTO reporteDTO) {
+	public List<ItemReporteAcumuladoDTO> indicadorFacturacionPendiente(ReporteIndicadorDTO reporteDTO) {
 
 		String sql = "SELECT null as id, null as nombre,count(*) AS cantidad, null as descripcion,"
 				+ "sum(importe_comision) AS importeComision, "
@@ -110,7 +110,7 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 	}
 
 	@Override
-	public List<ItemReporteAcumuladoDTO> indicadorFacturacionCobrada(ReporteDTO reporteDTO) {
+	public List<ItemReporteAcumuladoDTO> indicadorFacturacionCobrada(ReporteIndicadorDTO reporteDTO) {
 
 		String sql = "SELECT null as id, null as nombre,count(*) AS cantidad, null as descripcion,"
 				+ "sum(importe_comision) AS importeComision, "
@@ -126,7 +126,7 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 	}
 	
 	@Override
-	public List<ItemReporteAcumuladoDTO> indicadorFacturacion(ReporteDTO reporteDTO) {
+	public List<ItemReporteAcumuladoDTO> indicadorFacturacion(ReporteIndicadorDTO reporteDTO) {
 
 		String sql = "SELECT null as id, null as nombre, count(*) AS cantidad, null as descripcion,"
 				+ "sum(importe_comision) AS importeComision, "
@@ -159,6 +159,21 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 			return item;
 		}
 	}
+	
+	@Override
+	public List<ItemReporteAcumuladoDTO> indicadorFacturacionVencida(ReporteIndicadorDTO reporteDTO) {
 
+		String sql = "SELECT null as id, null as nombre,count(*) AS cantidad, null as descripcion,"
+				+ "sum(importe_comision) AS importeComision, "
+				+ "sum(importe_costo) AS importeCosto, "
+				+ "sum(importe_rentabilidad) AS importeRentabilidad, "
+				+ "sum(importe_subtotal) AS importeSubtotal, "
+				+ "sum(importe_iva) AS importeIva, "
+				+ "sum(importe_total) AS importeTotal "
+				+ "FROM facturas f "
+				+ "WHERE fecha_vencimiento < now() and status_id not in(2,4)";
+		
+		return query(sql);
+	}
 	
 }

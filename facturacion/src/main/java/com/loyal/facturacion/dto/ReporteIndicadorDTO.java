@@ -3,7 +3,7 @@ package com.loyal.facturacion.dto;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ReporteIndicadorDTO extends ReporteDTO{
+public class ReporteIndicadorDTO extends ReporteParametrizadoDTO{
 
     private Map<String, Object> resultado = new HashMap<String, Object>();
 

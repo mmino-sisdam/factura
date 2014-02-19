@@ -2,15 +2,14 @@ package com.loyal.facturacion.dto;
 
 import java.util.List;
 
-@SuppressWarnings("rawtypes")
-public class ReportePaginadoDTO extends ReporteDTO{
+public class ReportePaginadoDTO extends ReporteParametrizadoDTO{
 
     private Integer itemsPorPagina;
     private Integer pagina;
     private Integer totalPaginas;
     
     
-	private List resultado;
+	private List<?> resultado;
     
 	public Integer getItemsPorPagina() {
 		return itemsPorPagina;
@@ -31,10 +30,10 @@ public class ReportePaginadoDTO extends ReporteDTO{
 		this.totalPaginas = totalPaginas;
 	}
 	
-	public List getResultado() {
+	public List<?> getResultado() {
 		return resultado;
 	}
-	public void setResultado(List resultado) {
+	public void setResultado(List<?> resultado) {
 		this.resultado = resultado;
 	}
 

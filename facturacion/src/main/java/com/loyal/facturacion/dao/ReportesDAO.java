@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.loyal.facturacion.dto.FacturaListDTO;
 import com.loyal.facturacion.dto.ItemReporteAcumuladoDTO;
-import com.loyal.facturacion.dto.ReporteDTO;
+import com.loyal.facturacion.dto.ReporteIndicadorDTO;
 import com.loyal.facturacion.dto.ReportePaginadoDTO;
 
 public interface ReportesDAO {
@@ -17,10 +17,13 @@ public interface ReportesDAO {
 	
 	public List<FacturaListDTO> facturacionAVencer(ReportePaginadoDTO reporteDTO);
 	
-	public List<ItemReporteAcumuladoDTO> indicadorFacturacionCobrada(ReporteDTO reporteDTO);
+	public List<ItemReporteAcumuladoDTO> indicadorFacturacionCobrada(ReporteIndicadorDTO reporteDTO);
 
-	public List<ItemReporteAcumuladoDTO> indicadorFacturacionPendiente(ReporteDTO reporteDTO);
+	public List<ItemReporteAcumuladoDTO> indicadorFacturacionPendiente(ReporteIndicadorDTO reporteDTO);
 
-	public List<ItemReporteAcumuladoDTO> indicadorFacturacion(ReporteDTO reporteDTO);
+	public List<ItemReporteAcumuladoDTO> indicadorFacturacion(ReporteIndicadorDTO reporteDTO);
+
+	public List<ItemReporteAcumuladoDTO> indicadorFacturacionVencida(
+			ReporteIndicadorDTO reporteDTO);
 
 }
