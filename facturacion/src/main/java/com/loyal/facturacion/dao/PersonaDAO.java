@@ -21,4 +21,6 @@ public interface PersonaDAO {
 
 	public int deleteById(Integer id)  throws DataAccessException;
 
+	public int changePassword(String newPassword, Integer personaId) throws DataAccessException;
+
 }

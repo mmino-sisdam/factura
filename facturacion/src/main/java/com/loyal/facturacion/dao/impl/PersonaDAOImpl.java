@@ -84,6 +84,18 @@ public class PersonaDAOImpl extends JdbcDaoSupport implements PersonaDAO {
 				new Object[] { id });
 	}
 	
+	@Override
+	@Transactional
+	public int changePassword(String newPassword, Integer idPersona) throws DataAccessException {
+		MessageDigestPasswordEncoder m = new MessageDigestPasswordEncoder("MD5");
+		String sql = "UPDATE personas "
+				+ "SET PASSWORD = ? "
+				+ "WHERE PERSONA_ID = ?";
+		return getJdbcTemplate().update(
+				sql,
+				new Object[] { m.encodePassword(newPassword, null), idPersona});
+	}	
+	
 	public class PersonaRowMapper implements RowMapper<Persona> {
 		@Override
 		public Persona mapRow(ResultSet rs, int rowNum)
