@@ -123,17 +123,18 @@ window.NewUsuerView = Backbone.View.extend({
 	active:".btn-usuarios",
 
 	template: _.template( $('#tmpl-new-user').html() ),
-
+	
     events: {
         'click .btn-accept': 'accept',
         'click .btn-cancel': 'cancel'
     },
 
 	initialize: function () {
-
-		this.model.fetch();
-		this.model.bind('change', this.render, this);
-
+		
+		_.bind(this.render, 'render');
+		//this.model.fetch();
+		//this.model.bind('change', this.render, this);
+		//this.render();
 	}, 
 
 	render: function () {
@@ -148,7 +149,8 @@ window.NewUsuerView = Backbone.View.extend({
 	// Btn click Aceptar / Save usuario
     accept: function() {
     	    	
-    	//console.log(this.post);
+    	console.log('envio...');
+    	/*
     	if( $('#frm-new-user').valid() ){
 	    	this.post = new UserCollection();
 	    	
@@ -198,6 +200,7 @@ window.NewUsuerView = Backbone.View.extend({
         	new AlertView({model: msg }); 
         	
     	}
+    	*/
     	
     },
     

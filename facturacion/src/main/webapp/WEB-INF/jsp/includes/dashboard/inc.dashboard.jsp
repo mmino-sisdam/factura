@@ -20,7 +20,7 @@
           </div>
           <div class="col-md-3 clearfix">
 
-            <div class="boxed boxed-success">
+            <div class="boxed boxed-primary">
               <div class="boxed-heading">
                 <i class="glyphicon glyphicon-flag"></i> FACTURACI&Oacute;N COBRADA
               </div>
@@ -53,17 +53,17 @@
           </div>
           <div class="col-md-3 clearfix">
 
-            <div class="boxed boxed-primary">
+            <div class="boxed boxed-danger">
               <div class="boxed-heading">
-                <i class="glyphicon glyphicon-chevron-down"></i> OTRO ITEM
+                <i class="glyphicon glyphicon-chevron-down"></i> FACTURACI&Oacute;N VENCIDA
               </div>
               <div class="boxed-body">
                 <span class="boxed-title">
-                  $24.000
+                  <@= indicadores[0].resultado.pendiente[0].importeTotal @>
                 </span>
               </div>
               <div class="boxed-footer">
-                <span class="boxed-title">Febrero 2014</span>
+                <span class="boxed-title"><@= indicadores[0].desde @> - <@= indicadores[0].hasta @></span>
               </div>
             </div>
 
@@ -187,6 +187,7 @@
                       <th>Cliente</th>
                       <th>Forma de pago</th>
                       <th>Monto</th>
+                      <th>Rentabilidad</th>
                       <th>Acciones</th>
                     </tr>
                   </thead>
@@ -201,6 +202,7 @@
                       <td><@= r.cliente @></td>
                       <td><@= r.formaDePago @></td>
                       <td><@= r.importeTotal @></td>
+                      <td><@= r.importeRentabilidad @></td>
                       <td>
                         <button type="button" class="btn btn-xs btn-info" data="<@= r.idTipoFactura @>/<@= r.numero @>">
                           <i class="glyphicon glyphicon-info-sign"></i>
@@ -218,17 +220,19 @@
         <thead>
           <tr>
             <th>Vendedor</th>
-            <th>Cant. ventas</th>
+            <th>Ventas</th>
             <th>Monto</th>
+			<th>Rentabilidad</th>	
           </tr>
         </thead>
         <tbody>
 			<@ pages_vendedor = vendedor[0].vendedor.resultado.length @>
          	<@ _.each(vendedor[0].vendedor.resultado, function(r){ @>
     				<tr>
-             			<td><@= r.nombre @> <@= r.apellido @></td>
+             			<td><@= r.nombre @></td>
               			<td><@= r.cantidad @></td>
-              			<td><@= r.importeSubtotal @></td>
+              			<td><@= r.importeTotal @></td>
+              			<td><@= r.importeRentabilidad @></td>
     				</tr>
   			 <@ }); @>
         </tbody>
@@ -242,7 +246,6 @@
           <tr>
           <th>Periodo</th>
           <th>Imputaci&oacute;n</th>
-          <th>&nbsp;</th>
           <th>Monto</th>
           </tr>
         </thead>
@@ -253,9 +256,10 @@
         <@ _.each(producto[0].producto.resultado, function(r){ @>
           <tr>
             <td><@= producto[0].producto.desde @> - <@= producto[0].producto.hasta @></td>
-            <td><@= r.nombre @></td>
-            <td><span class="label label-primary">Loyal</span></td>
-            <td><@= r.importeSubtotal @></td>
+            <td>
+				<@= r.nombre @> <span class="label label-<@ ((r.descripcion == 'Loyal') ? print('primary') : print('warning') ) @>"><@= r.descripcion @></span>
+			</td>
+            <td><@= r.importeTotal @></td>
           </tr>
         <@ }); @>
 
