@@ -48,7 +48,10 @@ window.UsersView = Backbone.View.extend({
 	template: _.template( $('#tmpl-list-user').html() ),
 
 	events: {
-		'click .btn-danger': 'user_delete'
+		'click .btn-add'		: 'user_add',
+		'click .btn-delete'		: 'user_delete',
+		'click .btn-edit'		: 'user_edit',
+		'click .btn-password'	: 'user_password'
 	},
 
 	initialize: function () {
@@ -65,6 +68,31 @@ window.UsersView = Backbone.View.extend({
 	    $(this.el).html(this.template(this.model.toJSON()));
 	    return this;
 
+	},
+	
+	user_add: function(ev){
+		
+		app.navigate(URL_USER_ADD, true);
+		
+	},
+	
+	user_edit: function(ev){
+		
+		var id = $(ev.currentTarget).attr('data');
+		
+		app.navigate(URL_USER_EDIT + id, true);
+		
+	},
+	
+	user_password: function(ev){
+		
+    	var msg = AlertModel.set({
+    		'type': 'error',
+    		'body': 'Acceso no disponible por el momento'
+    	});
+    	
+    	new AlertView({model: msg }); 		
+		
 	},
 
 	user_delete: function(ev){
@@ -97,13 +125,14 @@ window.NewUsuerView = Backbone.View.extend({
 	template: _.template( $('#tmpl-new-user').html() ),
 
     events: {
-        'click .btn-accept': 'accept'
+        'click .btn-accept': 'accept',
+        'click .btn-cancel': 'cancel'
     },
 
 	initialize: function () {
 
-		this.render();
-		this.post = new UserCollection();
+		this.model.fetch();
+		this.model.bind('change', this.render, this);
 
 	}, 
 
@@ -119,47 +148,64 @@ window.NewUsuerView = Backbone.View.extend({
 	// Btn click Aceptar / Save usuario
     accept: function() {
     	    	
-    	console.log(this.post);
-    	
+    	//console.log(this.post);
+    	if( $('#frm-new-user').valid() ){
+	    	this.post = new UserCollection();
 	    	
-    	this.post.create({
-    		"id"			: null,
-    	    "nombre"		: $("input[name='nombre']").val(),
-    	    "apellido"		: $("input[name='apellido']").val(),
-    	    "mail"			: $("input[name='mail']").val(),
-    	    "telefono"		: $("input[name='telefono']").val(),
-    	    "username"		: $("input[name='username']").val(),
-    	    "password"		: $("input[name='password']").val(),
-    	    "rol"			: {
-    	    	"id"		: $("select[name='rol'] option:selected").val()
-    	    },
-    	    "enabled"		: parseInt( $("select[name='enabled'] option:selected").val(), 10 )
-    	} , {
-			success: function(response) {
+	    	this.post.create({
+	    		"id"			: null,
+	    	    "nombre"		: $("input[name='nombre']").val(),
+	    	    "apellido"		: $("input[name='apellido']").val(),
+	    	    "mail"			: $("input[name='mail']").val(),
+	    	    "telefono"		: $("input[name='telefono']").val(),
+	    	    "username"		: $("input[name='username']").val(),
+	    	    "password"		: $("input[name='password']").val(),
+	    	    "rol"			: {
+	    	    	"id"		: $("select[name='rol'] option:selected").val()
+	    	    },
+	    	    "enabled"		: parseInt( $("select[name='enabled'] option:selected").val(), 10 )
+	    	} , {
+				success: function(response) {
+					
+					var msg = AlertModel.set({
+	            		'type': 'success',
+	            		'body': 'El usuario se creo correctamente'
+	            	});
+	            	
+	            	new AlertView({model: msg });
 				
-				var msg = AlertModel.set({
-            		'type': 'success',
-            		'body': 'El usuario se creo correctamente'
-            	});
-            	
-            	var view = new AlertView({model: msg });
-			
-				app.navigate(URL_USUARIOS, true);
-				
-			},
-            error : function(err, response) {
-            	
-            	var msg = AlertModel.set({
-            		'type': 'error',
-            		'body': 'Hubo un error'
-            	});
-            	
-            	var view = new AlertView({model: msg });       
-        		
-            }
-		}); 	
+					app.navigate(URL_USERS, true);
+					
+				},
+	            error : function(err, response) {
+	            	
+	            	var msg = AlertModel.set({
+	            		'type': 'error',
+	            		'body': 'Hubo un error'
+	            	});
+	            	
+	            	new AlertView({model: msg });       
+	        		
+	            }
+			}); 
+    	}else{
+  
+        	var msg = AlertModel.set({
+        		'type': 'error',
+        		'body': 'Completa los campos requeridos'
+        	});
+        	
+        	new AlertView({model: msg }); 
+        	
+    	}
     	
-    }	
+    },
+    
+    cancel: function(){
+    	
+    	app.navigate(URL_USERS, true);
+    	
+    }
 
 });
 
@@ -177,7 +223,8 @@ window.EditUserView = Backbone.View.extend({
 	template: _.template( $('#tmpl-new-user').html() ),
 
 	events: {
-		'click .btn-accept': 'accept'
+		'click .btn-accept': 'accept',
+		'click .btn-cancel': 'cancel'
 	},
 
 	initialize: function () {
@@ -221,12 +268,18 @@ window.EditUserView = Backbone.View.extend({
     	} , {
 			success: function() {
 				
-				app.navigate(URL_USUARIOS, true);
+				app.navigate(URL_USERS, true);
 				
 			},
             error : function(err) {
             }
 		}); 	
+    	
+    },
+    
+    cancel: function(){
+    	
+    	app.navigate(URL_USERS, true);
     	
     }		
 	

@@ -72,11 +72,52 @@
 
         <section class="row">
 
-         <div class="col-md-6 clearfix" id="dashboard-vendedor"></div> 
+        <div class="col-md-6 clearfix">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              Ventas por vendedor
+              <span class="panel-right">
+                <div class="dropdown">
+                  <a data-toggle="dropdown" href="#" id="datadrop_d01">
+                    <span class="glyphicon glyphicon-cog"></span>
+                  </a>
+                  <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="datadrop_d01">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Por ventas [Descendente]</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="1" href="#">Por monto [Descendente]</a></li>
+                  </ul>
+                </div>
+              </span> 
+            </div>
+            <div class="panel-body" id="dashboard-vendedor">
+				<p>Cargando...</p>
+            </div>
+          </div>  
+    		</div> 
 
-         <div class="col-md-6 clearfix" id="dashboard-producto">
-           
-         </div> 
+        <div class="col-md-6 clearfix">
+ 		<div class="panel panel-default">
+              <div class="panel-heading">
+
+                Ventas por imputaci&oacute;n contable
+
+                <span class="panel-right">
+                  <div class="dropdown">
+                    <a data-toggle="dropdown" href="#" id="datadrop_d02">
+                      <span class="glyphicon glyphicon-cog"></span>
+                    </a>
+                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="datadrop_d02">
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Por ventas [Descendente]</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="1" href="#">Por monto [Descendente]</a></li>
+                    </ul>
+                  </div>
+                  
+                </span> 
+              </div>
+              <div class="panel-body" id="dashboard-producto">
+				<p>Cargando...</p>
+              </div>
+            </div>           
+        </div> 
 
         </section> 
 
@@ -176,90 +217,52 @@
     
     
     <script id="tmpl-dashboard-vendedor" type="text/template">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          Ventas por vendedor
-          <span class="panel-right">
-            <div class="dropdown">
-              <a data-toggle="dropdown" href="#" id="datadrop_d01">
-                <span class="glyphicon glyphicon-cog"></span>
-              </a>
-              <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="datadrop_d01">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Por ventas [Descendente]</a></li>
-                <li role="presentation"><a role="menuitem" tabindex="1" href="#">Por monto [Descendente]</a></li>
-              </ul>
-            </div>
-          </span> 
-        </div>
-        <div class="panel-body">
-          <table class="table table-striped" cellpadding="0" cellspacing="0">
-            <thead>
-              <tr>
-                <th>Vendedor</th>
-                <th>Cant. ventas</th>
-                <th>Monto</th>
-              </tr>
-            </thead>
-            <tbody>
-
-              		<@ _.each(vendedor[0].vendedor.resultado, function(r){ @>
-    					<tr>
-               			<td><@= r.nombre @> <@= r.apellido @></td>
-                			<td><@= r.cantidad @></td>
-                			<td><@= r.importeSubtotal @></td>
-    					</tr>
-    				<@ }); @>
-
-            </tbody>
-          </table>
-          <p class="panel-data-table">Mostrando 5 de 28 entradas</p>
-        </div>
-      </div>    
+      <table class="table table-striped" cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Vendedor</th>
+            <th>Cant. ventas</th>
+            <th>Monto</th>
+          </tr>
+        </thead>
+        <tbody>
+			<@ pages_vendedor = vendedor[0].vendedor.resultado.length @>
+         	<@ _.each(vendedor[0].vendedor.resultado, function(r){ @>
+    				<tr>
+             			<td><@= r.nombre @> <@= r.apellido @></td>
+              			<td><@= r.cantidad @></td>
+              			<td><@= r.importeSubtotal @></td>
+    				</tr>
+  			 <@ }); @>
+        </tbody>
+      </table>
+      <p class="panel-data-table">Mostrando <@= pages_vendedor @> de <@= pages_vendedor @> entradas</p>    
     </script>
 
     <script id="tmpl-dashboard-producto" type="text/template">
- 		<div class="panel panel-default">
-              <div class="panel-heading">
+      <table class="table table-striped" cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+          <th>Periodo</th>
+          <th>Imputaci&oacute;n</th>
+          <th>&nbsp;</th>
+          <th>Monto</th>
+          </tr>
+        </thead>
+        <tbody>
+		
+		<@ pages_producto = producto[0].producto.resultado.length @>
 
-                Ventas por imputaci&oacute;n contable
+        <@ _.each(producto[0].producto.resultado, function(r){ @>
+          <tr>
+            <td><@= producto[0].producto.desde @> - <@= producto[0].producto.hasta @></td>
+            <td><@= r.nombre @></td>
+            <td><span class="label label-primary">Loyal</span></td>
+            <td><@= r.importeSubtotal @></td>
+          </tr>
+        <@ }); @>
 
-                <span class="panel-right">
-                  <div class="dropdown">
-                    <a data-toggle="dropdown" href="#" id="datadrop_d02">
-                      <span class="glyphicon glyphicon-cog"></span>
-                    </a>
-                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="datadrop_d02">
-                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Por ventas [Descendente]</a></li>
-                      <li role="presentation"><a role="menuitem" tabindex="1" href="#">Por monto [Descendente]</a></li>
-                    </ul>
-                  </div>
-                  
-                </span> 
-              </div>
-              <div class="panel-body">
-                <table class="table table-striped" cellpadding="0" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th>Periodo</th>
-                      <th>Imputaci&oacute;n</th>
-                      <th>&nbsp;</th>
-                      <th>Monto</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-
-					<@ _.each(producto[0].producto.resultado, function(r){ @>
-    					<tr>
-               				<td>Periodo FF</td>
-                			<td><@= r.nombre @></td>
-							<td><span class="label label-primary">Loyal</span></td>
-                			<td><@= r.importeTotal @></td>
-    					</tr>
-    				<@ }); @>
-
-                  </tbody>
-                </table>
-                <p class="panel-data-table">Mostrando 5 de 28 entradas</p>
-              </div>
-            </div>   
+        </tbody>
+      </table>
+      <p class="panel-data-table">Mostrando <@= pages_producto @> de <@= pages_producto @> entradas</p>   
     </script>    

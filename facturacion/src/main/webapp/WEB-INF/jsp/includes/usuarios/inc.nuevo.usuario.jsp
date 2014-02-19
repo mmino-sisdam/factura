@@ -28,15 +28,15 @@
                       <div class="col-md-4 clearfix col-1">
                         <div class="form-group">
                           <label for="">Nombre</label>
-                          <input type="text" name="nombre" class="form-control" placeholder="Ingesar nombre" value="<@= nombre @>"/>
+                          <input type="text" name="nombre" class="form-control required" placeholder="Ingesar nombre" value="<@= nombre @>"/>
                         </div>
                         <div class="form-group">
                           <label for="">Apellido</label>
-                          <input type="text" name="apellido" class="form-control" placeholder="Ingesar apellido" value="<@= apellido @>" />
+                          <input type="text" name="apellido" class="form-control required" placeholder="Ingesar apellido" value="<@= apellido @>" />
                         </div>
                         <div class="form-group">
                           <label for="">Email</label>
-                          <input type="text" name="mail" class="form-control" placeholder="Ingesar email" value="<@= mail @>" />
+                          <input type="email" name="mail" class="form-control required email" placeholder="Ingesar email" value="<@= mail @>" />
                         </div>
                         <div class="form-group">
                           <label for="">Tel&eacute;fono</label>
@@ -48,15 +48,15 @@
                       <div class="col-md-4 clearfix col-2">
                         <div class="form-group">
                           <label for="">Usuario</label>
-                          <input type="text" name="username" class="form-control" placeholder="Ingesar usuario" value="<@= username @>" />
+                          <input type="text" name="username" class="form-control required" placeholder="Ingesar usuario" value="<@= username @>" />
                         </div>
                         <div class="form-group">
                           <label for="">Contrase&ntilde;a</label>
-                          <input type="password" name="password" class="form-control" placeholder="Ingesar contrase&ntilde;a" />
+                          <input type="password" name="password" class="form-control required" id="username_password" placeholder="Ingesar contrase&ntilde;a" />
                         </div>
                         <div class="form-group">
                           <label for="">Repetir contrase&ntilde;a</label>
-                          <input type="password" class="form-control" placeholder="Repetir contrase&ntilde;a" >
+                          <input type="password" class="form-control required" equalto="#uusername_password" placeholder="Repetir contrase&ntilde;a" >
                         </div>
                       </div>
 
@@ -65,15 +65,15 @@
                         <div class="form-group">
                           <label for="">Perfil</label>
                           <select class="form-control" name="rol">
-                            <option value="1" <@ if(rol.id == 1) { print('selected'); } @> >Usuario</option>
                             <option value="2" <@ if(rol.id == 2) { print('selected'); } @> >Administrador</option>
+                            <option value="1" <@ if(rol.id == 1) { print('selected'); } @> >Usuario</option>
                           </select>
                         </div>
                         <div class="form-group">
                           <label for="">Activo</label>
                           <select class="form-control" name="enabled">
                             <option value="1" <@ if(enabled) { print('selected'); } @> >Si</option>
-                            <option value="0" <@ if(!enabled) { print('selected'); } @> >No</option>
+							<option value="0" <@ if(!enabled) { print('selected'); } @> >No</option>
                           </select>
                         </div>
                       </div>
@@ -84,7 +84,7 @@
 
                       <div class="col-md-12 clearfix">
                         <button type="button" class="btn btn-right btn-primary btn-accept">Aceptar</button>
-                        <a href="#/usuarios" class="btn btn-right btn-primary">Cancelar</a>
+                        <button type="button" class="btn btn-right btn-primary btn-cancel">Cancelar</button>
                       </div>
                     </div>
                   </fieldset>

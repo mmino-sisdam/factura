@@ -48,6 +48,10 @@
 		
 		                <!-- columna nro. 2 -->
 		                <div class="col-md-4 clearfix">
+						  <div class="form-group">
+		                    <label for="">N&uacute;mero</label>
+		                    <p><@= numero @></p>
+		                  </div>
 		                  <div class="form-group">
 		                    <label for="">Fecha</label>
 		                    <p><@= fecha @></p>

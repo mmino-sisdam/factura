@@ -90,7 +90,7 @@
 			var get = new User();
 			
 		  	// Initialize the View, 
-		  	var view = new NewUsuerView({ model: get });
+		  	new NewUsuerView({ model: get });
 		  	
 		  },
 		  

@@ -56,8 +56,8 @@
       <div class="main-content">
         
         <section class="row">
-            <div class="col-md-6 col-sm-8 clearfix">Bienvenido Admin</div>
-            <div class="col-md-6 col-sm-4 clearfix">
+            <div class="col-md-10 col-sm-1 clearfix"></div>
+            <div class="col-md-2 col-sm-4 clearfix">
             	<a href=" <c:url value="j_spring_security_logout" /> " class="btn btn-link" title="Logout">Logout</a>
             </div>
         </section>

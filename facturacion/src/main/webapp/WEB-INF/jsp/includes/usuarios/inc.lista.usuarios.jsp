@@ -31,10 +31,10 @@
                     </ul>
                   </div>  
                   <div class="btn-group">
-                    <a href="#/usuario/nuevo" class="btn btn-primary dropdown-toggle">
+                    <button type="button" class="btn btn-primary dropdown-toggle btn-add">
                       <span class="glyphicon glyphicon-user"></span>
                       Agregar usuario
-                    </a>
+                    </button>
                   </div>                   
                 </div>
 
@@ -67,10 +67,13 @@
                         <td><@= u.telefono @></td>
                         <td><@= u.rol.descripcion @></td>
                         <td>
-                          <a class="btn btn-xs btn-primary" href="#/usuario/editar/<@= u.id @>">
+                          <button type="button" class="btn btn-xs btn-primary btn-edit" data="<@= u.id @>">
                             <i class="glyphicon glyphicon-pencil"></i>
-                          </a>
-                          <button class="btn btn-xs btn-danger"
+                          </button>
+						  <button type="button" class="btn btn-xs btn-warning btn-password" data="<@= u.id @>">
+                            <i class="glyphicon glyphicon-asterisk"></i>
+                          </button>
+                          <button type="button" class="btn btn-xs btn-danger btn-delete"
                              data="<@= u.id @>" 
                              data-usuario="<@= u.nombre @> <@= u.apellido @>" 
                              data-toggle="modal" 

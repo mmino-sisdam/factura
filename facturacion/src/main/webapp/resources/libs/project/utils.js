@@ -10,9 +10,9 @@
 // Variables globales
 /* ------------------------------ */
 
-var PATH_LAYOUT = $('#layout');
-var PATH_MODAL = $('#layout-modal');
-var PATH_ALERT = $('#msg-alert');
+var PATH_LAYOUT 	= '#layout';
+var PATH_MODAL 		= '#layout-modal';
+var PATH_ALERT 		= '#msg-alert';
 var PATH_D_VENDEDOR = '#dashboard-vendedor';
 var PATH_D_PRODUCTO = '#dashboard-producto';
 
@@ -21,8 +21,11 @@ var PATH_IVA = 21;
 
 // Routing
 /* ------------------------------ */
-var URL_FACTURAS = 'facturas';
-var URL_USUARIOS = 'usuarios';
+var URL_FACTURAS 	= 'facturas';
+
+var URL_USERS 		= 'usuarios';
+var URL_USER_ADD 	= 'usuario/nuevo';
+var URL_USER_EDIT 	= 'usuario/editar/';
 
 
 // Active
