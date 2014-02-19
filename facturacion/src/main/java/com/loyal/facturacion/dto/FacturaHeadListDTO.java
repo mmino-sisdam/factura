@@ -3,16 +3,20 @@ package com.loyal.facturacion.dto;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.loyal.facturacion.model.factura.Factura;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.loyal.facturacion.json.JsonImporteSerializer;
 
 public class FacturaHeadListDTO {
 
     private Integer year;
     private Integer month;
     private String monthName;
+    @JsonSerialize(using=JsonImporteSerializer.class)
     private BigDecimal monto;
+    @JsonSerialize(using=JsonImporteSerializer.class)
     private BigDecimal rentabilidad;
-    private List<Factura> list;
+    private List<FacturaListDTO> list;
 	public BigDecimal getMonto() {
 		return monto;
 	}
@@ -25,10 +29,10 @@ public class FacturaHeadListDTO {
 	public void setRentabilidad(BigDecimal rentabilidad) {
 		this.rentabilidad = rentabilidad;
 	}
-	public List<Factura> getList() {
+	public List<FacturaListDTO> getList() {
 		return list;
 	}
-	public void setList(List<Factura> list) {
+	public void setList(List<FacturaListDTO> list) {
 		this.list = list;
 	}
 	public Integer getYear() {

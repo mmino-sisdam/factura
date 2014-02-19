@@ -8,11 +8,11 @@ import java.util.List;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
+import com.loyal.facturacion.dto.FacturaListDTO;
 import com.loyal.facturacion.dto.ItemReporteAcumuladoDTO;
 import com.loyal.facturacion.dto.ReporteDTO;
 import com.loyal.facturacion.dto.ReportePaginadoDTO;
 import com.loyal.facturacion.dao.ReportesDAO;
-import com.loyal.facturacion.model.factura.Factura;
 import com.loyal.facturacion.rowmapper.FacturaListRowMapper;
 
 public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
@@ -80,7 +80,7 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 	}
 
 	@Override
-	public List<Factura> facturacionAVencer(ReportePaginadoDTO reporteDTO) {
+	public List<FacturaListDTO> facturacionAVencer(ReportePaginadoDTO reporteDTO) {
 		String sql = "SELECT f.*, c.nombre AS cliente, tf.nombre AS tipo_factura, s.nombre AS status, pr.apellido ape_respo, pr.nombre AS nom_respo "
 				+ "FROM facturas f "
 				+ "INNER JOIN clientes c ON c.cliente_id = f.cliente_id "

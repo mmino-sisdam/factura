@@ -5,12 +5,12 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import com.loyal.facturacion.model.factura.Factura;
+import com.loyal.facturacion.dto.FacturaListDTO;
 
-public class FacturaListRowMapper implements RowMapper<Factura> {
+public class FacturaListRowMapper implements RowMapper<FacturaListDTO> {
 	@Override
-	public Factura mapRow(ResultSet rs, int rowNum) throws SQLException {
-		Factura factura = new Factura();
+	public FacturaListDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+		FacturaListDTO factura = new FacturaListDTO();
 		factura.setIdTipoFactura(rs.getInt("TIPO_FACTURA_ID"));
 		factura.setTipoFactura(rs.getString("TIPO_FACTURA"));
 		factura.setNumero(rs.getLong("FACTURA_ID"));
