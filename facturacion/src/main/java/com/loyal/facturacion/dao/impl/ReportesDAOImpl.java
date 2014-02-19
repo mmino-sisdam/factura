@@ -1,22 +1,27 @@
 package com.loyal.facturacion.dao.impl;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
+import com.loyal.facturacion.dto.ItemReporteAcumuladoDTO;
 import com.loyal.facturacion.dto.ReporteDTO;
 import com.loyal.facturacion.dto.ReportePaginadoDTO;
 import com.loyal.facturacion.dao.ReportesDAO;
+import com.loyal.facturacion.model.factura.Factura;
+import com.loyal.facturacion.rowmapper.FacturaListRowMapper;
 
 public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 
 	@Override
-	public List<Map<String, Object>> facturacionAcumuladaPorVendedor(ReportePaginadoDTO reporteDTO) {
+	public List<ItemReporteAcumuladoDTO> facturacionAcumuladaPorVendedor(ReportePaginadoDTO reporteDTO) {
 		
 		String sql = "SELECT count(*) AS cantidad, "
-				+ "p.apellido, p.nombre, f.persona_responsable_id as idPersonaResponsable,"
+				+ "CONCAT(p.apellido,\", \", p.nombre) as nombre, f.persona_responsable_id as id,"
 				+ "sum(importe_comision) AS importeComision, "
 				+ "sum(importe_costo) AS importeCosto, "
 				+ "sum(importe_rentabilidad) AS importeRentabilidad, "
@@ -34,7 +39,7 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 	}
 	
 	@Override
-	public List<Map<String, Object>> facturacionAcumuladaPorLineaProducto(ReportePaginadoDTO reporteDTO) {
+	public List<ItemReporteAcumuladoDTO> facturacionAcumuladaPorLineaProducto(ReportePaginadoDTO reporteDTO) {
 		
 		
 		return query(generateQuerySQLDato("linea_producto"), reporteDTO.getDesde(), reporteDTO.getHasta());
@@ -42,15 +47,19 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 	}
 	
 	@Override
-	public List<Map<String, Object>> facturacionAcumuladaPorStatus(ReportePaginadoDTO reporteDTO) {
+	public List<ItemReporteAcumuladoDTO> facturacionAcumuladaPorStatus(ReportePaginadoDTO reporteDTO) {
 		
 		
 		return query(generateQuerySQLDato("status"), reporteDTO.getDesde(), reporteDTO.getHasta());
 		
 	}
 	
-	private List<Map<String, Object>> query(String sql, Date desde, Date hasta) {
-		return getJdbcTemplate().queryForList(sql, new Object[]{desde, hasta});
+	private List<ItemReporteAcumuladoDTO> query(String sql, Date desde, Date hasta) {
+		return getJdbcTemplate().query(sql, new Object[]{desde, hasta}, new ItemRowMapper());
+	}
+	
+	private List<ItemReporteAcumuladoDTO> query(String sql) {
+		return getJdbcTemplate().query(sql, new ItemRowMapper());
 	}
 	
 	private String generateQuerySQLDato(String dato){
@@ -71,7 +80,7 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 	}
 
 	@Override
-	public List<Map<String, Object>> facturacionAVencer(ReportePaginadoDTO reporteDTO) {
+	public List<Factura> facturacionAVencer(ReportePaginadoDTO reporteDTO) {
 		String sql = "SELECT f.*, c.nombre AS cliente, tf.nombre AS tipo_factura, s.nombre AS status, pr.apellido ape_respo, pr.nombre AS nom_respo "
 				+ "FROM facturas f "
 				+ "INNER JOIN clientes c ON c.cliente_id = f.cliente_id "
@@ -81,13 +90,13 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 				+ "WHERE fecha_vencimiento between date(?) and date(?) and f.status_id!=4 "
 				+ "ORDER BY fecha_vencimiento, tipo_factura_id, factura_id;";
 
-		return query(sql, reporteDTO.getDesde(), reporteDTO.getHasta());
+		return getJdbcTemplate().query(sql, new Object[]{reporteDTO.getDesde(), reporteDTO.getHasta()}, new FacturaListRowMapper());
 	}
 	
 	@Override
-	public List<Map<String, Object>> indicadorFacturacionPendiente(ReporteDTO reporteDTO) {
+	public List<ItemReporteAcumuladoDTO> indicadorFacturacionPendiente(ReporteDTO reporteDTO) {
 
-		String sql = "SELECT count(*) AS cantidad, "
+		String sql = "SELECT null as id, null as nombre,count(*) AS cantidad, "
 				+ "sum(importe_comision) AS importeComision, "
 				+ "sum(importe_costo) AS importeCosto, "
 				+ "sum(importe_rentabilidad) AS importeRentabilidad, "
@@ -97,13 +106,13 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 				+ "FROM facturas f "
 				+ "WHERE status_id not in(1,4)";
 		
-		return getJdbcTemplate().queryForList(sql);
+		return query(sql);
 	}
 
 	@Override
-	public List<Map<String, Object>> indicadorFacturacionCobrada(ReporteDTO reporteDTO) {
+	public List<ItemReporteAcumuladoDTO> indicadorFacturacionCobrada(ReporteDTO reporteDTO) {
 
-		String sql = "SELECT count(*) AS cantidad, "
+		String sql = "SELECT null as id, null as nombre,count(*) AS cantidad, "
 				+ "sum(importe_comision) AS importeComision, "
 				+ "sum(importe_costo) AS importeCosto, "
 				+ "sum(importe_rentabilidad) AS importeRentabilidad, "
@@ -117,9 +126,9 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 	}
 	
 	@Override
-	public List<Map<String, Object>> indicadorFacturacion(ReporteDTO reporteDTO) {
+	public List<ItemReporteAcumuladoDTO> indicadorFacturacion(ReporteDTO reporteDTO) {
 
-		String sql = "SELECT count(*) AS cantidad, "
+		String sql = "SELECT null as id, null as nombre, count(*) AS cantidad, "
 				+ "sum(importe_comision) AS importeComision, "
 				+ "sum(importe_costo) AS importeCosto, "
 				+ "sum(importe_rentabilidad) AS importeRentabilidad, "
@@ -131,5 +140,24 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 		
 		return query(sql, reporteDTO.getDesde(), reporteDTO.getHasta());
 	}
+	
+	public class ItemRowMapper implements RowMapper<ItemReporteAcumuladoDTO> {
+		@Override
+		public ItemReporteAcumuladoDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
+			ItemReporteAcumuladoDTO item = new ItemReporteAcumuladoDTO();
+			
+			item.setId(rs.getInt("ID"));
+			item.setNombre(rs.getString("NOMBRE"));
+			item.setImporteComision(rs.getBigDecimal("IMPORTECOMISION"));
+			item.setImporteCosto(rs.getBigDecimal("IMPORTECOSTO"));
+			item.setImporteIva(rs.getBigDecimal("IMPORTEIVA"));
+			item.setImporteRentabilidad(rs.getBigDecimal("IMPORTERENTABILIDAD"));
+			item.setImporteSubtotal(rs.getBigDecimal("IMPORTESUBTOTAL"));
+			item.setImporteTotal(rs.getBigDecimal("IMPORTETOTAL"));
+			item.setCantidad(rs.getInt("CANTIDAD"));
+			return item;
+		}
+	}
+
 	
 }
