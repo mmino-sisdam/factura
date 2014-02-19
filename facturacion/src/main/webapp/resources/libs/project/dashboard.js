@@ -12,6 +12,10 @@ window.ReportesIndicadoresCollection = Backbone.Collection.extend({
 	url: "reportes/indicadores"
 });
 
+window.ReportsInvoiceCollection = Backbone.Collection.extend({
+	url: "reportes/vencimiento"
+});
+
 // Indicadores por vendedor
 window.IndicadoresVendedorView = Backbone.View.extend({
 	
@@ -58,6 +62,42 @@ window.IndicadoresProductoView = Backbone.View.extend({
 	}	
 }); 
 
+//Indicadores por vencimiento
+window.IndicatorsInvoiceView = Backbone.View.extend({
+	
+	el: PATH_D_INVOICE,
+	
+	template: _.template( $('#tmpl-dashboard-facturas').html() ),
+	
+	events: {
+		'click .btn-info'		: 'invoice_info',
+	},	
+	
+	initialize: function () {
+
+		// Tabla vendedor
+		this.model = new ReportsInvoiceCollection();
+		this.model.create();
+		
+		this.model.bind('change', this.render, this);
+		
+	},
+	
+	render: function () {
+		//console.log({"invoice": this.model.toJSON()});
+		$(this.el).html( this.template( {"invoice": this.model.toJSON()} ) );
+	    return this;
+	    
+	},
+	
+	invoice_info: function(ev){
+		
+		var id = $(ev.currentTarget).attr('data');
+		
+		app.navigate(URL_INVOICE_INFO + id, true);
+			
+	}
+}); 
 
 var DashboardView = Backbone.View.extend({
 
@@ -92,6 +132,7 @@ var DashboardView = Backbone.View.extend({
 		
 		new IndicadoresVendedorView();
 		new IndicadoresProductoView();
+		new IndicatorsInvoiceView();
 		
 	}
 

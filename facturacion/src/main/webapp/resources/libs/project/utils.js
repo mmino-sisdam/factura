@@ -15,13 +15,14 @@ var PATH_MODAL 		= '#layout-modal';
 var PATH_ALERT 		= '#msg-alert';
 var PATH_D_VENDEDOR = '#dashboard-vendedor';
 var PATH_D_PRODUCTO = '#dashboard-producto';
-
+var PATH_D_INVOICE  = '#dashboard-facturas';
 var PATH_IVA = 21;
 
 
 // Routing
 /* ------------------------------ */
 var URL_FACTURAS 	= 'facturas';
+var URL_INVOICE_INFO 	= 'factura/info/';
 
 var URL_USERS 		= 'usuarios';
 var URL_USER_ADD 	= 'usuario/nuevo';

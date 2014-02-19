@@ -139,9 +139,16 @@
                   
                 </span> 
               </div>
-              <div class="panel-body">
-
-                <div class="btn-group">
+              <div class="panel-body" id="dashboard-facturas">
+				<p>Cargando...</p>			  
+			  </div>
+            </div>            
+        </section>
+      </div>
+    </script>
+    
+    <script id="tmpl-dashboard-facturas" type="text/template">
+ 				<div class="btn-group">
                   <div class="btn-group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                       Items por p&aacute;gina
@@ -173,8 +180,10 @@
                 <table class="table table-striped" cellpadding="0" cellspacing="0">
                   <thead>
                     <tr>
+					  <th>N&uacute;mero</th>
                       <th>Fecha emisi&oacute;n</th>
                       <th>Fecha vencimiento</th>
+					  <th>Status</th>
                       <th>Cliente</th>
                       <th>Forma de pago</th>
                       <th>Monto</th>
@@ -182,39 +191,27 @@
                     </tr>
                   </thead>
                   <tbody>
+			<@ pages_facturas = invoice[0].vencimiento.resultado.length @>
+         	<@ _.each(invoice[0].vencimiento.resultado, function(r){ @>
                     <tr>
-                      <td>04/01/14</td>
-                      <td>24/01/14</td>
-                      <td>Bayer Argentina S.A</td>
-                      <td>Cheque</td>
-                      <td>$140.210</td>
+                      <td><@= r.numero @></td>
+                      <td><@= r.fecha @></td>
+                      <td><@= r.fechaVencimiento @></td>
+                      <td><@= r.status @></td>
+                      <td><@= r.cliente @></td>
+                      <td><@= r.formaDePago @></td>
+                      <td><@= r.importeTotal @></td>
                       <td>
-                        <button type="button" class="btn btn-xs btn-info">
+                        <button type="button" class="btn btn-xs btn-info" data="<@= r.idTipoFactura @>/<@= r.numero @>">
                           <i class="glyphicon glyphicon-info-sign"></i>
                         </button>
                       </td>
                     </tr>
-                    <tr>
-                      <td>04/01/14</td>
-                      <td>24/01/14</td>
-                      <td>Bayer Argentina S.A</td>
-                      <td>Cheque</td>
-                      <td>$140.210</td>
-                      <td>
-                        <button type="button" class="btn btn-xs btn-info">
-                          <i class="glyphicon glyphicon-info-sign"></i>
-                        </button>
-                      </td>
-                    </tr>
+  			 <@ }); @>
                   </tbody>
                 </table>
-                <p class="panel-data-table">Mostrando 5 de 28 entradas</p>
-              </div>
-            </div>            
-        </section>
-      </div>
-    </script>
-    
+                <p class="panel-data-table">Mostrando <@= pages_facturas @> de <@= pages_facturas @> entradas</p>	
+	</script>
     
     <script id="tmpl-dashboard-vendedor" type="text/template">
       <table class="table table-striped" cellpadding="0" cellspacing="0">

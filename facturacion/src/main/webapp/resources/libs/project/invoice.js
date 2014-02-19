@@ -33,9 +33,11 @@ window.InvoiceView = Backbone.View.extend({
 	template: _.template( $('#tmpl-list-invoice').html() ),
 	
 	events: {
+		'click .btn-info'		: 'invoice_info',
+		'click .btn-edit'		: 'invoice_edit'
 		//'click .btn-month': 'invoice_next'
 	},
-
+	
 	initialize: function () {
 		
 		// Call listado facturas
@@ -58,6 +60,25 @@ window.InvoiceView = Backbone.View.extend({
 	    return this;
 
 	},
+	
+	invoice_info: function(ev){
+		
+		var id = $(ev.currentTarget).attr('data');
+		
+		app.navigate(URL_INVOICE_INFO + id, true);
+			
+	},	
+
+	invoice_edit: function(ev){
+		
+    	var msg = AlertModel.set({
+    		'type': 'error',
+    		'body': 'Acceso no disponible por el momento'
+    	});
+    	
+    	new AlertView({model: msg });
+			
+	},	
 	
 	invoice_next: function(ev){
 		
@@ -207,7 +228,7 @@ var NewInvoiceView_A = Backbone.View.extend({
 	            		'body': 'La factura se cargo correctamente'
 	            	});
 	            	
-	            	alert = new AlertView({model: msg });
+	            	new AlertView({model: msg });
 				
 					app.navigate(URL_FACTURAS, true);				
 					
@@ -219,7 +240,7 @@ var NewInvoiceView_A = Backbone.View.extend({
 	            		'body': 'Hubo un error al cargar la factura'
 	            	});
 	            	
-	            	alert = new AlertView({model: msg });  
+	            	new AlertView({model: msg });  
 	            	      
 	        		
 	            }

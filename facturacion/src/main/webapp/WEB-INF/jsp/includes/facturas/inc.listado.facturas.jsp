@@ -98,12 +98,12 @@
                           <td><@= l.importeRentabilidad @></td>
                           <td><@= l.responsable @></td>
                           <td>
-                            <a href="#/factura/editar/<@= l.idTipoFactura @>/<@= l.numero @>" title="Editar factura <@= l.numero @>" class="btn btn-xs btn-primary">
+                            <buton type="button" title="Editar factura <@= l.numero @>" class="btn btn-xs btn-primary btn-edit">
                               <i class="glyphicon glyphicon-pencil"></i>
-                            </a>
-                            <a href="#/factura/info/<@= l.idTipoFactura @>/<@= l.numero @>" title="Ver info factura <@= l.numero @>" class="btn btn-xs btn-info">
+                            </buton>
+                            <buton type="button" title="Ver info factura <@= l.numero @>" class="btn btn-xs btn-info" data="<@= l.idTipoFactura @>/<@= l.numero @>">
                               <i class="glyphicon glyphicon-info-sign"></i>
-                            </a>
+                            </button>
                           </td>
                         </tr>
 
