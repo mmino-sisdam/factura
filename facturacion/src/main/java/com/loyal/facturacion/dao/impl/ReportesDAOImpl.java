@@ -87,7 +87,7 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 				+ "INNER JOIN tipo_factura tf ON tf.tipo_factura_id = f.tipo_factura_id "
 				+ "INNER JOIN personas pr ON pr.persona_id = f.persona_responsable_id "
 				+ "INNER JOIN status s ON s.status_id = f.status_id "				
-				+ "WHERE fecha_vencimiento between date(?) and date(?) and f.status_id!=4 "
+				+ "WHERE fecha_vencimiento between date(?) and date(?) and not in(2,4) "
 				+ "ORDER BY fecha_vencimiento, tipo_factura_id, factura_id;";
 
 		return getJdbcTemplate().query(sql, new Object[]{reporteDTO.getDesde(), reporteDTO.getHasta()}, new FacturaListRowMapper());
@@ -104,7 +104,7 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 				+ "sum(importe_iva) AS importeIva, "
 				+ "sum(importe_total) AS importeTotal "
 				+ "FROM facturas f "
-				+ "WHERE status_id not in(1,4)";
+				+ "WHERE status_id not in(2,4)";
 		
 		return query(sql);
 	}
@@ -120,7 +120,7 @@ public class ReportesDAOImpl extends JdbcDaoSupport implements ReportesDAO {
 				+ "sum(importe_iva) AS importeIva, "
 				+ "sum(importe_total) AS importeTotal "
 				+ "FROM facturas f "
-				+ "WHERE fecha_cobro between date(?) and date(?) and status_id = 1";
+				+ "WHERE fecha_cobro between date(?) and date(?) and status_id = 2";
 		
 		return query(sql, reporteDTO.getDesde(), reporteDTO.getHasta());
 	}
