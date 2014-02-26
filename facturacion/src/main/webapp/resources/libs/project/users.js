@@ -18,10 +18,16 @@ window.User = Backbone.Model.extend({
 	  }
 });
 
+
+
 window.DeleteModel = new Backbone.Model({ 
 	title		: '', 
 	body		: '',
 	modal_id	: 'modal'
+});
+
+window.ChangeModel = new Backbone.Model({ 
+	id			: ''
 });
 
 window.AlertModel = new Backbone.Model({ 
@@ -32,6 +38,10 @@ window.AlertModel = new Backbone.Model({
 
 window.UserCollection = Backbone.Collection.extend({
 	url: "personas"
+});
+
+window.PasswordCollection = Backbone.Collection.extend({
+	url: "password"
 });
 
 
@@ -66,6 +76,7 @@ window.UsersView = Backbone.View.extend({
 		active(this.active);
 		
 	    $(this.el).html(this.template(this.model.toJSON()));
+	    	    		 
 	    return this;
 
 	},
@@ -86,12 +97,9 @@ window.UsersView = Backbone.View.extend({
 	
 	user_password: function(ev){
 		
-    	var msg = AlertModel.set({
-    		'type': 'error',
-    		'body': 'Acceso no disponible por el momento'
-    	});
-    	
-    	new AlertView({model: msg }); 		
+		var id = $(ev.currentTarget).attr('data');	
+		
+		app.navigate(URL_USER_PASS + id, true);
 		
 	},
 
@@ -112,6 +120,7 @@ window.UsersView = Backbone.View.extend({
 	}     
 });
 
+
 /*
  * 	Creacion de usuario
  * */
@@ -123,7 +132,7 @@ window.NewUsuerView = Backbone.View.extend({
 	active:".btn-usuarios",
 
 	template: _.template( $('#tmpl-new-user').html() ),
-	
+
     events: {
         'click .btn-accept': 'accept',
         'click .btn-cancel': 'cancel'
@@ -131,10 +140,11 @@ window.NewUsuerView = Backbone.View.extend({
 
 	initialize: function () {
 		
-		_.bind(this.render, 'render');
-		//this.model.fetch();
-		//this.model.bind('change', this.render, this);
-		//this.render();
+		$(this.el).unbind();
+		
+		this.model.fetch();
+		this.model.bind('change', this.render, this);
+
 	}, 
 
 	render: function () {
@@ -148,9 +158,7 @@ window.NewUsuerView = Backbone.View.extend({
 
 	// Btn click Aceptar / Save usuario
     accept: function() {
-    	    	
-    	console.log('envio...');
-    	/*
+    	    	    	
     	if( $('#frm-new-user').valid() ){
 	    	this.post = new UserCollection();
 	    	
@@ -200,7 +208,7 @@ window.NewUsuerView = Backbone.View.extend({
         	new AlertView({model: msg }); 
         	
     	}
-    	*/
+    	
     	
     },
     
@@ -231,7 +239,9 @@ window.EditUserView = Backbone.View.extend({
 	},
 
 	initialize: function () {
-
+		
+		$(this.el).unbind();
+		
 		this.model.fetch();
 		this.model.bind('change', this.render, this); 
 
@@ -289,26 +299,89 @@ window.EditUserView = Backbone.View.extend({
 });
 
 
-window.AlertView = Backbone.View.extend({
-	
-	el: PATH_ALERT,	
-	
-	template: _.template('<p class="<@= type @>"><@= body @></p>'),
-	
-    initialize: function() {
-    	
-        this.render();
-    
-    },
+/*
+ * 	Edicion password de usuario
+ * */
 
-    render: function() {
+window.EditUserPassView = Backbone.View.extend({
+
+	el: PATH_LAYOUT,
+	
+	active:".btn-usuarios",
+
+	template: _.template( $('#tmpl-password-user').html() ),
+
+	events: {
+		'click .btn-accept': 'accept',
+		'click .btn-cancel': 'cancel'
+	},
+
+	initialize: function () {
+		
+		$(this.el).unbind();
+		
+		this.model.fetch();
+		this.model.bind('change', this.render, this); 
+
+	}, 
+
+	render: function () {
+		
+		active(this.active);
+		
+	    $(this.el).html(this.template(this.model.toJSON()));
+	    return this;
+
+	},
+
+	// Btn click Aceptar / Save password usuario
+    accept: function() {
     	
-    	$(this.el).html(this.template(this.model.toJSON())).show().delay(4000).fadeOut('fast');
-	    return this; 
-	    
-    }   
+    	if( $('#frm-password-user').valid() ){
+    		
+	    	var password = new PasswordCollection();
+		    		
+	    	password.create({
+	    		"id"					: $("input[name='id']").val(),
+	    	    "newPassword"			: $("input[name='newPassword']").val(),
+	    	    "repeatNewPassword"		: $("input[name='repeatNewPassword']").val()
+	    	} , {
+				success: function() {
+	
+					var msg = AlertModel.set({
+	            		'type': 'success',
+	            		'body': MSG_USER_PASS_SUCCES
+	            	});
+	            	
+	            	new AlertView({model: msg });
+	            	
+					app.navigate(URL_USERS, true);
+					
+				},
+	            error : function(err) {
+	            	
+	            	var msg = AlertModel.set({
+	            		'type': 'error',
+	            		'body': MSG_USER_PASS_ERROR
+	            	});
+	            	
+	            	new AlertView({model: msg });             	
+	            	
+	            }
+			}); 
+    	}
+    	
+    },
     
+    cancel: function(){
+    	
+    	app.navigate(URL_USERS, true);
+    	
+    }		
+	
 });
+
+
 
 /*
  * 	Eliminacion de usuario

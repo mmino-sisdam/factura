@@ -42,7 +42,7 @@
 		                  </div>
 		                  <div class="form-group">
 		                    <label for="">Retenci&oacute;n</label>
-							<p>Sin retenci&oacute;n FF</p>
+							<p><@= idTipoRetencion @></p>
 		                  </div>
 		                </div>
 		
@@ -72,6 +72,10 @@
 		
 		                <!-- columna nro. 3 -->
 		                <div class="col-md-4 clearfix">
+		                   <div class="form-group">
+		                     <label for="">Tipo de comprobante entregable</label>
+		                     <p><@= tipoFactura @></p>
+		                   </div>
 		                   <div class="form-group">
 		                      <label for="">Status</label>
 		                      <p><@= status @></p>
@@ -120,7 +124,7 @@
 		                <div class="col-md-4 clearfix">
 		                  <div class="form-group">
 		                    <label for="">% Comisi&oacute;n</label>
-							<p>FF</p>
+							<p><@= idTipoComision @></p>
 		                  </div>
 		                </div>
 		
@@ -132,27 +136,15 @@
 		                </div>
 		
 		                <div class="col-md-12 clearfix"></div>
-		
-		                <div class="col-md-4 clearfix">
-		                  <div class="form-group">
-		                    <label for="">Cobrado</label>
-		                    <p>No FF</p> 
-		                  </div>
-		                </div>
-		
+						
+<!--
 		                <div class="col-md-4 clearfix">
 		                  <div class="form-group">
 		                    <label for="">Fecha comprobante entregable</label>
 		                    <p><@= fechaComprobableEntregable @></p>
 		                  </div>                          
 		                </div>
-		
-		                <div class="col-md-4 clearfix">
-		                  <div class="form-group">
-		                    <label for="">Tipo de comprobante entregable</label>
-		                    <p><@= tipoFactura @></p>
-		                  </div>
-		                </div>
+-->
 		
 		                <div class="col-md-12 clearfix">
 		                  <label>Responsble por Loyal</label>
@@ -165,19 +157,12 @@
 		                  </div>
 		                </div>
 		
-		                <div class="col-md-4 clearfix">
-		                  <div class="form-group">
-		                    <label for="">Area</label>
-		                    <p>Ventas FF</p>
-		                  </div>
-		                </div>
-		
 		                <div class="col-md-12 clearfix"></div>
 		
 		                <div class="col-md-4 clearfix">
 		                  <div class="form-group">
 		                    <label for="">Linea de producto</label>
-		                    <p>Licencias FF</p>
+		                    <p><@= idLineaProducto @></p>
 		                  </div>
 		                </div>
 		
@@ -225,11 +210,9 @@
 		                    <thead>
 		                      <tr>
 		                        <th width="3%">#</th>
-		                        <th width="33%">Descripci&oacute;n</th>
-		                        <th width="10%">Moneda</th>
+		                        <th width="53%">Descripci&oacute;n</th>
 		                        <th width="20%">Precio unitario</th>
 		                        <th width="20%">Total</th>
-		                        <th width="10%">&nbsp;</th>
 		                      </tr>
 		                    </thead>
 		                    <tbody class="table-fc-body">
@@ -239,7 +222,6 @@
 								<tr>
 									<td><@= d.cantidad @></td>
 									<td><@= d.detalle @></td>
-									<td>Moneda FF</td>
 									<td><@= d.importeUnitario @></td>
 									<td><@= d.importeTotal @></td>
 									<td>&nbsp;</td>
@@ -253,14 +235,14 @@
 							<table class="table" cellpadding="0" cellspacing="0">
 								<tbody>
 		                      		<tr>
-		                      			<td colspan="3" width="48%">&nbsp;</td>
+		                      			<td colspan="3" width="56%">&nbsp;</td>
 		                        		<td width="21%"><strong>Sub total</strong></td>
 		                        		<td class="label-sub-total"><@= importeSubtotal @></td>
 		                        		<td>&nbsp;</td>
 		                     		 </tr>
 		                      		<tr>
 		                        		<td colspan="3">&nbsp;</td>
-		                        		<td><strong>IVA [21%]</strong></td>
+		                        		<td><strong>IVA</strong></td>
 		                        		<td class="label-iva"><@= importeIVA @></td>
 		                        		<td>&nbsp;</td>
 		                      		</tr>

@@ -12,14 +12,18 @@
 		    "factura/info/:id/:numero"		: "invoice_info",
 		    "usuarios"						: "users",
 		    "usuario/nuevo"					: "new_user",
-		    "usuario/editar/:id"			: "edit_user"
+		    "usuario/editar/:id"			: "edit_user",
+		    "usuario/editar-contrasena/:id"	: "edit_password",
+			"clientes"						: "clients",
+		    "cliente/nuevo"					: "client_new",
+			"cliente/editar/:id"			: "client_edit"
 		  },
 
 		  // Seccion Dashboard
 		  dashboard: function() {
 			
 			// Initialize the View, 
-		  	var view = new DashboardView();
+		  	new DashboardView();
 
 		  },
 
@@ -30,45 +34,43 @@
 
 		  	// Initialize the Model
 			var get = new Invoice();
-			
-			
 
 			// Initialize the View, 
 			// passing it the model instance
-			var view = new InvoiceView({ model: get});
+			new InvoiceView({ model: get});
 
 		  },
 
 		  // Seccion nueva factura
 		  new_invoice: function(tipo){
 
-		  	if(tipo == '1'){
+		  	//if(tipo == '1'){
 		  		
 		  		// Initialize the Model
-				var get = new InvoiceData();
+				//var get = new InvoiceData();
 				
-		  		var view = new NewInvoiceView_A({ model: get });
+		  		new NewInvoiceView({ id: tipo });
 
-		  	}
+		  	//}
 
 		  },
 
-		  invoice_info: function(id, numero){
+		  invoice_info: function(tipo, numero){
 		  
 			  // Id corresponde al tipo de factura
 			  // Numero corresponde al numero de factura
-			  var get = new Invoice({"id": id + '-' + numero});
+			  var get = new Invoice({"id": tipo + '-' + numero});
 			  
-			  var view = new NewInvoiceInfoView({model: get});
+			  new NewInvoiceInfoView({model: get});
 			  
 		  },
 
-		  // Seccion vista de factura por ID
-		  invoice_edit: function(id, numero){
+		  // Seccion edicion de factura por numero
+		  invoice_edit: function(tipo, numero){
 		  	
-		  	var data = new Invoice({"id": id + '-' + numero});
+			var get = new Invoice({"id": tipo + '-' + numero});
 		  	
-		  	new NewInvoiceEditView({model: data});
+		  	new EditInvoiceView({model: get, id: tipo});
 		  	
 		  },
 
@@ -80,7 +82,7 @@
 			
 			// Initialize the View, 
 			// passing it the model instance
-			var view = new UsersView({ model: get });
+			new UsersView({ model: get });
 
 		  },
 
@@ -98,9 +100,47 @@
 			  
 			 var get = new User({"id": id});
 			 
-			 var view = new EditUserView({ model: get });
+			 new EditUserView({ model: get });
 			  
-		  }
+		  },
+		  
+		  edit_password: function(id){
+			  
+			  var get = new User({"id": id});
+			  
+			  new EditUserPassView({ model: get });
+			  
+		  },
+		  
+		  // Seccion clientes
+		  clients: function(){
+				
+			// Initialize the Model
+			var get = new Client();
+				
+			// Initialize the View, 
+			// passing it the model instance
+			new ClientsView({ model: get });
+
+		  },
+
+		  // Seccion nuevo usuario	
+		  client_new: function(){
+			
+			var get = new Client();
+			  
+		  	// Initialize the View, 
+		  	new NewClientView({model: get});
+		  	
+		  },
+		  
+		  client_edit: function(id){
+			  
+			 var get = new Client({"id": id});
+			 
+			 new EditClientView({ model: get });
+			  
+		  },
 		  
 		});
 

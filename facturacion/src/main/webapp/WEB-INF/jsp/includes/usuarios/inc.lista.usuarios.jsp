@@ -67,18 +67,19 @@
                         <td><@= u.telefono @></td>
                         <td><@= u.rol.descripcion @></td>
                         <td>
-                          <button type="button" class="btn btn-xs btn-primary btn-edit" data="<@= u.id @>">
+                          <button type="button" title="Editar a <@= u.nombre @> <@= u.apellido @>" class="btn btn-xs btn-primary btn-edit" data="<@= u.id @>">
                             <i class="glyphicon glyphicon-pencil"></i>
                           </button>
 						  <button type="button" class="btn btn-xs btn-warning btn-password" data="<@= u.id @>">
-                            <i class="glyphicon glyphicon-asterisk"></i>
+                          	<i class="glyphicon glyphicon-asterisk"></i>
                           </button>
-                          <button type="button" class="btn btn-xs btn-danger btn-delete"
-                             data="<@= u.id @>" 
-                             data-usuario="<@= u.nombre @> <@= u.apellido @>" 
-                             data-toggle="modal" 
-                             data-target="#modal">
-                             <i class="glyphicon glyphicon-remove"></i>
+                          <button type="button" class="btn btn-xs btn-danger btn-delete" 
+								  title="Eliminar a <@= u.nombre @> <@= u.apellido @>"
+                             	  data="<@= u.id @>" 
+                             	  data-usuario="<@= u.nombre @> <@= u.apellido @>" 
+                             	  data-toggle="modal" 
+                             	  data-target="#modal">
+                             	  <i class="glyphicon glyphicon-remove"></i>
                           </button>
                         </td>
                       </tr>
@@ -110,3 +111,4 @@
 
       </div>
       </script>
+  

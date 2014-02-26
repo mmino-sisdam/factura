@@ -11,6 +11,7 @@
     <link rel="stylesheet/less" type="text/css" href="resources/css/styles.less" />
     <link rel="stylesheet" href="resources/libs/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="resources/libs/bootstrap/datepicker/css/datepicker3.css" />
+    <link rel="stylesheet" href="resources/libs/bootstrap/x-editable/css/bootstrap-editable.css" />
    
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -49,6 +50,7 @@
           <li><a href="#/" class="btn-menu btn-dashboard"><i class="glyphicon glyphicon-home"></i> Dashboard</a></li>
           <li><a href="#/facturas" class="btn-menu btn-facturas"><i class="glyphicon glyphicon-list-alt"></i> Facturas</a></li>
           <li><a href="#/usuarios" class="btn-menu btn-usuarios"><i class="glyphicon glyphicon-user"></i> Usuarios</a></li>
+          <li><a href="#/clientes" class="btn-menu btn-clientes"><i class="glyphicon glyphicon-briefcase"></i> Clientes</a></li>
         </ul>
 
       </div>
@@ -66,6 +68,7 @@
 
         <div id="layout"></div>  
         <div id="layout-modal"></div>  
+        <div id="layout-popover"></div> 
 
       </div>
 
@@ -80,6 +83,9 @@
 
     <!-- nuevo usuario -->
     <jsp:include page="includes/usuarios/inc.nuevo.usuario.jsp"></jsp:include>
+    
+    <!-- cambiar password usuario -->
+    <jsp:include page="includes/usuarios/inc.password.usuario.jsp"></jsp:include>
 
     <!-- listado de facturas -->
 	<jsp:include page="includes/facturas/inc.listado.facturas.jsp"></jsp:include>
@@ -88,7 +94,11 @@
 	<!-- facturas tipo A -->
 	<jsp:include page="includes/facturas/inc.nueva.factura.tipo.a.jsp"></jsp:include>
 	<jsp:include page="includes/facturas/inc.item.factura.add.jsp"></jsp:include>
-	<jsp:include page="includes/facturas/inc.item.factura.confirm.jsp"></jsp:include>
+	<jsp:include page="includes/facturas/inc.item.factura.confirm.jsp"></jsp:include> 
+
+    <!-- clientes -->
+    <jsp:include page="includes/clientes/inc.lista.clientes.jsp"></jsp:include>
+    <jsp:include page="includes/clientes/inc.nuevo.cliente.jsp"></jsp:include>
 	
     <!-- Modal Bootstrap -->
  	<jsp:include page="includes/extra/inc.modal.jsp"></jsp:include>
@@ -100,6 +110,7 @@
     <script type="text/javascript" src="resources/libs/bootstrap/js/bootstrap.js"></script>
     
     <script type="text/javascript" src="resources/libs/bootstrap/datepicker/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="resources/libs/bootstrap/x-editable/js/bootstrap-editable.min.js"></script>
     
     <!-- Project -->    
     <script type="text/javascript" src="resources/libs/project/utils.js"></script>

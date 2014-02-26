@@ -36,16 +36,16 @@
                       <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-1">Factura A</a></li>
-                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-2">Factura B</a></li>
-                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-3">Factura E</a></li>
+                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-1">Factura A <span class="badge pull-right">1</span></a></li>
+                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-2">Factura B <span class="badge pull-right">2</span></a></li>
+                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-3">Factura E <span class="badge pull-right">3</span></a></li>
                       <li class="divider"></li>
-                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-4">Nota de cr&eacute;dito A</a></li>
-                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-5">Nota de cr&eacute;dito B</a></li>
-                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-6">Nota de cr&eacute;dito E</a></li>
+                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-4">Nota de cr&eacute;dito A <span class="badge pull-right">4</span></a></li>
+                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-5">Nota de cr&eacute;dito B <span class="badge pull-right">5</span></a></li>
+                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-6">Nota de cr&eacute;dito E <span class="badge pull-right">6</span></a></li>
                       <li class="divider"></li>
-                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-7">Nota de d&eacute;bito A</a></li>
-                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-8">Nota de d&eacute;bito B</a></li>
+                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-7">Nota de d&eacute;bito A <span class="badge pull-right">7</span></a></li>
+                      <li role="presentation"><a role="menuitem" href="#/factura/nueva/tipo-8">Nota de d&eacute;bito B <span class="badge pull-right">8</span></a></li>
                     </ul>
                   </div>                   
                 </div>
@@ -98,7 +98,7 @@
                           <td><@= l.importeRentabilidad @></td>
                           <td><@= l.responsable @></td>
                           <td>
-                            <buton type="button" title="Editar factura <@= l.numero @>" class="btn btn-xs btn-primary btn-edit">
+                            <buton type="button" title="Editar factura <@= l.numero @>" class="btn btn-xs btn-primary btn-edit" data="<@= l.idTipoFactura @>/<@= l.numero @>">
                               <i class="glyphicon glyphicon-pencil"></i>
                             </buton>
                             <buton type="button" title="Ver info factura <@= l.numero @>" class="btn btn-xs btn-info" data="<@= l.idTipoFactura @>/<@= l.numero @>">

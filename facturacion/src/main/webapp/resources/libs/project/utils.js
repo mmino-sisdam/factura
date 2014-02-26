@@ -12,22 +12,40 @@
 
 var PATH_LAYOUT 	= '#layout';
 var PATH_MODAL 		= '#layout-modal';
+var PATH_POPOVER	= '#layout-popover';
 var PATH_ALERT 		= '#msg-alert';
 var PATH_D_VENDEDOR = '#dashboard-vendedor';
 var PATH_D_PRODUCTO = '#dashboard-producto';
 var PATH_D_INVOICE  = '#dashboard-facturas';
-var PATH_IVA = 21;
+
+var PATH_INVOICE_ID = {"2": true, "3": true, "5": true, "6": true, "8": true};	
 
 
 // Routing
 /* ------------------------------ */
-var URL_FACTURAS 	= 'facturas';
+var URL_FACTURAS 		= 'facturas';
+var URL_INVOICE_EDIT 	= 'factura/editar/';
 var URL_INVOICE_INFO 	= 'factura/info/';
 
 var URL_USERS 		= 'usuarios';
 var URL_USER_ADD 	= 'usuario/nuevo';
 var URL_USER_EDIT 	= 'usuario/editar/';
+var URL_USER_PASS 	= 'usuario/editar-contrasena/';
 
+var URL_CLIENTS		= 'clientes';
+var URL_CLIENT_ADD 	= 'cliente/nuevo';
+var URL_CLIENT_EDIT = 'cliente/editar/';
+
+// Messages
+/* ------------------------------ */
+
+var MSG_USER_PASS_SUCCES = 'La contrase&ntilde;a del usuario se modific&oacute; correctamente';
+var MSG_USER_PASS_ERROR = 'Hubo un error al modificar la contrase&ntilde;a del usuario';
+
+// Inovice
+var MSG_INVOICE_SAVE_SUCCESS = 'La factura se cargo correctamente';
+var MSG_INVOICE_SAVE_ERROR = 'Hubo un error al cargar la factura';
+var MSG_CLIENT_SELECTED_ERROR = 'Debes seleccionar un cliente en la parte superior';
 
 // Active
 /* ------------------------------ */
@@ -41,6 +59,27 @@ function convertToDecimal(x){
 	x = x.split('').reverse().join('').replace(/^[\.]/,'');	
 	return x;
 };
+
+window.AlertView = Backbone.View.extend({
+	
+	el: PATH_ALERT,	
+	
+	template: _.template('<p class="<@= type @>"><@= body @></p>'),
+	
+    initialize: function() {
+    	
+        this.render();
+    
+    },
+
+    render: function() {
+    	
+    	$(this.el).html(this.template(this.model.toJSON())).show().delay(4000).fadeOut('fast');
+	    return this; 
+	    
+    }   
+    
+});
 
 /*
 tpl = {

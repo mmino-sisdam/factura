@@ -1,6 +1,38 @@
 
 window.Invoice = Backbone.Model.extend({
-	urlRoot: "facturas"
+	urlRoot: "facturas",
+	defaults: {
+		"idCliente"			: "",
+		"localizacion"		: "",
+		"contacto"			: "",
+		"idTipoIVA"			: "",
+		"cuit"				: "",
+		"idTipoRetencion"	: "",
+		"numero"			: "",
+		"fecha"				: "",
+		"fechaVencimiento"	: "",
+		"fechaProbableCobro": "",
+		"fechaCobro"		: "",
+		"porcentajeIVA"		: "",
+		"idStatus"			: "",
+		"importeIVA"		: "",
+		"importeTotal"		: "",
+		"idTipoComision"	: "",
+		"importeComision"	: "",
+		"idResponsable"		: "",
+		"idLineaProducto"	: "",
+		"importeCosto"		: "",
+		"importeRentabilidad": "",
+		"formaDePago"		: "",
+		"remito"			: "",
+		"ordenDeCompra"		: "",
+		"detalles": [{
+			"cantidad"		: "1",
+			"detalle"		: "",
+			"importeTotal"	: "",
+			"importeUnitario": ""
+		}]
+	}
 });
 
 window.InvoiceCollection = Backbone.Collection.extend({
@@ -10,6 +42,10 @@ window.InvoiceCollection = Backbone.Collection.extend({
 
 window.InvoiceData = Backbone.Model.extend({
 	urlRoot: "datos/factura"
+});
+
+window.InvoiceDataCollection = Backbone.Collection.extend({
+	url: "datos/factura"
 });
 
 window.InvoiceTableModel = Backbone.Collection.extend({
@@ -34,19 +70,17 @@ window.InvoiceView = Backbone.View.extend({
 	
 	events: {
 		'click .btn-info'		: 'invoice_info',
-		'click .btn-edit'		: 'invoice_edit'
-		//'click .btn-month': 'invoice_next'
+		'click .btn-edit'		: 'invoice_edit',
+		'click .btn-month'		: 'invoice_next'
 	},
 	
 	initialize: function () {
 		
+		$(this.el).unbind();
+		
 		// Call listado facturas
 		this.model.fetch();
 		this.model.bind('change', this.render, this); 
-		
-		// Call datos
-		//this.datos = new InvoiceData();
-		//this.datos.fetch();
 		
 
 	}, 
@@ -70,13 +104,10 @@ window.InvoiceView = Backbone.View.extend({
 	},	
 
 	invoice_edit: function(ev){
+
+		var id = $(ev.currentTarget).attr('data');
 		
-    	var msg = AlertModel.set({
-    		'type': 'error',
-    		'body': 'Acceso no disponible por el momento'
-    	});
-    	
-    	new AlertView({model: msg });
+		app.navigate(URL_INVOICE_EDIT + id, true);		
 			
 	},	
 	
@@ -98,9 +129,9 @@ window.InvoiceView = Backbone.View.extend({
 
 
 /*
- * 	Vista de una nueva factura tipo A
+ * 	Vista de una nueva factura
  * */
-var NewInvoiceView_A = Backbone.View.extend({
+var NewInvoiceView = Backbone.View.extend({
 
 	el: PATH_LAYOUT,
 	
@@ -122,8 +153,12 @@ var NewInvoiceView_A = Backbone.View.extend({
 		input_cliente_sucursal	: '.cliente-sucursal', 
 		input_cliente_contacto	: '.cliente-contacto',  
 		input_cliente_cuit		: '.cliente-cuit',
+		
 		select_cliente_iva		: '.cliente-iva', 
 		select_cliente_retencion: '.cliente-retencion', 
+		
+		btn_table_insert		: '.btn-table-insert',
+		btn_table_confirm		: '.btn-table-confirm',
 		
 		// Class sin punto, se usa para hasClass
 		input_emision		: 'input-fecha-emision',
@@ -141,32 +176,31 @@ var NewInvoiceView_A = Backbone.View.extend({
        'click .btn-accept'			: 'accept',
        'click .btn-table-insert'	: 'add_line',
        'click .btn-table-reset'		: 'table_reset',
-       'click .btn-delete-line'		: 'delete_line',
-       'click .btn-add-line'		: 'confirm_line',
+       //'click .btn-delete-line'		: 'delete_line',
+       'click .btn-table-confirm'	: 'confirm_line',
        'change .select-status'		: 'change_status',
        'change .select-client'		: 'find_client',
     },
 
 	initialize: function () {
-
-		this.model.fetch();
+		
+		this.model 	= new Invoice();
+		this.data 	= new InvoiceData();
+		
+		
+		
+		// Request
+		this.data.fetch();
+		
+		this.data.bind('change', this.render, this);
 		this.model.bind('change', this.render, this);
+		
+		/* 
+		 * si al final queda en false NO aplica iva, 
+		 * si esta en true lo aplica. 
+		*/
+		this.condition_iva = true;
 
-		window.Table = new InvoiceTableModel();
-
-	}, 
-	
-	find_client: function(ev){
-		
-		var op = $(ev.currentTarget).find('option:selected');
-		
-		$(this.clases.input_cliente_sucursal).val( op.attr('data-direccion') );
-		$(this.clases.input_cliente_contacto).val( op.attr('data-contacto') );
-		$(this.clases.input_cliente_cuit).val( op.attr('data-cuit') );
-		
-		$(this.clases.select_cliente_iva).find('option[value="'+ op.attr('data-iva') +'"]').attr('selected','selected');
-		$(this.clases.select_cliente_retencion).find('option[value="'+ op.attr('data-retencion') +'"]').attr('selected','selected');
-		
 	},	
 
 	render: function () {
@@ -175,10 +209,27 @@ var NewInvoiceView_A = Backbone.View.extend({
 		
 		active(t.active);
 		
-		$(this.el).html(this.template(this.model.toJSON()));
+		$(this.el).html(this.template({
+			
+			// Modelo factura
+			"factura": this.model.toJSON(),
+			
+			// Id del tipo de factura a crear
+			"idTipoFactura": this.id,
+			
+			// Modelo datos
+			"datos": this.data.toJSON()
+			
+		}));		
 		
-		console.log(this.model.toJSON());
-	    
+		// Si la factura corresponde con estos ids, no tienen iva
+		// Factura b, Factura e, Nota de credito b, Nota de credito e, Nota de debito b 
+		if( (this.id in PATH_INVOICE_ID) ){
+			
+			this.condition_active();
+			
+		}
+					    
 	    // datepicker class form-datepicker
 	    $('.form-datepicker').datepicker({
 	    	format: "dd/mm/yyyy",
@@ -203,60 +254,101 @@ var NewInvoiceView_A = Backbone.View.extend({
 	    });
 
 	    // Inizialize table
-	    $(this.table).html( this.tableRenderAdd );
+	    //$(this.table).html( this.tableRenderAdd );
     
 	    return this;
   
 	},
 	
+	condition_active: function(){
+		
+		// Remove a los campos correspondientes al iva
+		$('.form-iva').remove();
+		
+		// Aplica iva
+		this.condition_iva = false;
+		
+	},
+	
 	accept: function(){
 		
-		var form = $('#form-invoice');
+		if( $('[name="idCliente"]').find('option:selected').val() != '-1' ){
+		// Succes si hay un cliente seleccionado
+			
+			var form = $('#form-invoice');
 		
-		if(form.valid()){
-			var post = new InvoiceCollection();
-			var alert, msg;
-			
-			var data = form.serializeObject();
-			var result = $.extend(data, {"detalles": Table.toJSON()} );
-			
-	    	post.create(result , {
-				success: function(response) {
-					
-					msg = AlertModel.set({
-	            		'type': 'success',
-	            		'body': 'La factura se cargo correctamente'
-	            	});
-	            	
-	            	new AlertView({model: msg });
+			if(form.valid()){
+				var post = new InvoiceCollection();
+				var alert, msg;
 				
-					app.navigate(URL_FACTURAS, true);				
+				var data = form.serializeObject();
+				var result = $.extend(data, {"detalles": Table.toJSON()} );
+				
+				// Request POST
+		    	post.create(result , {
+					success: function(response) {
+						
+						msg = AlertModel.set({
+		            		'type': 'success',
+		            		'body': MSG_INVOICE_SAVE_SUCCESS
+		            	});
+		            	
+		            	new AlertView({model: msg });
 					
-				},
-	            error : function(err, response) {
-	 
-	            	msg = AlertModel.set({
-	            		'type': 'error',
-	            		'body': 'Hubo un error al cargar la factura'
-	            	});
-	            	
-	            	new AlertView({model: msg });  
-	            	      
-	        		
-	            }
-	    	}); 		
+						app.navigate(URL_FACTURAS, true);				
+						
+					},
+		            error : function(err, response) {
+		 
+		            	msg = AlertModel.set({
+		            		'type': 'error',
+		            		'body': MSG_INVOICE_SAVE_ERROR
+		            	});
+		            	
+		            	new AlertView({model: msg });  
+			
+		            }
+		    	}); 		
+			}
+			
+		}else{
+			
+			// Error, si no selecciono ningun cliente
+        	msg = AlertModel.set({
+        		'type': 'error',
+        		'body': MSG_CLIENT_SELECTED_ERROR
+        	});
+        	
+        	new AlertView({model: msg });
+        	
+        	$('html, body').animate({scrollTop:0}, '500');
+        	
 		}
+		
 	},	
 	
 	cancel: function(){
 		
 		app.navigate('facturas', true);
 		
-	},
+	}, 
+	
+	find_client: function(ev){
+		
+		var op = $(ev.currentTarget).find('option:selected');
+		
+		$(this.clases.input_cliente_sucursal).val( op.attr('data-direccion') );
+		$(this.clases.input_cliente_contacto).val( op.attr('data-contacto') );
+		$(this.clases.input_cliente_cuit).val( op.attr('data-cuit') );
+		
+		$(this.clases.select_cliente_iva).find('option[value="'+ op.attr('data-iva') +'"]').attr('selected','selected');
+		$(this.clases.select_cliente_retencion).find('option[value="'+ op.attr('data-retencion') +'"]').attr('selected','selected');
+		
+	},	
 	
 	change_status: function(ev){
 		
-		$(this.clases.label_status).html( $(ev.currentTarget).val() );
+		$(this.clases.label_status).html( $(ev.currentTarget).find('option:selected').text() );
 		
 	},
 	
@@ -272,32 +364,54 @@ var NewInvoiceView_A = Backbone.View.extend({
 		
 		row_number = 1;
 		
+		// Reinicio las filas
 		$(this.table).html( this.tableRenderAdd );
 		
+		// Reinicio los valores subtotal / iva / total
+		$(this.clases.label_sub_total).html('');
+		$(this.clases.label_iva).html('');
+		$(this.clases.label_total).html('');
+		
+		// Muestro botones
+		$(this.clases.btn_table_insert).show();
+		$(this.clases.btn_table_confirm).show();		
+		
 	},
-	
-	// Buton -- confirmar una fila
+
 	confirm_line: function(ev){
 		
-		var line = $(ev.currentTarget).parent().parent();
-		var detalle = line.find('input[name="detalle"]');
-		var importeUnitario = line.find('input[name="importe-unitario"]');
-		var importeTotal = line.find('input[name="importe-total"]');
+		window.Table = new InvoiceTableModel();
 		
-		//if( !isNaN(importeUnitario) && !isNaN(importeTotal) ){
+		var path_iva = $('.iva-value').val();
+		var passed = false;
+		
+		
+		
+		_.each( $('.table-fc-body').find('tr'), function(line){
 			
+			var detalle = $(line).find('input[name="detalle"]');
+			var importeUnitario = $(line).find('input[name="importe-unitario"]');
+			var importeTotal = $(line).find('input[name="importe-total"]');
 			
-			Table.add({
-				"detalle"			: detalle.val(),
-				"importeUnitario"	: importeUnitario.val(),
-				"importeTotal"		: importeTotal.val()
-			});
-					
-			$(this.table).html( this.tableRender( {"rows": Table.toJSON()} ) );
+			if(detalle.valid() && importeUnitario.valid() && importeTotal.valid()){
+				
+				Table.add({
+					"detalle"			: detalle.val(),
+					"importeUnitario"	: importeUnitario.val(),
+					"importeTotal"		: importeTotal.val()
+				});
+				
+				// Si ingreso al menos 1 vez 
+				passed = true;
+				
+			}
 			
-			//console.log(model.toJSON());
+		} );
+		
+		if(passed){
 			
-			
+			$(this.table).html( this.tableRender( {"rows": Table.toJSON()} ) );	
+	
 			// Suma de valores
 			var subtotal = 0;
 			var iva = 0;
@@ -305,39 +419,60 @@ var NewInvoiceView_A = Backbone.View.extend({
 			
 			Table.each(function(m) {
 				
-				console.log(m.toJSON().importeTotal.replace(/\./g,''));
 				// Replace de puntos por vacio para sumar el total
 				subtotal += parseInt(m.toJSON().importeTotal.replace(/\./g,''));			
 				
-			}, this);		
+			}, this);
 			
-			// Calculo el IVA
-			iva = (subtotal * PATH_IVA) / 100;	
+			// Calculo valores con iva
+			if(this.condition_iva){
+				
+				// Calculo el IVA
+				iva = (subtotal * path_iva) / 100;	
+				
+				// Calculo el total
+				total = subtotal - iva;		
+				
+				subtotal = convertToDecimal(subtotal);
+				iva = convertToDecimal(iva);
+				total = convertToDecimal(total);
+				
+				// Inserto valores
+				$(this.clases.label_sub_total).html(subtotal);
+				$(this.clases.label_iva).html(iva);
+				$(this.clases.label_total).html(total);
+		
+			}else{
+			// Calculo valores sin iva	
+				
+				// Calculo el total, pasando a decimales
+				total = convertToDecimal(subtotal);
+				
+				$(this.clases.label_total).html(total);
+			}
 			
-			// Calculo el total
-			total = subtotal - iva;		
+			// Oculto botones
+			$(this.clases.btn_table_insert).hide();
+			$(this.clases.btn_table_confirm).hide();
 			
-			subtotal = convertToDecimal(subtotal);
-			iva = convertToDecimal(iva);
-			total = convertToDecimal(total);
-	
-			$(this.clases.label_sub_total).html(subtotal);
-			$(this.clases.label_iva).html(iva);
-			$(this.clases.label_total).html(total);
+		}else{
+			
+        	msg = AlertModel.set({
+        		'type': 'error',
+        		'body': 'Completa todos los campos para calcular valores'
+        	});
+        	
+        	new AlertView({model: msg });  
+			
+		}
 		
-	},
-	
-	delete_line: function(ev){
-		
-		var id = $(ev.currentTarget).attr('data');
-		
-	}
+	}	
 
 });
 
 
 /*
- * 	Vista de una nueva factura tipo A
+ * 	Vista de info factura
  * */
 var NewInvoiceInfoView = Backbone.View.extend({
 	
@@ -376,4 +511,62 @@ var NewInvoiceInfoView = Backbone.View.extend({
 	
 });
 
+/*
+ * 	Vista de edicion factura
+ * */
+var EditInvoiceView = Backbone.View.extend({
+	
+	el: PATH_LAYOUT,
+	
+	active:".btn-facturas",
 
+	template: _.template( $('#tmpl-fc-a-invoice').html() ),
+
+	events: {
+		'click .btn-accept': 'accept',
+		'click .btn-cancel': 'cancel'
+	},
+
+	initialize: function () {
+		
+		this.data = new InvoiceData();
+		
+		// Requests
+		this.data.fetch();
+		this.model.fetch();
+	
+		this.data.bind('change', this.render, this); 		
+		this.model.bind('change', this.render, this); 
+		
+		
+	}, 
+
+	render: function () {
+		
+		// Active menu
+		active(this.active);
+		
+		$(this.el).html(this.template({
+			
+			// Modelo factura
+			"factura": this.model.toJSON(),
+			
+			// Id del tipo de factura a crear
+			"idTipoFactura": this.id,
+			
+			// Modelo datos
+			"datos": this.data.toJSON()
+			
+		}));		
+		
+	    return this;
+
+	},
+	
+	cancel: function(){
+		
+		app.navigate(URL_FACTURAS, true);
+		
+	}	
+	
+});

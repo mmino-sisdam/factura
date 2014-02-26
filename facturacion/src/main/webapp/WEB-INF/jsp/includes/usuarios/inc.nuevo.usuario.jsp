@@ -56,7 +56,7 @@
                         </div>
                         <div class="form-group">
                           <label for="">Repetir contrase&ntilde;a</label>
-                          <input type="password" class="form-control required" equalto="#uusername_password" placeholder="Repetir contrase&ntilde;a" >
+                          <input type="password" class="form-control required" equalto="#username_password" placeholder="Repetir contrase&ntilde;a" >
                         </div>
                       </div>
 
