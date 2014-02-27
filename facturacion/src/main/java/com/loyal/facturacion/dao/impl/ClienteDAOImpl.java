@@ -54,7 +54,7 @@ public class ClienteDAOImpl extends JdbcDaoSupport implements ClienteDAO {
 				sql,
 				new Object[] { cliente.getNombre(), cliente.getCuit(),
 						cliente.getDireccion(), cliente.getLocalizacion(),
-						cliente.getIdTipoIVA(), cliente.getIdTipoRetencion() });
+						cliente.getIdTipoIVA(), cliente.getIdTipoRetencion(), cliente.getId() });
 
 
 	}
