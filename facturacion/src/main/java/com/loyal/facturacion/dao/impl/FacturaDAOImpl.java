@@ -167,7 +167,7 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 
 	private int updateEncabezado(Factura factura) throws DataAccessException {
 
-		String sql = "UPDATE facturas SET"
+		String sql = "UPDATE facturas SET "
 				+ "cliente_id = ?, contacto = ?, fecha_emision = ?, fecha_vencimiento = ?,"
 				+ "fecha_probable_cobro = ?, fecha_cobro = ?, importe_subtotal = ?, importe_iva = ?, importe_total = ?,	persona_responsable_id = ?,"
 				+ "importe_comision = ?, fecha_comprobante_entregable = ?, importe_costo = ?, importe_rentabilidad = ?,"
