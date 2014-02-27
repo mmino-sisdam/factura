@@ -19,6 +19,8 @@
 		          <form role="form" id="form-invoice">
 		            <fieldset>
 
+					  <@ if(factura.numero){ print('<input type="hidden" name="id" value="'+ idTipoFactura + '-'+ factura.numero  +'"/>') } @>
+
 					  <input type="hidden" name="idTipoFactura" value="<@= idTipoFactura @>"/>
 
 		              <div class="row">
@@ -44,7 +46,7 @@
 		                  </div>
 		                  <div class="form-group">
 		                    <label>Localizaci&oacute;n / Sucursal</label>
-		                    <input type="text" class="form-control cliente-sucursal" placeholder="Ingresar sucursal" name="localizacion"/>
+		                    <input type="text" class="form-control cliente-sucursal" placeholder="Ingresar sucursal"/>
 		                  </div>
 		                  <div class="form-group">
 		                    <label for="contacto">Contacto</label>
@@ -55,7 +57,7 @@
 		                    <select name="idTipoIVA" class="form-control cliente-iva">
 		                      <@ _.each(datos.tipo_iva, function(i){ @>
 
-		                      		<option <@ if(factura.idTipoIVA == i.id) { print('selected'); } @>value="<@= i.id @>"><@= i.nombre @></option>
+		                      		<option <@ if(factura.idTipoIVA == i.id) { print('selected'); } @> value="<@= i.id @>"><@= i.nombre @></option>
 
 							  <@ }); @>
 		                    </select>
@@ -63,7 +65,7 @@
 
 		                  <div class="form-group">
 		                    <label for="">CUIT</label>
-		                    <input name="cuit" type="text" class="form-control cliente-cuit" placeholder="Ingresar CUIT" value"<@= factura.cuit @>" />
+		                    <input type="text" class="form-control cliente-cuit" placeholder="Ingresar CUIT" value"<@= factura.cuit @>" />
 		                  </div>
 
 		                  <div class="form-group">
@@ -71,7 +73,7 @@
 		                    <select name="idTipoRetencion" class="form-control cliente-retencion">
 		                      <@ _.each(datos.tipo_retencion, function(r){ @>
 
-		                      	<option <@ if(factura.idTipoRetencion == r.id) { print('selected'); } @>value="<@= r.id @>"><@= r.nombre @></option>
+		                      	<option <@ if(factura.idTipoRetencion == r.id) { print('selected'); } @> value="<@= r.id @>"><@= r.nombre @></option>
 
 							  <@ }); @>
 		                    </select>
@@ -146,7 +148,7 @@
 
 		                        <@ _.each(datos.status, function(s){ @>
 
-		                      		<option <@ if(factura.idStatus == s.id) { print('selected'); } @>value="<@= s.id @>"><@= s.nombre @></option>
+		                      		<option <@ if(factura.idStatus == s.id) { print('selected'); } @> value="<@= s.id @>"><@= s.nombre @></option>
 
 							  	<@ }); @>
 
@@ -166,7 +168,7 @@
 		                    <div class="form-group">
 		                        <label for="importeTotal">Total</label>
 		                        <div class="input-group">
-		                          <input name="importeTotal" type="text" class="form-control required"  value="<@= factura.importeTotal @>"/>
+		                          <input name="importeTotal" type="text" class="form-control required" value="<@= factura.importeTotal @>"/>
 		                          <span class="input-group-addon">
 		                            %
 		                          </span>
@@ -209,7 +211,7 @@
 
 		                      <@ _.each(datos.tipo_comision, function(c){ @>
 
-		                      	<option <@ if(factura.idTipoComision == c.id) { print('selected'); } @>value="<@= c.id @>"><@= c.nombre @></option>
+		                      	<option <@ if(factura.idTipoComision == c.id) { print('selected'); } @> value="<@= c.id @>"><@= c.nombre @></option>
 
 							  <@ }); @>
 

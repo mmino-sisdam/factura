@@ -31,7 +31,8 @@ window.ClientsView = Backbone.View.extend({
 
 	events: {
 		'click .btn-add'		: 'client_add',
-		'click .btn-edit'		: 'client_edit'
+		'click .btn-edit'		: 'client_edit',
+		'click .btn-delete'		: 'client_delete'
 	},
 
 	initialize: function () {
@@ -63,6 +64,22 @@ window.ClientsView = Backbone.View.extend({
 		
 		app.navigate(URL_CLIENT_EDIT + id, true);		
 		
+	},
+
+	client_delete: function(ev){
+
+		var id = $(ev.currentTarget).attr('data');
+		var client = $(ev.currentTarget).attr('data-client');
+
+		var msg = DeleteModel.set({
+			'title'	: 'Eliminar Cliente', 
+			'body'  : '¿Confirma la eliminaci&oacute;n de '+ client +'?',
+			'id'	: id
+		});
+
+		var view = new DeleteClientView({ model: msg });
+		view.show();
+
 	}
 	
 });
@@ -117,6 +134,7 @@ window.NewClientView = Backbone.View.extend({
 	    	    "nombre"			: $("input[name='nombre']").val(),
 	    	    "cuit"				: $("input[name='cuit']").val(),
 	    	    "direccion"			: $("input[name='direccion']").val(),
+	    	    "localizacion"		: $("input[name='localizacion']").val(),
 	    	    "idTipoIVA"			: $("select[name='idTipoIVA'] option:selected").val(),
 	    	    "idTipoRetencion"	: $("select[name='idTipoRetencion'] option:selected").val()
 	    	} , {
@@ -212,6 +230,7 @@ window.EditClientView = Backbone.View.extend({
 	    	    "nombre"			: $("input[name='nombre']").val(),
 	    	    "cuit"				: $("input[name='cuit']").val(),
 	    	    "direccion"			: $("input[name='direccion']").val(),
+	    	    "localizacion"		: $("input[name='localizacion']").val(),
 	    	    "idTipoIVA"			: parseInt($("select[name='idTipoIVA'] option:selected").val(),10),
 	    	    "idTipoRetencion"	: parseInt($("select[name='idTipoRetencion'] option:selected").val(),10)
 	    	} , {
@@ -257,4 +276,50 @@ window.EditClientView = Backbone.View.extend({
     	
     }
 
+});
+
+
+/*
+ * 	Eliminacion de cliente
+ * */
+
+window.DeleteClientView = Backbone.View.extend({
+
+	el: PATH_MODAL,
+	
+    events: {
+        'click .btn-aceptar': 'accept'
+    },
+
+    initialize: function() {
+        this.template = _.template($('#tmpl-modal').html());
+    },
+
+    render: function() {
+        this.$el.html(this.template(this.model.toJSON()));
+        return this;
+    },
+
+    show: function() {
+        $(document.body).append(this.render().el);
+    },
+    
+    hide: function(){
+    	$('#modal').modal('hide');
+    },
+
+    accept: function() {
+    	
+    	this.hide();
+    	
+    	var id = this.model.attributes.id;
+    	
+    	$('#client-' + id).remove();
+    	
+    	var client = new Client({"id":id});
+    	    	
+    	client.destroy();	
+    	    	    	
+    }
+       
 });

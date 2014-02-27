@@ -41,7 +41,7 @@
 
                       <@ count++ @>
 
-                      <tr>
+                      <tr id="client-<@= c.id @>">
                         <td><@= c.nombre @></td>
                         <td><@= c.cuit @></td>
                         <td><@= c.direccion @></td>
@@ -53,6 +53,7 @@
                           <button type="button" class="btn btn-xs btn-danger btn-delete" 
 								  title="Eliminar a <@= c.nombre @>"
                              	  data="<@= c.id @>"
+                             	  data-client="<@= c.nombre @>"
                              	  data-toggle="modal" 
                              	  data-target="#modal">
                              	  <i class="glyphicon glyphicon-remove"></i>

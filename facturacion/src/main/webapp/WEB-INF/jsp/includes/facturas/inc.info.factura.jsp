@@ -261,7 +261,7 @@
                       </div>
                       <div class="col-md-12 clearfix">
                         <button type="button" class="btn btn-right btn-primary btn-accept">Aceptar</button>
-                        <button type="button" class="btn btn-right btn-primary btn-edit">Editar</button>
+                        <button type="button" class="btn btn-right btn-primary btn-edit" data="<@= idTipoFactura @>/<@= numero @>">Editar</button>
                       </div>
 		              </div>
 

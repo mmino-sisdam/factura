@@ -2,18 +2,19 @@
 window.Invoice = Backbone.Model.extend({
 	urlRoot: "facturas",
 	defaults: {
+		"id"				: null,
 		"idCliente"			: "",
-		"localizacion"		: "",
+		//"localizacion"		: "",
 		"contacto"			: "",
 		"idTipoIVA"			: "",
-		"cuit"				: "",
+		//"cuit"				: "",
 		"idTipoRetencion"	: "",
 		"numero"			: "",
 		"fecha"				: "",
 		"fechaVencimiento"	: "",
 		"fechaProbableCobro": "",
 		"fechaCobro"		: "",
-		"porcentajeIVA"		: "",
+		//"porcentajeIVA"		: "",
 		"idStatus"			: "",
 		"importeIVA"		: "",
 		"importeTotal"		: "",
@@ -184,12 +185,11 @@ var NewInvoiceView = Backbone.View.extend({
 
 	initialize: function () {
 		
-		this.model 	= new Invoice();
+		//this.model 	= new Invoice();
 		this.data 	= new InvoiceData();
-		
-		
-		
+	
 		// Request
+		this.model.fetch();
 		this.data.fetch();
 		
 		this.data.bind('change', this.render, this);
@@ -278,11 +278,12 @@ var NewInvoiceView = Backbone.View.extend({
 			var form = $('#form-invoice');
 		
 			if(form.valid()){
+				
 				var post = new InvoiceCollection();
-				var alert, msg;
+				var msg;
 				
 				var data = form.serializeObject();
-				var result = $.extend(data, {"detalles": Table.toJSON()} );
+				var result = _.extend(data, {"detalles": Table.toJSON()} );
 				
 				// Request POST
 		    	post.create(result , {
@@ -483,7 +484,8 @@ var NewInvoiceInfoView = Backbone.View.extend({
 	template: _.template( $('#tmpl-fc-info-invoice').html() ),
 
 	events: {
-		'click .btn-accept': 'accept'
+		'click .btn-accept'		: 'accept',
+		'click .btn-edit'		: 'invoice_edit',
 	},
 
 	initialize: function () {
@@ -507,66 +509,16 @@ var NewInvoiceInfoView = Backbone.View.extend({
 		
 		app.navigate(URL_FACTURAS, true);
 		
-	}
-	
-});
-
-/*
- * 	Vista de edicion factura
- * */
-var EditInvoiceView = Backbone.View.extend({
-	
-	el: PATH_LAYOUT,
-	
-	active:".btn-facturas",
-
-	template: _.template( $('#tmpl-fc-a-invoice').html() ),
-
-	events: {
-		'click .btn-accept': 'accept',
-		'click .btn-cancel': 'cancel'
-	},
-
-	initialize: function () {
-		
-		this.data = new InvoiceData();
-		
-		// Requests
-		this.data.fetch();
-		this.model.fetch();
-	
-		this.data.bind('change', this.render, this); 		
-		this.model.bind('change', this.render, this); 
-		
-		
-	}, 
-
-	render: function () {
-		
-		// Active menu
-		active(this.active);
-		
-		$(this.el).html(this.template({
-			
-			// Modelo factura
-			"factura": this.model.toJSON(),
-			
-			// Id del tipo de factura a crear
-			"idTipoFactura": this.id,
-			
-			// Modelo datos
-			"datos": this.data.toJSON()
-			
-		}));		
-		
-	    return this;
-
 	},
 	
-	cancel: function(){
+	invoice_edit: function(ev){
+
+		var id = $(ev.currentTarget).attr('data');
 		
-		app.navigate(URL_FACTURAS, true);
-		
+		app.navigate(URL_INVOICE_EDIT + id, true);		
+			
 	}	
 	
 });
+
+

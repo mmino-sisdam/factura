@@ -16,77 +16,57 @@ window.ReportsInvoiceCollection = Backbone.Collection.extend({
 	url: "reportes/vencimiento"
 });
 
-// Indicadores por vendedor
-window.IndicadoresVendedorView = Backbone.View.extend({
-	
-	el: PATH_D_VENDEDOR,
-	template: _.template( $('#tmpl-dashboard-vendedor').html() ),
-	initialize: function () {
+var DashboardView = Backbone.View.extend({
 
-		// Tabla vendedor
-		this.model = new ReportesVendedorCollection();
-		this.model.create();
+	el: PATH_LAYOUT,
 		
-		this.model.bind('change', this.render, this);
-		
-	},
-	render: function () {
-					
-		$(this.el).html( this.template( {"vendedor": this.model.toJSON()} ) );
-	    return this;
-	    
-	}	
-}); 
+	active:".btn-dashboard",
 
-//Indicadores por producto
-window.IndicadoresProductoView = Backbone.View.extend({
-	
-	el: PATH_D_PRODUCTO,
-	template: _.template( $('#tmpl-dashboard-producto').html() ),
-	initialize: function () {
+	template: _.template( $('#tmpl-dashboard').html() ),
 
-		// Tabla vendedor
-		this.model = new ReportesProductoCollection();
-		this.model.create();
-		
-		this.model.bind('change', this.render, this);
-		
-	},
-	render: function () {
-		
-		console.log({"producto": this.model.toJSON()});
-					
-		$(this.el).html( this.template( {"producto": this.model.toJSON()} ) );
-	    return this;
-	    
-	}	
-}); 
-
-//Indicadores por vencimiento
-window.IndicatorsInvoiceView = Backbone.View.extend({
-	
-	el: PATH_D_INVOICE,
-	
-	template: _.template( $('#tmpl-dashboard-facturas').html() ),
-	
 	events: {
-		'click .btn-info'		: 'invoice_info',
-	},	
-	
-	initialize: function () {
-
-		// Tabla vendedor
-		this.model = new ReportsInvoiceCollection();
-		this.model.create();
-		
-		this.model.bind('change', this.render, this);
-		
+		'click .btn-info'		: 'invoice_info'
 	},
 	
+	initialize: function () {
+		
+		// Indicadores dashboard
+		this.indicadores = new ReportesIndicadoresCollection();
+		this.indicadores.create({ "desde": "01/02/2014", "hasta": "28/02/2014"});
+		
+		// Facturas vencidas
+		this.facturas = new ReportsInvoiceCollection();
+		this.facturas.create({ "desde": "01/02/2014", "hasta": "28/02/2014"});
+		
+		// Vendedor
+		this.vendedor = new ReportesVendedorCollection();
+		this.vendedor.create({ "desde": "01/02/2014", "hasta": "28/02/2014"});		
+
+		// Productos
+		this.producto = new ReportesProductoCollection();
+		this.producto.create({ "desde": "01/02/2014", "hasta": "28/02/2014"});	
+		
+		this.listenTo(this.indicadores, 'change', this.render);
+		
+	}, 
+
 	render: function () {
-		//console.log({"invoice": this.model.toJSON()});
-		$(this.el).html( this.template( {"invoice": this.model.toJSON()} ) );
-	    return this;
+		
+		active(this.active);
+							
+		$(this.el).html(this.template({
+			
+			"indicadores": this.indicadores.toJSON(),
+			
+			"invoice": this.facturas.toJSON(),
+			
+			"vendedor": this.vendedor.toJSON(),
+			
+			"producto": this.producto.toJSON()
+			
+		}));	
+				
+		return this;
 	    
 	},
 	
@@ -96,45 +76,7 @@ window.IndicatorsInvoiceView = Backbone.View.extend({
 		
 		app.navigate(URL_INVOICE_INFO + id, true);
 			
-	}
-}); 
-
-var DashboardView = Backbone.View.extend({
-
-	el: PATH_LAYOUT,
-		
-	active:".btn-dashboard",
-
-	template: _.template( $('#tmpl-dashboard').html() ),
-	
-	initialize: function () {
-					
-		this.indicadores = new ReportesIndicadoresCollection();
-		this.indicadores.create();
-		
-		this.indicadores.bind('change', this.render, this);
-		
-	}, 
-
-	render: function () {
-		
-		active(this.active);
-							
-		$(this.el).html( this.template( {"indicadores": this.indicadores.toJSON()} ) );
-	    
-		setTimeout(this.afterRender,1000);
-		
-		return this;
-	    
-	},
-	
-	afterRender: function() {
-		
-		new IndicadoresVendedorView();
-		new IndicadoresProductoView();
-		new IndicatorsInvoiceView();
-		
-	}
+	}	
 
 });
 

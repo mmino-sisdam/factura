@@ -71,57 +71,6 @@
         </section> 
 
         <section class="row">
-
-        <div class="col-md-6 clearfix">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              Ventas por vendedor
-              <span class="panel-right">
-                <div class="dropdown">
-                  <a data-toggle="dropdown" href="#" id="datadrop_d01">
-                    <span class="glyphicon glyphicon-cog"></span>
-                  </a>
-                  <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="datadrop_d01">
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Por ventas [Descendente]</a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="1" href="#">Por monto [Descendente]</a></li>
-                  </ul>
-                </div>
-              </span> 
-            </div>
-            <div class="panel-body" id="dashboard-vendedor">
-				<p>Cargando...</p>
-            </div>
-          </div>  
-    		</div> 
-
-        <div class="col-md-6 clearfix">
- 		<div class="panel panel-default">
-              <div class="panel-heading">
-
-                Ventas por imputaci&oacute;n contable
-
-                <span class="panel-right">
-                  <div class="dropdown">
-                    <a data-toggle="dropdown" href="#" id="datadrop_d02">
-                      <span class="glyphicon glyphicon-cog"></span>
-                    </a>
-                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="datadrop_d02">
-                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Por ventas [Descendente]</a></li>
-                      <li role="presentation"><a role="menuitem" tabindex="1" href="#">Por monto [Descendente]</a></li>
-                    </ul>
-                  </div>
-                  
-                </span> 
-              </div>
-              <div class="panel-body" id="dashboard-producto">
-				<p>Cargando...</p>
-              </div>
-            </div>           
-        </div> 
-
-        </section> 
-
-        <section class="row">
          <div class="col-md-12 clearfix">
             <div class="panel panel-default">
               <div class="panel-heading">
@@ -140,15 +89,7 @@
                 </span> 
               </div>
               <div class="panel-body" id="dashboard-facturas">
-				<p>Cargando...</p>			  
-			  </div>
-            </div>            
-        </section>
-      </div>
-    </script>
-    
-    <script id="tmpl-dashboard-facturas" type="text/template">
- 				<div class="btn-group">
+				<div class="btn-group">
                   <div class="btn-group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                       Items por p&aacute;gina
@@ -176,6 +117,8 @@
                     </ul>
                   </div>                   
                 </div>
+
+<!-- START TABLE FACTURAS -->
 
                 <table class="table table-striped" cellpadding="0" cellspacing="0">
                   <thead>
@@ -213,9 +156,35 @@
                   </tbody>
                 </table>
                 <p class="panel-data-table">Mostrando <@= pages_facturas @> de <@= pages_facturas @> entradas</p>	
-	</script>
-    
-    <script id="tmpl-dashboard-vendedor" type="text/template">
+
+<!-- END TABLE FACTURAS -->
+			  
+			  </div>
+            </div>            
+        </section>
+
+        <section class="row">
+
+        <div class="col-md-6 clearfix">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              Ventas por vendedor
+              <span class="panel-right">
+                <div class="dropdown">
+                  <a data-toggle="dropdown" href="#" id="datadrop_d01">
+                    <span class="glyphicon glyphicon-cog"></span>
+                  </a>
+                  <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="datadrop_d01">
+                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Por ventas [Descendente]</a></li>
+                    <li role="presentation"><a role="menuitem" tabindex="1" href="#">Por monto [Descendente]</a></li>
+                  </ul>
+                </div>
+              </span> 
+            </div>
+            <div class="panel-body" id="dashboard-vendedor">
+
+<!-- START TABLE VENDEDOR -->
+
       <table class="table table-striped" cellpadding="0" cellspacing="0">
         <thead>
           <tr>
@@ -238,10 +207,37 @@
         </tbody>
       </table>
       <p class="panel-data-table">Mostrando <@= pages_vendedor @> de <@= pages_vendedor @> entradas</p>    
-    </script>
+   
+<!-- END TABLE VENDEDOR -->
 
-    <script id="tmpl-dashboard-producto" type="text/template">
-      <table class="table table-striped" cellpadding="0" cellspacing="0">
+            </div>
+          </div>  
+    		</div> 
+
+        <div class="col-md-6 clearfix">
+ 		<div class="panel panel-default">
+              <div class="panel-heading">
+
+                Ventas por imputaci&oacute;n contable
+
+                <span class="panel-right">
+                  <div class="dropdown">
+                    <a data-toggle="dropdown" href="#" id="datadrop_d02">
+                      <span class="glyphicon glyphicon-cog"></span>
+                    </a>
+                    <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="datadrop_d02">
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Por ventas [Descendente]</a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="1" href="#">Por monto [Descendente]</a></li>
+                    </ul>
+                  </div>
+                  
+                </span> 
+              </div>
+              <div class="panel-body" id="dashboard-producto">
+
+<!-- START TABLE VENDEDOR -->  
+
+    <table class="table table-striped" cellpadding="0" cellspacing="0">
         <thead>
           <tr>
           <th>Periodo</th>
@@ -266,4 +262,16 @@
         </tbody>
       </table>
       <p class="panel-data-table">Mostrando <@= pages_producto @> de <@= pages_producto @> entradas</p>   
-    </script>    
+   
+<!-- END TABLE PRODUCTO -->
+
+              </div>
+            </div>           
+        </div> 
+
+        </section> 
+
+      </div>
+    </script>
+ 
+  

@@ -7,9 +7,8 @@
 		  routes: {
 		    ""								: "dashboard",
 		    "facturas"						: "invoice",
-		    "factura/nueva/tipo-:tipo"		: "new_invoice",
-		    "factura/editar/:id/:numero"	: "invoice_edit",
-		    "factura/info/:id/:numero"		: "invoice_info",
+		    "factura/:nueva/tipo-:tipo"		: "invoice_form",
+		    "factura/:evento/:id/:numero"	: "invoice_form",
 		    "usuarios"						: "users",
 		    "usuario/nuevo"					: "new_user",
 		    "usuario/editar/:id"			: "edit_user",
@@ -40,7 +39,7 @@
 			new InvoiceView({ model: get});
 
 		  },
-
+		  /*
 		  // Seccion nueva factura
 		  new_invoice: function(tipo){
 
@@ -54,7 +53,36 @@
 		  	//}
 
 		  },
+		  */
+		  // Seccion edicion de factura por numero
+		  invoice_form: function(evento, tipo, numero){
+			 
+			// factura nueva 
+		  	if(evento == 'nueva'){
+		  		
+		  		var get = new Invoice();
+		  		
+		  		new NewInvoiceView({ model: get, id: tipo });
+		  		
+		  	}else if(evento == 'editar'){
+		  	// factura editar	
+		  		
+		  		var get = new Invoice({"id": tipo + '-' + numero});
+		  		
+		  		new NewInvoiceView({ model: get, id: tipo });
+		  		
+		  	}else if(evento == 'info'){
+		  	// factura info
+		  		
+		  		var get = new Invoice({"id": tipo + '-' + numero});
+				  
+				new NewInvoiceInfoView({model: get});
+				
+		  	}else{}
+		  	
+		  },
 
+/*
 		  invoice_info: function(tipo, numero){
 		  
 			  // Id corresponde al tipo de factura
@@ -64,16 +92,7 @@
 			  new NewInvoiceInfoView({model: get});
 			  
 		  },
-
-		  // Seccion edicion de factura por numero
-		  invoice_edit: function(tipo, numero){
-		  	
-			var get = new Invoice({"id": tipo + '-' + numero});
-		  	
-		  	new EditInvoiceView({model: get, id: tipo});
-		  	
-		  },
-
+*/
 		  // Seccion usuarios
 		  users: function(){
 			

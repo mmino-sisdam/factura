@@ -40,7 +40,7 @@
                       <div class="col-md-6 clearfix col-2">
                         <div class="form-group">
                           <label for="">Cuit</label>
-                          <input type="text" name="cuit" class="form-control required" placeholder="Ingesar cuit" value="<@= cuit @>" />
+                          <input type="text" name="cuit" maxlength="11" class="form-control required" placeholder="Ingesar cuit" value="<@= cuit @>" />
                         </div>
                         <div class="form-group">
                           <label for="">Tipo IVA</label>
