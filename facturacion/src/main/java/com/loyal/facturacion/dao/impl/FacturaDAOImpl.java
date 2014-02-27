@@ -173,7 +173,7 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 				+ "importe_comision = ?, fecha_comprobante_entregable = ?, importe_costo = ?, importe_rentabilidad = ?,"
 				+ "forma_pago = ?, remito = ?, orden_compra = ?, status_id = ?, tipo_comision_id = ?, tipo_comprobante_entregable_id = ?,"
 				+ "linea_producto_id = ?, tipo_iva_id = ?, tipo_retencion_id = ? "
-				+ "WHERE f.tipo_factura_id = ? AND factura_id = ? ";
+				+ "WHERE tipo_factura_id = ? AND factura_id = ? ";
 		return getJdbcTemplate().update(
 				sql,
 				new Object[] { factura.getIdCliente(), factura.getContacto(),
@@ -198,9 +198,9 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 	private int updateDetalle(Integer idTipoFactura, Long numero,
 			FacturaDetalle detalle) throws DataAccessException {
 
-		String sql = "UPDATE factura_detalle SET"
+		String sql = "UPDATE factura_detalle SET "
 				+ "cantidad = ?, detalle = ?, importe_unitario = ?, importe_total = ? "
-				+ "WHERE f.tipo_factura_id = ? AND factura_id = ? ";
+				+ "WHERE tipo_factura_id = ? AND factura_id = ? ";
 		return getJdbcTemplate().update(
 				sql,
 				new Object[] { detalle.getCantidad(), detalle.getDetalle(),
