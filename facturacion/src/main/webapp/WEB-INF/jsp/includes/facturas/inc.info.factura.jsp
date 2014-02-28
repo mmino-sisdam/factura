@@ -15,9 +15,17 @@
 		        <div class="panel-heading">
 		          Informaci&oacute;n de factura n&uacute;mero <@= numero @>
 		        </div>
-		        <div class="panel-body">		
+		        <div class="panel-body">	
+
+                	 <div class="btn-group out-print">
+                     	<button type="button" class="btn btn-primary btn-print">
+							<span class="glyphicon glyphicon-print"></span>
+							Imprimir
+						</button>                     
+                	 </div>
+				
 		              <div class="row">
-		
+						<div class="col-md-12 clearfix out-print"><hr></div>
 		                <!-- columna nro. 1 -->
 		                <div class="col-md-4 clearfix">
 		                  <div class="form-group">
@@ -256,10 +264,10 @@
 							</table>
 		                </div>
 
-                      <div class="col-md-12 clearfix">
+                      <div class="col-md-12 clearfix out-print">
                         <hr>
                       </div>
-                      <div class="col-md-12 clearfix">
+                      <div class="col-md-12 clearfix out-print">
                         <button type="button" class="btn btn-right btn-primary btn-accept">Aceptar</button>
                         <button type="button" class="btn btn-right btn-primary btn-edit" data="<@= idTipoFactura @>/<@= numero @>">Editar</button>
                       </div>

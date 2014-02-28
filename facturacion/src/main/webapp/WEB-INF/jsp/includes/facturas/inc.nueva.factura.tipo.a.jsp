@@ -157,18 +157,18 @@
 
 		                    <div class="form-group form-iva">
 		                      <label for="importeSubtotal">Sub Total</label>
-		                      <input name="importeSubtotal" type="text" class="form-control" placeholder="Ingresar sub total required" value="<@= factura.importeSubtotal @>" />
+		                      <input name="importeSubtotal" type="text" class="form-control input-sub-total" placeholder="Ingresar sub total required" value="<@= factura.importeSubtotal @>" />
 		                    </div> 
 
 		                    <div class="form-group form-iva">
 		                      <label for="importeIVA">IVA</label>
-		                      <input name="importeIVA" type="text" class="form-control required" placeholder="Ingresar IVA" value="<@= factura.importeIVA @>" />
+		                      <input name="importeIVA" type="text" class="form-control  input-iva required" placeholder="Ingresar IVA" value="<@= factura.importeIVA @>" />
 		                    </div> 
  
 		                    <div class="form-group">
 		                        <label for="importeTotal">Total</label>
 		                        <div class="input-group">
-		                          <input name="importeTotal" type="text" class="form-control required" value="<@= factura.importeTotal @>"/>
+		                          <input name="importeTotal" type="text" class="form-control input-total required" value="<@= factura.importeTotal @>"/>
 		                          <span class="input-group-addon">
 		                            %
 		                          </span>

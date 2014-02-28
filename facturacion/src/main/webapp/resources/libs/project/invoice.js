@@ -70,6 +70,7 @@ window.InvoiceView = Backbone.View.extend({
 	template: _.template( $('#tmpl-list-invoice').html() ),
 	
 	events: {
+		'click .btn-print'		: 'invoice_print',
 		'click .btn-info'		: 'invoice_info',
 		'click .btn-edit'		: 'invoice_edit',
 		'click .btn-month'		: 'invoice_next'
@@ -123,6 +124,12 @@ window.InvoiceView = Backbone.View.extend({
 			next.hide();
 		}
 		
+	},
+	
+	invoice_print: function(){
+		
+		window.print();
+		
 	}
 	
 });
@@ -150,6 +157,10 @@ var NewInvoiceView = Backbone.View.extend({
 		label_total			: '.label-total', 
 		label_iva			: '.label-iva', 
 		label_sub_total		: '.label-sub-total', 
+
+		input_total			: '.input-total', 
+		input_iva			: '.input-iva', 
+		input_sub_total		: '.input-sub-total', 
 		
 		input_cliente_sucursal	: '.cliente-sucursal', 
 		input_cliente_contacto	: '.cliente-contacto',  
@@ -438,10 +449,15 @@ var NewInvoiceView = Backbone.View.extend({
 				iva = convertToDecimal(iva);
 				total = convertToDecimal(total);
 				
-				// Inserto valores
+				// Inserto valores en labels
 				$(this.clases.label_sub_total).html(subtotal);
 				$(this.clases.label_iva).html(iva);
 				$(this.clases.label_total).html(total);
+				
+				// Inserto valores en inputs
+				$(this.clases.input_sub_total).val(subtotal);
+				$(this.clases.input_iva).val(iva);
+				$(this.clases.input_total).val(total);
 		
 			}else{
 			// Calculo valores sin iva	
@@ -484,8 +500,9 @@ var NewInvoiceInfoView = Backbone.View.extend({
 	template: _.template( $('#tmpl-fc-info-invoice').html() ),
 
 	events: {
+		'click .btn-print'		: 'invoice_print',
 		'click .btn-accept'		: 'accept',
-		'click .btn-edit'		: 'invoice_edit',
+		'click .btn-edit'		: 'invoice_edit'
 	},
 
 	initialize: function () {
@@ -517,6 +534,12 @@ var NewInvoiceInfoView = Backbone.View.extend({
 		
 		app.navigate(URL_INVOICE_EDIT + id, true);		
 			
+	},
+	
+	invoice_print: function(){
+		
+		window.print();
+		
 	}	
 	
 });

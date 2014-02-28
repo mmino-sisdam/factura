@@ -14,20 +14,12 @@
               </div>
               <div class="panel-body">
 
-                <div class="btn-group">
+                <div class="btn-group out-print">
                   <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                      Meses por p&aacute;gina
-                      <span class="caret"></span>
+                    <button type="button" class="btn btn-primary btn-print">
+					  <span class="glyphicon glyphicon-print"></span>
+                      Imprimir
                     </button>
-                    <ul class="dropdown-menu">
-                      <li role="presentation"><a role="menuitem" href="#">4</a></li>
-                      <li role="presentation"><a role="menuitem" href="#">8</a></li>
-                      <li role="presentation"><a role="menuitem" href="#">1 a&ntilde;o</a></li>
-                      <li role="presentation"><a role="menuitem" href="#">2 a&ntilde;os</a></li>
-                      <li class="divider"></li>
-                      <li role="presentation"><a role="menuitem" href="#">Todos</a></li>
-                    </ul>
                   </div>  
                   <div class="btn-group">
                     <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -49,11 +41,15 @@
                     </ul>
                   </div>                   
                 </div>
+				
+				<div class="row">
+					<div class="col-md-12 clearfix"><hr></div>
+				</div>
 
                 <table class="table" cellpadding="0" cellspacing="0">
                   <thead>
                     <tr>
-                      <th width="2%">&nbsp;</th>
+                      <th width="2%" class="out-print">&nbsp;</th>
                       <th width="12%">Fecha</th>
                       <th width="13%">N&uacute;mero</th>
                       <th width="10%">Form</th>
@@ -61,7 +57,7 @@
                       <th width="10%">Monto</th>
                       <th width="10%">Rentabilidad</th>
                       <th width="15%">Responsable</th>
-                      <th width="10%">Acciones</th>
+                      <th width="10%" class="out-print">Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -71,7 +67,7 @@
                     <@ _.each(invoice, function(i) { @>
 
                       <tr class="active btn-month" data="<@= i.month @>-<@= i.year @>">
-                        <td><span class="glyphicon glyphicon-chevron-down"></span></td>
+                        <td class="out-print"><span class="glyphicon glyphicon-chevron-down"></span></td>
                         <td><@= i.monthName @>-<@= i.year @></td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
@@ -79,7 +75,7 @@
                         <td><@= i.monto @></td>
                         <td><@= i.rentabilidad @></td>
                         <td>&nbsp;</td>
-                        <td>
+                        <td class="out-print">
                           &nbsp;
                         </td>                      
                       </tr>
@@ -89,7 +85,7 @@
 						<@ count++ @>
 
                         <tr class="day month-id-<@= i.month @>-<@= i.year @>">
-                          <td><input type="checkbox" /></td>
+                          <td class="out-print"><input type="checkbox" /></td>
                           <td><@= l.fecha @></td>
                           <td><@= l.numero @></td>
                           <td><@= l.tipoFactura @></td>
@@ -97,7 +93,7 @@
                           <td><@= l.importeTotal @></td>
                           <td><@= l.importeRentabilidad @></td>
                           <td><@= l.responsable @></td>
-                          <td>
+                          <td class="out-print">
                             <buton type="button" title="Editar factura <@= l.numero @>" class="btn btn-xs btn-primary btn-edit" data="<@= l.idTipoFactura @>/<@= l.numero @>">
                               <i class="glyphicon glyphicon-pencil"></i>
                             </buton>
@@ -114,7 +110,7 @@
 
                   </tbody>
                 </table>
-                <div class="panel-data-table left">
+                <div class="panel-data-table left out-print">
                   <p class="panel-data-table-text">Mostrando <@= count @> de <@= count @>  entradas</p>                    
                 </div>
 				<!--

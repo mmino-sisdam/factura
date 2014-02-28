@@ -39,21 +39,7 @@
 			new InvoiceView({ model: get});
 
 		  },
-		  /*
-		  // Seccion nueva factura
-		  new_invoice: function(tipo){
 
-		  	//if(tipo == '1'){
-		  		
-		  		// Initialize the Model
-				//var get = new InvoiceData();
-				
-		  		new NewInvoiceView({ id: tipo });
-
-		  	//}
-
-		  },
-		  */
 		  // Seccion edicion de factura por numero
 		  invoice_form: function(evento, tipo, numero){
 			 
@@ -82,17 +68,6 @@
 		  	
 		  },
 
-/*
-		  invoice_info: function(tipo, numero){
-		  
-			  // Id corresponde al tipo de factura
-			  // Numero corresponde al numero de factura
-			  var get = new Invoice({"id": tipo + '-' + numero});
-			  
-			  new NewInvoiceInfoView({model: get});
-			  
-		  },
-*/
 		  // Seccion usuarios
 		  users: function(){
 			
@@ -166,6 +141,20 @@
 		window.app = new Router();
 
 		Backbone.history.start();
+		
+		$('.toggle-menu').click(function(){
+			
+			if( $('.main-menu').is(':hidden') ){
+				
+				$('.main-menu').show();
+				
+			}else{
+				
+				$('.main-menu').hide();
+				
+			}
+			
+		});
 
 	});
 

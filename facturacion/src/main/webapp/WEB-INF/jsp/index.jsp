@@ -8,10 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Bootstrap -->
-    <link rel="stylesheet/less" type="text/css" href="resources/css/styles.less" />
-    <link rel="stylesheet" href="resources/libs/bootstrap/css/bootstrap.css" />
-    <link rel="stylesheet" href="resources/libs/bootstrap/datepicker/css/datepicker3.css" />
-    <link rel="stylesheet" href="resources/libs/bootstrap/x-editable/css/bootstrap-editable.css" />
+    <link media="all" rel="stylesheet/less" type="text/css" href="resources/css/styles.less" />
+    <link media="all" rel="stylesheet/less" type="text/css" href="resources/css/responsive.less" />
+	<link media="print" rel="stylesheet/less" type="text/css" href="resources/css/print.less" />    
+	
+    <link media="all" rel="stylesheet" href="resources/libs/bootstrap/css/bootstrap.css" />
+    <link media="all" rel="stylesheet" href="resources/libs/bootstrap/datepicker/css/datepicker3.css" />
+    <link media="all" rel="stylesheet" href="resources/libs/bootstrap/x-editable/css/bootstrap-editable.css" />
    
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -33,8 +36,11 @@
           <div class="logo">
               <a href="#"><img src="resources/images/logo.jpg" alt="Loyal"/></a>
           </div>
+          <div class="toggle-menu">
+			<span class="glyphicon glyphicon-align-justify"></span>
+		  </div>
         </header>
-
+		
         <div class="search">
           <form>
             <fieldset>
@@ -57,7 +63,7 @@
 
       <div class="main-content">
         
-        <section class="row">
+        <section class="row out-print">
             <div class="col-md-10 col-sm-1 clearfix"></div>
             <div class="col-md-2 col-sm-4 clearfix">
             	<a href=" <c:url value="j_spring_security_logout" /> " class="btn btn-link" title="Logout">Logout</a>
