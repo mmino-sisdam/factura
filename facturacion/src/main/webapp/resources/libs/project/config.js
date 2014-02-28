@@ -5,7 +5,8 @@
 		var Router = Backbone.Router.extend({
 
 		  routes: {
-		    ""								: "dashboard",
+			""								: "dashboard",
+		    "dashboard"						: "dashboard",
 		    "facturas"						: "invoice",
 		    "factura/:nueva/tipo-:tipo"		: "invoice_form",
 		    "factura/:evento/:id/:numero"	: "invoice_form",
@@ -146,16 +147,45 @@
 			
 			if( $('.main-menu').is(':hidden') ){
 				
-				$('.main-menu').show();
+				$('.main-menu').show().addClass('mobile-open');
 				
 			}else{
 				
-				$('.main-menu').hide();
+				$('.main-menu').hide().removeClass('mobile-open');
 				
 			}
 			
 		});
-
+		
+		
+		$('.main-menu li a').click(function(){
+			
+			if( $('.main-menu').hasClass('mobile-open') ){
+			
+				$('.main-menu').hide();
+			
+			}
+			
+		});		
+		
+	});
+	
+	/*	window resize 
+	 * *********************************/
+	$( window ).resize(function() {
+		
+		 var screen = window.outerWidth;
+		 console.log(screen);
+		 if(screen >= '1024'){
+			 
+			 $('.main-menu').show().removeClass('mobile-open');
+			 
+		 }else{
+			 
+			 $('.main-menu').hide().removeClass('mobile-open'); 
+			 
+		 }
+  
 	});
 
 

@@ -4,8 +4,8 @@
 		<div id="factura-info" class="main-panel">
 		
 		  <ol class="breadcrumb">
-		    <li><a href="#"><span class="glyphicon glyphicon-home"></span> Dashboard</a></li>
-		    <li><a href="#facturas">Facturas</a></li>
+		    <li><a href="#/dashboard"><span class="glyphicon glyphicon-home"></span> Dashboard</a></li>
+		    <li><a href="#/facturas">Facturas</a></li>
 		    <li class="active">Info</li>
 		  </ol>
 		

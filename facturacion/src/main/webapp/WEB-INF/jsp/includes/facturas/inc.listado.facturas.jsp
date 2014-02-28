@@ -3,7 +3,7 @@
     <script id="tmpl-list-invoice" type="text/template">
       <div class="main-panel">
         <ol class="breadcrumb">
-          <li><a href="#"><span class="glyphicon glyphicon-home"></span> Dashboard</a></li>
+          <li><a href="#/dashboard"><span class="glyphicon glyphicon-home"></span> Dashboard</a></li>
           <li class="active">Facturas</li>
         </ol>
         <section class="row">
@@ -45,7 +45,7 @@
 				<div class="row">
 					<div class="col-md-12 clearfix"><hr></div>
 				</div>
-
+				<div class="table-responsive">
                 <table class="table" cellpadding="0" cellspacing="0">
                   <thead>
                     <tr>
@@ -110,6 +110,7 @@
 
                   </tbody>
                 </table>
+				</div>
                 <div class="panel-data-table left out-print">
                   <p class="panel-data-table-text">Mostrando <@= count @> de <@= count @>  entradas</p>                    
                 </div>

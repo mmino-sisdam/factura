@@ -34,7 +34,7 @@
 
         <header>
           <div class="logo">
-              <a href="#"><img src="resources/images/logo.jpg" alt="Loyal"/></a>
+              <a href="#/dashboard"><img src="resources/images/logo.jpg" alt="Loyal"/></a>
           </div>
           <div class="toggle-menu">
 			<span class="glyphicon glyphicon-align-justify"></span>
@@ -53,7 +53,7 @@
         </div>
 
         <ul class="main-menu">
-          <li><a href="#/" class="btn-menu btn-dashboard"><i class="glyphicon glyphicon-home"></i> Dashboard</a></li>
+          <li><a href="#/dashboard" class="btn-menu btn-dashboard"><i class="glyphicon glyphicon-home"></i> Dashboard</a></li>
           <li><a href="#/facturas" class="btn-menu btn-facturas"><i class="glyphicon glyphicon-list-alt"></i> Facturas</a></li>
           <li><a href="#/usuarios" class="btn-menu btn-usuarios"><i class="glyphicon glyphicon-user"></i> Usuarios</a></li>
           <li><a href="#/clientes" class="btn-menu btn-clientes"><i class="glyphicon glyphicon-briefcase"></i> Clientes</a></li>

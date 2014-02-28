@@ -3,7 +3,7 @@
   <script id="tmpl-list-clients" type="text/template">
       <div id="usuarios" class="main-panel">
         <ol class="breadcrumb">
-          <li><a href="#"><span class="glyphicon glyphicon-home"></span> Dashboard</a></li>
+          <li><a href="#/dashboard"><span class="glyphicon glyphicon-home"></span> Dashboard</a></li>
           <li class="active">Clientes</li>
         </ol>
 
@@ -22,7 +22,11 @@
                     </button>                                 
                 </div>
 
-                
+ 				<div class="row">
+					<div class="col-md-12 clearfix"><hr></div>
+				</div>
+
+				<div class="table-responsive">               
                 <table class="table table-striped" cellpadding="0" cellspacing="0">
                   <thead>
                     <tr>
@@ -66,7 +70,7 @@
                     </tr>
                   </tbody>
                 </table>
-                
+                </div>
 
                 <div class="panel-data-table left">
                   <p class="panel-data-table-text">Mostrando <@= count @> de <@= clientes.length @>  entradas</p>                      

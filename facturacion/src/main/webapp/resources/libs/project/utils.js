@@ -23,7 +23,7 @@ var PATH_INVOICE_ID = {"2": true, "3": true, "5": true, "6": true, "8": true};
 
 // Routing
 /* ------------------------------ */
-var URL_DASHBOARD 		= '';
+var URL_DASHBOARD 		= 'dashboard';
 
 var URL_FACTURAS 		= 'facturas';
 var URL_INVOICE_EDIT 	= 'factura/editar/';

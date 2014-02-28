@@ -4,7 +4,7 @@
       <div class="panel-usuarios main-panel">
 
         <ol class="breadcrumb">
-          <li><a href="#"><span class="glyphicon glyphicon-home"></span> Dashboard</a></li>
+          <li><a href="#/dashboard"><span class="glyphicon glyphicon-home"></span> Dashboard</a></li>
           <li><a href="#/usuarios">Usuarios</a></li>
           <li class="active">Cambiar contrase&ntilde;a</li>
         </ol>
