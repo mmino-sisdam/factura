@@ -139,9 +139,7 @@ window.FormUsuerView = Backbone.View.extend({
     },
 
 	initialize: function(options) {
-		
-		
-		
+			
 		$(this.el).unbind();
 		
 		this.model.fetch();

@@ -25,26 +25,30 @@ var DashboardView = Backbone.View.extend({
 	template: _.template( $('#tmpl-dashboard').html() ),
 
 	events: {
-		'click .btn-info'		: 'invoice_info'
+		'click .btn-info'		: 'invoice_info',
+		'click .btn-change-data': 'invoice_data',
+		'click .btn-find-date': 'invoice_find'
 	},
 	
-	initialize: function () {
+	initialize: function(options) {
+		
+		$(this.el).unbind();
 		
 		// Indicadores dashboard
 		this.indicadores = new ReportesIndicadoresCollection();
-		this.indicadores.create({ "desde": "01/02/2014", "hasta": "28/02/2014"});
+		this.indicadores.create({'desde': options.desde, 'hasta': options.hasta});
 		
 		// Facturas vencidas
 		this.facturas = new ReportsInvoiceCollection();
-		this.facturas.create({ "desde": "01/02/2014", "hasta": "28/02/2014"});
+		this.facturas.create();
 		
 		// Vendedor
 		this.vendedor = new ReportesVendedorCollection();
-		this.vendedor.create({ "desde": "01/02/2014", "hasta": "28/02/2014"});		
+		this.vendedor.create();		
 
 		// Productos
 		this.producto = new ReportesProductoCollection();
-		this.producto.create({ "desde": "01/02/2014", "hasta": "28/02/2014"});	
+		this.producto.create();	
 		
 		this.listenTo(this.indicadores, 'change', this.render);
 		
@@ -65,6 +69,8 @@ var DashboardView = Backbone.View.extend({
 			"producto": this.producto.toJSON()
 			
 		}));	
+		
+		this.popover_date();
 				
 		return this;
 	    
@@ -76,7 +82,54 @@ var DashboardView = Backbone.View.extend({
 		
 		app.navigate(URL_INVOICE_INFO + id, true);
 			
-	}	
+	},
+	
+	invoice_data: function(ev){
+		
+		if( $(ev.currentTarget).hasClass('popover-open') ){
+			
+			$('.btn-change-data').popover('hide').removeClass('popover-open');
+			
+		}else{
+			
+			$('.btn-change-data').popover('show').addClass('popover-open');
+			
+			$('.form-datepicker').datepicker({
+				format: "dd/mm/yyyy",
+				autoclose: true
+			});
+			
+		}
+		
+		
+	},
+	
+	invoice_find: function(){
+		
+		var start = $('[name="fecha-desde"]').val().replace(/\//gi, "-");
+		var end   = $('[name="fecha-hasta"]').val().replace(/\//gi, "-");
+		
+		app.navigate(URL_DASHBOARD + '/' + start + '/' + end, true);
+		
+	},
+	
+	popover_date: function(){
+		
+		$('.btn-change-data').popover({
+			html: true,
+			trigger: 'manual',
+			content: '<div class="form-group">\
+						<label>Fecha desde</label>\
+						<input type="text" name="fecha-desde" class="form-control form-datepicker" placeholder="" />\
+					  </div>\
+					  <div class="form-group">\
+						<label>Fecha hasta</label>\
+						<input type="text" name="fecha-hasta" class="form-control form-datepicker" placeholder="" />\
+					  </div>\
+					  <button type="button" class="btn btn-sm btn-primary btn-find-date">Buscar</button>'
+		});
+
+	}
 
 });
 

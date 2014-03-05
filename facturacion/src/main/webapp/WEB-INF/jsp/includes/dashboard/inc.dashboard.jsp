@@ -1,7 +1,36 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+
   <script id="tmpl-dashboard" type="text/template">
       <div id="dashboard" class="main-panel">
+
+		<section class="row margin-bottom">
+ 		  <div class="col-md-12 clearfix">
+
+			<div>
+				<p>
+					<button type="button" class="btn btn-sm btn-primary btn-change-data" >
+						<span class="glyphicon glyphicon-calendar"></span>
+					</button>
+					<strong>Fecha desde:</strong> <@= indicadores[0].desde @> | 
+					<strong>Fecha hasta:</strong> <@= indicadores[0].hasta @>
+				</p>
+			</div>
+<!--
+			<div class="form-inline">
+  				<div class="form-group">
+    				<label>Fecha desde</label>
+    				<input type="text" class="form-control" placeholder="" />
+  				</div>
+  				<div class="form-group">
+    				<label>Fecha hasta</label>
+    				<input type="text" class="form-control" placeholder="" />
+  				</div>	
+				<button type="button" class="btn btn-sm btn-primary">Buscar</button>		
+			</div>
+	-->		
+		  </div>			
+		</section>
+
         <section class="row margin-bottom">
           <div class="col-md-3 clearfix">
 

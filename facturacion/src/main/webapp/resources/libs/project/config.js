@@ -7,6 +7,8 @@
 		  routes: {
 			""								: "dashboard",
 		    "dashboard"						: "dashboard",
+		    "dashboard/:desde/:hasta"		: "dashboard",
+		    
 		    "facturas"						: "invoice",
 		    "factura/:nueva/tipo-:tipo"		: "invoice_form",
 		    "factura/:evento/:tipo/:numero"	: "invoice_form",
@@ -22,10 +24,24 @@
 		  },
 
 		  // Seccion Dashboard
-		  dashboard: function() {
+		  dashboard: function(desde, hasta) {
 			
-			// Initialize the View, 
-		  	new DashboardView();
+			if(desde != undefined && hasta != undefined){
+				
+				var start = desde.replace(/-/gi, "/");
+				var end = hasta.replace(/-/gi, "/");
+			
+				// Initialize the View, 
+				new DashboardView({desde: start, hasta: end});
+				
+			}else{
+				
+				// Initialize the View, 
+				new DashboardView({desde: '', hasta: ''});
+				
+			}
+		  	
+		  	//console.log(desde + '---'+ hasta);
 
 		  },
 
