@@ -9,14 +9,16 @@
 		    "dashboard"						: "dashboard",
 		    "facturas"						: "invoice",
 		    "factura/:nueva/tipo-:tipo"		: "invoice_form",
-		    "factura/:evento/:id/:numero"	: "invoice_form",
+		    "factura/:evento/:tipo/:numero"	: "invoice_form",
+		    
 		    "usuarios"						: "users",
-		    "usuario/nuevo"					: "new_user",
-		    "usuario/editar/:id"			: "edit_user",
+		    "usuario/:evento"				: "user_form",
+		    "usuario/:evento/:id"			: "user_form",
 		    "usuario/editar-contrasena/:id"	: "edit_password",
+		    
 			"clientes"						: "clients",
-		    "cliente/nuevo"					: "client_new",
-			"cliente/editar/:id"			: "client_edit"
+		    "cliente/:evento"				: "client_form",
+			"cliente/:evento/:id"			: "client_form"
 		  },
 
 		  // Seccion Dashboard
@@ -41,7 +43,7 @@
 
 		  },
 
-		  // Seccion edicion de factura por numero
+		  // Seccion facturas
 		  invoice_form: function(evento, tipo, numero){
 			 
 			// factura nueva 
@@ -82,21 +84,24 @@
 		  },
 
 		  // Seccion nuevo usuario	
-		  new_user: function(){
+		  user_form: function(evento, id){
 			
-			var get = new User();
-			
-		  	// Initialize the View, 
-		  	new NewUsuerView({ model: get });
+			if(evento == 'nuevo'){
+				
+				var get = new User();
+				
+			  	// Initialize the View
+			  	new FormUsuerView({ model: get });	
+			  	
+			}else if(evento == 'editar'){
+				
+				var get = new User({"id": id});
+				
+				// Initialize the View
+				new FormUsuerView({ model: get, 'evento': evento });	
+				 
+			}else{}	
 		  	
-		  },
-		  
-		  edit_user: function(id){
-			  
-			 var get = new User({"id": id});
-			 
-			 new EditUserView({ model: get });
-			  
 		  },
 		  
 		  edit_password: function(id){
@@ -120,22 +125,25 @@
 		  },
 
 		  // Seccion nuevo usuario	
-		  client_new: function(){
+		  client_form: function(evento, id){
 			
-			var get = new Client();
-			  
-		  	// Initialize the View, 
-		  	new NewClientView({model: get});
-		  	
-		  },
-		  
-		  client_edit: function(id){
-			  
-			 var get = new Client({"id": id});
-			 
-			 new EditClientView({ model: get });
-			  
-		  },
+			if(evento == 'nuevo'){
+				  
+				var get = new Client();
+					  
+				// Initialize the View, 
+				new FormClientView({model: get});				  
+				  
+			}else if(evento == 'editar'){
+				
+				 var get = new Client({"id": id});
+				 
+				 // Initialize the View 
+				 new FormClientView({ model: get });				
+				
+			}
+	
+		  }
 		  
 		});
 

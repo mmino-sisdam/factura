@@ -125,7 +125,7 @@ window.UsersView = Backbone.View.extend({
  * 	Creacion de usuario
  * */
 
-window.NewUsuerView = Backbone.View.extend({
+window.FormUsuerView = Backbone.View.extend({
 	
 	el: PATH_LAYOUT,
 	
@@ -138,7 +138,9 @@ window.NewUsuerView = Backbone.View.extend({
         'click .btn-cancel': 'cancel'
     },
 
-	initialize: function () {
+	initialize: function(options) {
+		
+		
 		
 		$(this.el).unbind();
 		
@@ -147,11 +149,21 @@ window.NewUsuerView = Backbone.View.extend({
 
 	}, 
 
-	render: function () {
+	render: function (options) {
 		
 		active(this.active);
 		
 	    $(this.el).html(this.template(this.model.toJSON()));
+	
+	    
+	    // Remove a la columna de usuario y contraseña
+	    if(this.model.toJSON().id != null){
+	    	
+	    	$(this.el).find('.col-2').remove();
+	    	$(this.el).find('.col-1, .col-3').removeClass('col-md-4').addClass('col-md-6');
+	    	
+	    }
+	    
 	    return this;
 
 	},
@@ -224,7 +236,7 @@ window.NewUsuerView = Backbone.View.extend({
 /*
  * 	Edicion de usuario
  * */
-
+/*
 window.EditUserView = Backbone.View.extend({
 
 	el: PATH_LAYOUT,
@@ -298,7 +310,7 @@ window.EditUserView = Backbone.View.extend({
 	
 });
 
-
+*/
 /*
  * 	Edicion password de usuario
  * */

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 
- <script id="tmpl-fc-a-invoice" type="text/template">
+ <script id="tmpl-fc-invoice" type="text/template">
 		<div id="factura-nueva" class="main-panel">
 		
 		  <ol class="breadcrumb">

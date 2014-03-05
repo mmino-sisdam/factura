@@ -145,7 +145,7 @@ var NewInvoiceView = Backbone.View.extend({
 	
 	active:".btn-facturas",
 	
-	template: _.template( $('#tmpl-fc-a-invoice').html() ),
+	template: _.template( $('#tmpl-fc-invoice').html() ),
 	
 	// Clases
 	table			: '.table-fc-body',

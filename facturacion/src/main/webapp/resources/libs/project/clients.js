@@ -89,7 +89,7 @@ window.ClientsView = Backbone.View.extend({
  * 	Creacion de cliente
  * */
 
-window.NewClientView = Backbone.View.extend({
+window.FormClientView = Backbone.View.extend({
 	
 	el: PATH_LAYOUT,
 	
@@ -172,102 +172,6 @@ window.NewClientView = Backbone.View.extend({
         	
     	}
     	
-    },
-    
-    cancel: function(){
-    	
-    	app.navigate(URL_CLIENTS, true);
-    	
-    }
-
-});
-
-
-/*
- * 	Edicion de cliente
- * */
-
-window.EditClientView = Backbone.View.extend({
-	
-	el: PATH_LAYOUT,
-	
-	active:".btn-clientes",
-
-	template: _.template( $('#tmpl-new-client').html() ),
-
-    events: {
-        'click .btn-accept': 'accept',
-        'click .btn-cancel': 'cancel'
-    },
-
-	initialize: function () {
-		
-		$(this.el).unbind();
-		
-		this.model.fetch();
-		this.model.bind('change', this.render, this);
-
-	}, 
-
-	render: function () {
-		
-		active(this.active);
-
-		$(this.el).html(this.template(this.model.toJSON()));
-	    return this;
-
-	},
-
-	// Btn click Aceptar / Save cliente
-    accept: function() {
-
-    	if( $('#frm-new-client').valid() ){
-    		
-	    	this.post = new ClientCollection();
-	    	
-	    	this.post.create({
-	    		"id"				: parseInt($("input[name='id']").val(),10),
-	    	    "nombre"			: $("input[name='nombre']").val(),
-	    	    "cuit"				: $("input[name='cuit']").val(),
-	    	    "direccion"			: $("input[name='direccion']").val(),
-	    	    "localizacion"		: $("input[name='localizacion']").val(),
-	    	    "idTipoIVA"			: parseInt($("select[name='idTipoIVA'] option:selected").val(),10),
-	    	    "idTipoRetencion"	: parseInt($("select[name='idTipoRetencion'] option:selected").val(),10)
-	    	} , {
-				success: function(response) {
-					
-					var msg = AlertModel.set({
-	            		'type': 'success',
-	            		'body': 'El cliente se creo correctamente'
-	            	});
-	            	
-	            	new AlertView({model: msg });
-				
-					app.navigate(URL_CLIENTS, true);
-					
-				},
-	            error : function(err, response) {
-	            	
-	            	var msg = AlertModel.set({
-	            		'type': 'error',
-	            		'body': 'Hubo un error al cargar el cliente'
-	            	});
-	            	
-	            	new AlertView({model: msg });       
-	        		
-	            }
-			}); 
-    	}else{
-  
-        	var msg = AlertModel.set({
-        		'type': 'error',
-        		'body': 'Completa los campos requeridos'
-        	});
-        	
-        	new AlertView({model: msg }); 
-        	
-    	}    	
-
     },
     
     cancel: function(){

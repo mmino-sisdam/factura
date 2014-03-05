@@ -98,7 +98,7 @@
 	<jsp:include page="includes/facturas/inc.info.factura.jsp"></jsp:include>
 	
 	<!-- facturas tipo A -->
-	<jsp:include page="includes/facturas/inc.nueva.factura.tipo.a.jsp"></jsp:include>
+	<jsp:include page="includes/facturas/inc.form.factura.jsp"></jsp:include>
 	<jsp:include page="includes/facturas/inc.item.factura.add.jsp"></jsp:include>
 	<jsp:include page="includes/facturas/inc.item.factura.confirm.jsp"></jsp:include> 
 
