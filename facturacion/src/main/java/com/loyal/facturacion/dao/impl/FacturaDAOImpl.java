@@ -94,8 +94,11 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 	}
 
 	@Override
+	@Transactional
 	public int deleteById(Integer id, Long numero) throws DataAccessException {
-		String sql = "DELETE FROM facturas WHERE FACTURA_ID = ? AND TIPO_FACTURA_ID = ?";
+		String sql = "DELETE FROM factura_detalle WHERE FACTURA_ID = ? AND TIPO_FACTURA_ID = ?";
+		getJdbcTemplate().update(sql, new Object[] { numero, id });
+		sql = "DELETE FROM facturas WHERE FACTURA_ID = ? AND TIPO_FACTURA_ID = ?";
 		return getJdbcTemplate().update(sql, new Object[] { numero, id });
 	}
 
