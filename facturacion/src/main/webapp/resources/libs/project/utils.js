@@ -18,6 +18,7 @@ var PATH_D_VENDEDOR = '#dashboard-vendedor';
 var PATH_D_PRODUCTO = '#dashboard-producto';
 var PATH_D_INVOICE  = '#dashboard-facturas';
 
+var PATH_IIBB  = '0.96925';
 var PATH_INVOICE_ID = {"2": true, "3": true, "5": true, "6": true, "8": true};	
 
 
@@ -41,6 +42,9 @@ var URL_CLIENT_EDIT = 'cliente/editar/';
 // Messages
 /* ------------------------------ */
 
+var MSG_SUCCESS = 'La operaci&oacute;n se reliz&oacute; con &eacute;xito';
+var MSG_DASHBOARD_DATE_ERROR = 'Selecciona los rangos de fecha correspondientes';
+
 var MSG_USER_PASS_SUCCES = 'La contrase&ntilde;a del usuario se modific&oacute; correctamente';
 var MSG_USER_PASS_ERROR = 'Hubo un error al modificar la contrase&ntilde;a del usuario';
 
@@ -48,6 +52,7 @@ var MSG_USER_PASS_ERROR = 'Hubo un error al modificar la contrase&ntilde;a del u
 var MSG_INVOICE_SAVE_SUCCESS = 'La factura se cargo correctamente';
 var MSG_INVOICE_SAVE_ERROR = 'Hubo un error al cargar la factura';
 var MSG_CLIENT_SELECTED_ERROR = 'Debes seleccionar un cliente en la parte superior';
+var MSG_INVOICE_FORM_ERROR = 'Completa los campos marcados para continuar';
 
 // Active
 /* ------------------------------ */

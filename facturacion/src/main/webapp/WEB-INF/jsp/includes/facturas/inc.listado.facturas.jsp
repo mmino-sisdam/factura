@@ -50,14 +50,14 @@
                   <thead>
                     <tr>
                       <th width="2%" class="out-print">&nbsp;</th>
-                      <th width="12%">Fecha</th>
+                      <th width="10%">Fecha</th>
                       <th width="13%">N&uacute;mero</th>
                       <th width="10%">Form</th>
                       <th width="18%">Cliente</th>
                       <th width="10%">Monto</th>
                       <th width="10%">Rentabilidad</th>
                       <th width="15%">Responsable</th>
-                      <th width="10%" class="out-print">Acciones</th>
+                      <th width="12%" class="out-print">Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -84,7 +84,7 @@
 						
 						<@ count++ @>
 
-                        <tr class="day month-id-<@= i.month @>-<@= i.year @>">
+                        <tr class="day month-id-<@= i.month @>-<@= i.year @>" id="invoice-<@= l.idTipoFactura @>-<@= l.numero @>">
                           <td class="out-print"><input type="checkbox" /></td>
                           <td><@= l.fecha @></td>
                           <td><@= l.numero @></td>
@@ -94,11 +94,14 @@
                           <td><@= l.importeRentabilidad @></td>
                           <td><@= l.responsable @></td>
                           <td class="out-print">
-                            <buton type="button" title="Editar factura <@= l.numero @>" class="btn btn-xs btn-primary btn-edit" data="<@= l.idTipoFactura @>/<@= l.numero @>">
+                            <button type="button" title="Editar factura <@= l.numero @>" class="btn btn-xs btn-primary btn-edit" data="<@= l.idTipoFactura @>/<@= l.numero @>">
                               <i class="glyphicon glyphicon-pencil"></i>
-                            </buton>
-                            <buton type="button" title="Ver info factura <@= l.numero @>" class="btn btn-xs btn-info" data="<@= l.idTipoFactura @>/<@= l.numero @>">
+                            </button>
+                            <button type="button" title="Ver info factura <@= l.numero @>" class="btn btn-xs btn-info" data="<@= l.idTipoFactura @>/<@= l.numero @>">
                               <i class="glyphicon glyphicon-info-sign"></i>
+                            </button>
+							<button type="button" title="Eliminar factura <@= l.numero @>" class="btn btn-xs btn-danger btn-delete" data-toggle="modal" data-target="#modal" data="<@= l.idTipoFactura @>-<@= l.numero @>">
+                              <i class="glyphicon glyphicon-remove"></i>
                             </button>
                           </td>
                         </tr>

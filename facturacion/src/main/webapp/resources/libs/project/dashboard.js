@@ -40,15 +40,15 @@ var DashboardView = Backbone.View.extend({
 		
 		// Facturas vencidas
 		this.facturas = new ReportsInvoiceCollection();
-		this.facturas.create();
+		this.facturas.create({'desde': options.desde, 'hasta': options.hasta});
 		
 		// Vendedor
 		this.vendedor = new ReportesVendedorCollection();
-		this.vendedor.create();		
+		this.vendedor.create({'desde': options.desde, 'hasta': options.hasta});		
 
 		// Productos
 		this.producto = new ReportesProductoCollection();
-		this.producto.create();	
+		this.producto.create({'desde': options.desde, 'hasta': options.hasta});	
 		
 		this.listenTo(this.indicadores, 'change', this.render);
 		
@@ -105,11 +105,27 @@ var DashboardView = Backbone.View.extend({
 	},
 	
 	invoice_find: function(){
+
+		var start = $('[name="fecha-desde"]').val();
+		var end   = $('[name="fecha-hasta"]').val();
 		
-		var start = $('[name="fecha-desde"]').val().replace(/\//gi, "-");
-		var end   = $('[name="fecha-hasta"]').val().replace(/\//gi, "-");
+		if(start != '' && end != ''){
+			
+			app.navigate(URL_DASHBOARD + '/' + start.replace(/\//gi, "-") + '/' + end.replace(/\//gi, "-"), true);
+			
+		}else{
+			
+        	msg = AlertModel.set({
+        		'type': 'error',
+        		'body': MSG_DASHBOARD_DATE_ERROR
+        	});
+        	
+        	new AlertView({model: msg });  			
+			
+		}
+
 		
-		app.navigate(URL_DASHBOARD + '/' + start + '/' + end, true);
+		
 		
 	},
 	

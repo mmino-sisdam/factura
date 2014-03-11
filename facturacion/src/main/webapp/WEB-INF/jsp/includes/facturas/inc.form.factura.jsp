@@ -155,20 +155,20 @@
 		                      </select>
 		                    </div>  
 
-		                    <div class="form-group form-iva">
+		                    <div class="form-group">
 		                      <label for="importeSubtotal">Sub Total</label>
-		                      <input name="importeSubtotal" type="text" class="form-control input-sub-total" placeholder="Ingresar sub total required" value="<@= factura.importeSubtotal @>" />
+		                      <input name="importeSubtotal" type="text" class="form-control input-sub-total required" placeholder="Ingresar sub total" value="<@= factura.importeSubtotal @>" />
 		                    </div> 
 
 		                    <div class="form-group form-iva">
 		                      <label for="importeIVA">IVA</label>
-		                      <input name="importeIVA" type="text" class="form-control  input-iva required" placeholder="Ingresar IVA" value="<@= factura.importeIVA @>" />
+		                      <input name="importeIVA" type="text" class="form-control  input-iva" readonly="readonly" placeholder="IVA" value="<@= factura.importeIVA @>" />
 		                    </div> 
  
-		                    <div class="form-group">
+		                    <div class="form-group form-iva">
 		                        <label for="importeTotal">Total</label>
 		                        <div class="input-group">
-		                          <input name="importeTotal" type="text" class="form-control input-total required" value="<@= factura.importeTotal @>"/>
+		                          <input name="importeTotal" type="text" class="form-control input-total" readonly="readonly" placeholder="Total" value="<@= factura.importeTotal @>"/>
 		                          <span class="input-group-addon">
 		                            %
 		                          </span>
@@ -261,14 +261,14 @@
 		                <div class="col-md-4 clearfix">
 		                  <div class="form-group">
 		                    <label for="importeCosto">Costo</label>
-		                    <input name="importeCosto" type="text" class="form-control" placeholder="Ingresar costo" value="<@= factura.importeCosto @>"/>
+		                    <input name="importeCosto" type="text" class="form-control required" placeholder="Ingresar costo" value="<@= factura.importeCosto @>"/>
 		                  </div>
 		                </div>
 		
 		                <div class="col-md-4 clearfix">
 		                  <div class="form-group">
 		                    <label for="importeRentabilidad">Rentabilidad</label>
-		                    <input name="importeRentabilidad" type="text" class="form-control" placeholder="Ingresar rentabilidad" value="<@= factura.importeRentabilidad @>"/>
+		                    <input name="importeRentabilidad" type="text" class="form-control input-rentabilidad" readonly="readonly" placeholder="Rentabilidad" value="<@= factura.importeRentabilidad @>"/>
 		                  </div>
 		                </div>
 		
@@ -305,11 +305,7 @@
 		                    <button type="button" class="btn btn-primary btn-table-reset">
 		                       <span class="glyphicon glyphicon-remove-sign"></span>
 		                       Reiniciar tabla
-		                    </button> 
-		                    <button type="button" class="btn btn-primary btn-table-confirm">
-		                       <span class="glyphicon glyphicon-plus"></span>
-		                       Calcular valores
-		                    </button>                   
+		                    </button>                  
 		                </div>                           
 		                
 		
@@ -369,7 +365,8 @@
                       	<div class="col-md-12 clearfix"><hr> </div>
 
                       	<div class="col-md-12 clearfix">
-                        	<button type="button" class="btn btn-right btn-primary btn-accept">Aceptar</button>
+							<button type="button" class="btn btn-right btn-primary btn-calculate">Calcular</button>
+                        	<button type="button" class="btn btn-right btn-primary btn-hide btn-accept">Aceptar</button>
                         	<button type="button" class="btn btn-right btn-primary btn-cancel">Cancelar</button>
                      	 </div>
 		
