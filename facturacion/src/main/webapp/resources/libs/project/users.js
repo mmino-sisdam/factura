@@ -170,26 +170,22 @@ window.FormUsuerView = Backbone.View.extend({
     accept: function() {
     	    	    	
     	if( $('#frm-new-user').valid() ){
+    		
 	    	this.post = new UserCollection();
-	    	
-	    	this.post.create({
-	    		"id"			: null,
-	    	    "nombre"		: $("input[name='nombre']").val(),
-	    	    "apellido"		: $("input[name='apellido']").val(),
-	    	    "mail"			: $("input[name='mail']").val(),
-	    	    "telefono"		: $("input[name='telefono']").val(),
-	    	    "username"		: $("input[name='username']").val(),
-	    	    "password"		: $("input[name='password']").val(),
-	    	    "rol"			: {
-	    	    	"id"		: $("select[name='rol'] option:selected").val()
-	    	    },
-	    	    "enabled"		: parseInt( $("select[name='enabled'] option:selected").val(), 10 )
-	    	} , {
+	    	var data = $('#frm-new-user').serializeObject();
+	    	var result = _.extend(data, {
+	    								"enabled": parseInt( $('.select-enabled option:selected').val(), 10 ),
+	    								 "rol": {
+	    									 "id": $('.select-rol option:selected').val() 
+	    								  }
+	    								});
+
+	    	this.post.create(result, {
 				success: function(response) {
 					
 					var msg = AlertModel.set({
 	            		'type': 'success',
-	            		'body': 'El usuario se creo correctamente'
+	            		'body': MSG_SUCCESS
 	            	});
 	            	
 	            	new AlertView({model: msg });
@@ -201,7 +197,7 @@ window.FormUsuerView = Backbone.View.extend({
 	            	
 	            	var msg = AlertModel.set({
 	            		'type': 'error',
-	            		'body': 'Hubo un error'
+	            		'body': MSG_ERROR
 	            	});
 	            	
 	            	new AlertView({model: msg });       
@@ -231,84 +227,6 @@ window.FormUsuerView = Backbone.View.extend({
 });
 
 
-/*
- * 	Edicion de usuario
- * */
-/*
-window.EditUserView = Backbone.View.extend({
-
-	el: PATH_LAYOUT,
-	
-	active:".btn-usuarios",
-
-	template: _.template( $('#tmpl-new-user').html() ),
-
-	events: {
-		'click .btn-accept': 'accept',
-		'click .btn-cancel': 'cancel'
-	},
-
-	initialize: function () {
-		
-		$(this.el).unbind();
-		
-		this.model.fetch();
-		this.model.bind('change', this.render, this); 
-
-	}, 
-
-	render: function () {
-		
-		active(this.active);
-		
-	    $(this.el).html(this.template(this.model.toJSON()));
-	    
-	    // Remove a la columna de usuario y contraseña
-	    $(this.el).find('.col-2').remove();
-	    $(this.el).find('.col-1, .col-3').removeClass('col-md-4').addClass('col-md-6');
-	    
-	    return this;
-
-	},
-
-	// Btn click Aceptar / Save usuario
-    accept: function() {
-    	
-    	var user = new UserCollection();
-	    		
-    	user.create({
-    		"id"			: $("input[name='id']").val(),
-    	    "nombre"		: $("input[name='nombre']").val(),
-    	    "apellido"		: $("input[name='apellido']").val(),
-    	    "mail"			: $("input[name='mail']").val(),
-    	    "telefono"		: $("input[name='telefono']").val(),
-    	    "username"		: $("input[name='username']").val(),
-    	    "password"		: $("input[name='password']").val(),
-    	    "rol"			: {
-    	    	"id"		: $("select[name='rol'] option:selected").val()
-    	    },
-    	    "enabled"		: parseInt( $("select[name='enabled'] option:selected").val(), 10 )
-    	} , {
-			success: function() {
-				
-				app.navigate(URL_USERS, true);
-				
-			},
-            error : function(err) {
-            }
-		}); 	
-    	
-    },
-    
-    cancel: function(){
-    	
-    	app.navigate(URL_USERS, true);
-    	
-    }		
-	
-});
-
-*/
 /*
  * 	Edicion password de usuario
  * */
@@ -392,7 +310,6 @@ window.EditUserPassView = Backbone.View.extend({
 });
 
 
-
 /*
  * 	Eliminacion de usuario
  * */
@@ -428,13 +345,32 @@ window.DeleteUserView = Backbone.View.extend({
     	
     	var id = this.model.attributes.id;
     	
-    	$('#user-' + id).remove();
-    	
-    	var user = new User({
-    		"id":id
-    	});
+    	var user = new User({"id":id});
     	    	
-    	user.destroy();	
+    	user.destroy({
+    		success: function(response) {
+				
+				var msg = AlertModel.set({
+            		'type': 'success',
+            		'body': MSG_SUCCESS
+            	});
+            	
+            	new AlertView({model: msg });
+            	
+            	$('#user-' + id).remove();
+							
+			},
+            error : function(err, response) {
+            	
+            	var msg = AlertModel.set({
+            		'type': 'error',
+            		'body': MSG_ERROR
+            	});
+            	
+            	new AlertView({model: msg });       
+        		
+            }
+    	});	
     	    	
     }
        

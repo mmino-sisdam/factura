@@ -281,8 +281,8 @@ var NewInvoiceView = Backbone.View.extend({
 	    // datepicker class form-datepicker
 	    $('.form-datepicker').datepicker({
 	    	format: "dd/mm/yyyy",
-			autoclose: true,
-			startDate: '-1d'
+			autoclose: true
+			//startDate: '-1d'
 	    }).on('changeDate', function(ev){
 	    	
 	    	var that = $(ev.currentTarget);
@@ -309,9 +309,7 @@ var NewInvoiceView = Backbone.View.extend({
 		
 		// Remove a los campos correspondientes al IVA
 		$('.form-iva').remove();
-		
-		//$('[name="importeTotal"]').removeAttr('readonly');
-		
+				
 		// NO aplica iva
 		this.condition_iva = false;
 		
@@ -320,9 +318,7 @@ var NewInvoiceView = Backbone.View.extend({
 	accept: function(){
 		
 		if( $('[name="idCliente"]').find('option:selected').val() != '-1' ){
-			
-			//var form = $('#form-invoice');
-		
+					
 			if( $(this.clases.form_invoice).valid() ){
 				
 				var post = new InvoiceCollection();
@@ -332,7 +328,7 @@ var NewInvoiceView = Backbone.View.extend({
 				var result = _.extend(data, {"detalles": Table.toJSON()} );
 				
 				// Request POST
-		    	post.create(result , {
+		    	post.create(result, {
 					success: function(response) {
 
 						/*
@@ -455,7 +451,7 @@ var NewInvoiceView = Backbone.View.extend({
 				$(this.table).html( this.tableRender( {"rows": Table.toJSON()} ) );	
 		
 				// Suma de valores
-				var subtotal = parseFloat( $('[name="importeSubtotal"]').val() );
+				var subtotal = $('[name="importeSubtotal"]').val();
 				var iva = 0;
 				var total = 0;	
 				
@@ -463,10 +459,12 @@ var NewInvoiceView = Backbone.View.extend({
 				if(this.condition_iva){
 					
 					// Calculo el IVA
-					iva = (subtotal * path_iva) / 100;	
+					//iva = (subtotal * path_iva) / 100;	
+					iva = ( ( Math.round((subtotal * path_iva)*10)/10 ) / 100 ).toFixed(2);	
 					
 					// Calculo el total
-					total = subtotal - iva;	
+					//total = subtotal + iva;	
+					total = parseFloat(subtotal) + parseFloat(iva);	
 					
 					/* 
 					| Rentabilidad	
@@ -479,16 +477,16 @@ var NewInvoiceView = Backbone.View.extend({
 					//total = convertToDecimal(total);
 					
 					// Inserto valores en labels
-					$(this.clases.label_sub_total).html(subtotal);
-					$(this.clases.label_iva).html(iva);
-					$(this.clases.label_total).html(total);
+					$(this.clases.label_sub_total).html( subtotal );
+					$(this.clases.label_iva).html( parseFloat(iva).toFixed(2) );
+					$(this.clases.label_total).html( parseFloat(total).toFixed(2) );
 					
 					// Inserto valores en inputs
 					//	$(this.clases.input_sub_total).val(subtotal);
-					$(this.clases.input_iva).val(iva);
-					$(this.clases.input_total).val(total);
+					$(this.clases.input_iva).val( parseFloat(iva).toFixed(2) );
+					$(this.clases.input_total).val( parseFloat(total).toFixed(2) );
 					
-					$(this.clases.input_rentabilidad).val(rentabilidad);
+					$(this.clases.input_rentabilidad).val( parseFloat(rentabilidad).toFixed(2) );
 					
 					
 			
@@ -504,8 +502,8 @@ var NewInvoiceView = Backbone.View.extend({
 					*/
 					var rentabilidad = (subtotal * parseFloat(PATH_IIBB) ) - parseFloat( $('[name="importeCosto"]').val() );
 					
-					$(this.clases.label_total).html(subtotal);
-					$(this.clases.input_rentabilidad).val(rentabilidad);
+					$(this.clases.label_total).html( Math.round(subtotal) );
+					$(this.clases.input_rentabilidad).val( Math.round(rentabilidad) );
 					
 				}
 				

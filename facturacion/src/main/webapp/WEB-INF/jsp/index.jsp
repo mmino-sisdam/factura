@@ -64,9 +64,11 @@
       <div class="main-content">
         
         <section class="row out-print">
-            <div class="col-md-10 col-sm-1 clearfix"></div>
-            <div class="col-md-2 col-sm-4 clearfix">
-            	<a href=" <c:url value="j_spring_security_logout" /> " class="btn btn-link" title="Logout">Logout</a>
+            <div class="col-md-12 clearfix">
+            	<a href="<c:url value="j_spring_security_logout" />" class="btn btn-primary btn-sm" title="Logout" style="float: right;">
+            	<span class="glyphicon glyphicon-log-out"></span> 
+            	Logout
+            	</a>
             </div>
         </section>
 
@@ -105,6 +107,7 @@
     <!-- clientes -->
     <jsp:include page="includes/clientes/inc.lista.clientes.jsp"></jsp:include>
     <jsp:include page="includes/clientes/inc.nuevo.cliente.jsp"></jsp:include>
+    <jsp:include page="includes/clientes/inc.info.cliente.jsp"></jsp:include>
 	
     <!-- Modal Bootstrap -->
  	<jsp:include page="includes/extra/inc.modal.jsp"></jsp:include>

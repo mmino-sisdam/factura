@@ -6,14 +6,20 @@
         <ol class="breadcrumb">
           <li><a href="#/dashboard"><span class="glyphicon glyphicon-home"></span> Dashboard</a></li>
           <li><a href="#/usuarios">Usuarios</a></li>
-          <li class="active">Nuevo</li>
+          <li class="active"><@ if(nombre != ''){ print(nombre + ' ' + apellido) }else{ print('Nuevo') } @></li>
         </ol>
 
         <section class="row">
          <div class="col-md-12 clearfix">
             <div class="panel panel-default">
               <div class="panel-heading">
-                Creaci&oacute;n de usuario 
+
+				<@ if(nombre != ''){ 
+					print('Edici&oacute;n de usuario') 
+				   }else{ 
+				   	print('Creaci&oacute;n de usuario') 
+				} @>
+
               </div>
               <div class="panel-body">
 
@@ -64,14 +70,14 @@
                       <div class="col-md-4 clearfix col-3">
                         <div class="form-group">
                           <label for="">Perfil</label>
-                          <select class="form-control" name="rol">
+                          <select class="form-control select-rol">
                             <option value="2" <@ if(rol.id == 2) { print('selected'); } @> >Administrador</option>
                             <option value="1" <@ if(rol.id == 1) { print('selected'); } @> >Usuario</option>
                           </select>
                         </div>
                         <div class="form-group">
                           <label for="">Activo</label>
-                          <select class="form-control" name="enabled">
+                          <select class="form-control select-enabled">
                             <option value="1" <@ if(enabled) { print('selected'); } @> >Si</option>
 							<option value="0" <@ if(!enabled) { print('selected'); } @> >No</option>
                           </select>

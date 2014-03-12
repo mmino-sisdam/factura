@@ -30,11 +30,11 @@
                 <table class="table table-striped" cellpadding="0" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Nombre</th>
-                      <th>Cuit</th>
-                      <th>Direcci&oacute;n</th>
-                      <th>Localizaci&oacute;n</th>
-                      <th>Acciones</th>
+                      <th width="20">Nombre</th>
+                      <th width="15">Cuit</th>
+                      <th width="30">Direcci&oacute;n</th>
+                      <th width="23">Localizaci&oacute;n</th>
+                      <th width="12">Acciones</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -53,6 +53,9 @@
                         <td>
                           <button type="button" title="Editar a <@= c.nombre @>" class="btn btn-xs btn-primary btn-edit" data="<@= c.id @>">
                             <i class="glyphicon glyphicon-pencil"></i>
+                          </button>
+                          <button type="button" title="Ver info <@= c.nombre @>" class="btn btn-xs btn-info" data="<@= c.id @>">
+                            <i class="glyphicon glyphicon-info-sign"></i>
                           </button>
                           <button type="button" class="btn btn-xs btn-danger btn-delete" 
 								  title="Eliminar a <@= c.nombre @>"

@@ -16,7 +16,7 @@
 		    "usuarios"						: "users",
 		    "usuario/:evento"				: "user_form",
 		    "usuario/:evento/:id"			: "user_form",
-		    "usuario/editar-contrasena/:id"	: "edit_password",
+		    //"usuario/editar-contrasena/:id"	: "edit_password",
 		    
 			"clientes"						: "clients",
 		    "cliente/:evento"				: "client_form",
@@ -116,16 +116,14 @@
 				// Initialize the View
 				new FormUsuerView({ model: get, 'evento': evento });	
 				 
-			}else{}	
+			}else if(evento == 'editar-contrasena'){
+				
+				var get = new User({"id": id});
+				  
+				new EditUserPassView({ model: get });
+				
+			}else{}
 		  	
-		  },
-		  
-		  edit_password: function(id){
-			  
-			  var get = new User({"id": id});
-			  
-			  new EditUserPassView({ model: get });
-			  
 		  },
 		  
 		  // Seccion clientes
@@ -156,6 +154,12 @@
 				 
 				 // Initialize the View 
 				 new FormClientView({ model: get });				
+				
+			}else if(evento == 'info'){
+				
+				var get = new Client({"id": id});
+				
+				new NewClientInfoView({model: get});
 				
 			}
 	

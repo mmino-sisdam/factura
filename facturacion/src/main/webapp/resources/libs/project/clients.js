@@ -32,6 +32,7 @@ window.ClientsView = Backbone.View.extend({
 	events: {
 		'click .btn-add'		: 'client_add',
 		'click .btn-edit'		: 'client_edit',
+		'click .btn-info'		: 'client_info',
 		'click .btn-delete'		: 'client_delete'
 	},
 
@@ -56,6 +57,14 @@ window.ClientsView = Backbone.View.extend({
 		
 		app.navigate(URL_CLIENT_ADD, true);
 		
+	},
+	
+	client_info: function(ev){
+		
+		var id = $(ev.currentTarget).attr('data');
+		
+		app.navigate(URL_CLIENT_INFO + id, true);
+			
 	},
 	
 	client_edit: function(ev){
@@ -128,21 +137,15 @@ window.FormClientView = Backbone.View.extend({
     	if( $('#frm-new-client').valid() ){
     		
 	    	this.post = new ClientCollection();
+	    	var data = $('#frm-new-client').serializeObject();
+	    	//var result = _.extend(data);
 	    	
-	    	this.post.create({
-	    		"id"				: null,
-	    	    "nombre"			: $("input[name='nombre']").val(),
-	    	    "cuit"				: $("input[name='cuit']").val(),
-	    	    "direccion"			: $("input[name='direccion']").val(),
-	    	    "localizacion"		: $("input[name='localizacion']").val(),
-	    	    "idTipoIVA"			: $("select[name='idTipoIVA'] option:selected").val(),
-	    	    "idTipoRetencion"	: $("select[name='idTipoRetencion'] option:selected").val()
-	    	} , {
+	    	this.post.create(data, {
 				success: function(response) {
 					
 					var msg = AlertModel.set({
 	            		'type': 'success',
-	            		'body': 'El cliente se creo correctamente'
+	            		'body': MSG_SUCCESS
 	            	});
 	            	
 	            	new AlertView({model: msg });
@@ -154,7 +157,7 @@ window.FormClientView = Backbone.View.extend({
 	            	
 	            	var msg = AlertModel.set({
 	            		'type': 'error',
-	            		'body': 'Hubo un error al cargar el cliente'
+	            		'body': MSG_ERROR
 	            	});
 	            	
 	            	new AlertView({model: msg });       
@@ -182,6 +185,55 @@ window.FormClientView = Backbone.View.extend({
 
 });
 
+
+/*
+ * 	Vista de info cliente
+ * */
+var NewClientInfoView = Backbone.View.extend({
+	
+	el: PATH_LAYOUT,
+	
+	active:".btn-clientes",
+
+	template: _.template( $('#tmpl-info-client').html() ),
+
+	events: {
+		'click .btn-back'		: 'back',
+		'click .btn-edit'		: 'client_edit'
+	},
+
+	initialize: function () {
+		
+		this.model.fetch();
+		this.model.bind('change', this.render, this); 
+
+	}, 
+
+	render: function () {
+		
+		// Active menu
+		active(this.active);
+		
+		$(this.el).html(this.template(this.model.toJSON()));
+	    return this;
+
+	},
+	
+	back: function(){
+		
+		app.navigate(URL_CLIENTS, true);
+		
+	},
+	
+	client_edit: function(ev){
+
+		var id = $(ev.currentTarget).attr('data');
+		
+		app.navigate(URL_CLIENT_EDIT + id, true);		
+			
+	}
+	
+});
 
 /*
  * 	Eliminacion de cliente
@@ -218,11 +270,32 @@ window.DeleteClientView = Backbone.View.extend({
     	
     	var id = this.model.attributes.id;
     	
-    	$('#client-' + id).remove();
-    	
     	var client = new Client({"id":id});
     	    	
-    	client.destroy();	
+    	client.destroy({
+    		success: function(response) {
+				
+				var msg = AlertModel.set({
+            		'type': 'success',
+            		'body': MSG_SUCCESS
+            	});
+            	
+            	new AlertView({model: msg });
+            	
+            	$('#client-' + id).remove();
+							
+			},
+            error : function(err, response) {
+            	
+            	var msg = AlertModel.set({
+            		'type': 'error',
+            		'body': MSG_ERROR
+            	});
+            	
+            	new AlertView({model: msg });       
+        		
+            }
+    	});	
     	    	    	
     }
        

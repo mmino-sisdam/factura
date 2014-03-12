@@ -38,11 +38,14 @@ var URL_USER_PASS 	= 'usuario/editar-contrasena/';
 var URL_CLIENTS		= 'clientes';
 var URL_CLIENT_ADD 	= 'cliente/nuevo';
 var URL_CLIENT_EDIT = 'cliente/editar/';
-
+var URL_CLIENT_INFO = 'cliente/info/';
+	
 // Messages
 /* ------------------------------ */
 
 var MSG_SUCCESS = 'La operaci&oacute;n se reliz&oacute; con &eacute;xito';
+var MSG_ERROR = 'La operaci&oacute;n no pudo reliz&oacute; con &eacute;xito';
+
 var MSG_DASHBOARD_DATE_ERROR = 'Selecciona los rangos de fecha correspondientes';
 
 var MSG_USER_PASS_SUCCES = 'La contrase&ntilde;a del usuario se modific&oacute; correctamente';
