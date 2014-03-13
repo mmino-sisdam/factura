@@ -198,17 +198,46 @@ public class FacturaDAOImpl extends JdbcDaoSupport implements FacturaDAO {
 						factura.getIdTipoFactura(), factura.getNumero() });
 	}
 
+
+	
+	private String insert_factura_detalle_Sql =  "INSERT INTO factura_detalle "
+			+ "( tipo_factura_id,factura_id,orden,detalle,cantidad,importe_unitario,importe_total) "
+			+ "VALUES (?, ?, ?, ?, ?, ? ,? )";
+	
+	private String update_factura_detalle_sql = "UPDATE factura_detalle "
+			+ "  SET cantidad = ?, detalle = ?, importe_unitario = ?, importe_total = ? "
+			+ "WHERE tipo_factura_id = ? AND factura_id = ? and orden = ? ";
+	
+	
 	private int updateDetalle(Integer idTipoFactura, Long numero,
 			FacturaDetalle detalle) throws DataAccessException {
 
-		String sql = "UPDATE factura_detalle SET "
-				+ "cantidad = ?, detalle = ?, importe_unitario = ?, importe_total = ? "
-				+ "WHERE tipo_factura_id = ? AND factura_id = ? ";
-		return getJdbcTemplate().update(
-				sql,
-				new Object[] { detalle.getCantidad(), detalle.getDetalle(),
-						detalle.getImporteUnitario(),
-						detalle.getImporteTotal(), idTipoFactura, numero });
+		int response = -1;
+
+		//detalle.setOrden((detalle.getOrden() == null?1:detalle.getOrden()));
+		Object[] count_args = new Object[] { idTipoFactura, numero,detalle.getOrden() };
+
+
+		String count_sql = "SELECT count(-1) from factura_detalle  "
+				+ "WHERE tipo_factura_id = ? AND factura_id =  ? and orden = ?";
+
+		Boolean insert = getJdbcTemplate().queryForLong(count_sql, count_args) == 0;
+
+		if (insert == Boolean.TRUE) {
+			Object[] insert_args = new Object[] { idTipoFactura, numero,
+					detalle.getOrden(), detalle.getDetalle(),
+					detalle.getCantidad(), detalle.getImporteUnitario(),
+					detalle.getImporteTotal() };
+			response = getJdbcTemplate().update(insert_factura_detalle_Sql,	insert_args);
+		} else {
+			Object[] update_args = new Object[] { detalle.getCantidad(),
+					detalle.getDetalle(), detalle.getImporteUnitario(),
+					detalle.getImporteTotal(), idTipoFactura, numero,
+					detalle.getOrden() };
+			response = getJdbcTemplate().update(update_factura_detalle_sql,	update_args);
+		}
+
+		return response;
 	}
 
 	public class FacturaDetalleRowMapper implements RowMapper<FacturaDetalle> {
